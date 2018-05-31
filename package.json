@@ -1,0 +1,36 @@
+{
+  "name": "wvocabulary",
+  "version": "0.3.1",
+  "description": "Dynamic phrases vocabulary",
+  "author": "Kostiantyn Wandalen <wtory.net@domainsbyproxy.com>",
+  "license": "MIT",
+  "main": "staging/dwtools/amid/bclass/Vocabulary.s",
+  "files": [
+    "staging/dwtools/amid/bclass",
+    "production"
+  ],
+  "scripts": {
+    "test": "wtest staging",
+    "make_doc": "./doc.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wVocabulary.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wandalen/wVocabulary/issues"
+  },
+  "dependencies": {
+    "wTools": "",
+    "wCopyable": "",
+    "wstringer": "",
+    "wstringsextra": ""
+  },
+  "devDependencies": {
+    "wTesting": "",
+    "wvocabulary": "."
+  },
+  "keywords": [
+    "wTools"
+  ]
+}
