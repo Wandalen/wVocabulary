@@ -251,7 +251,7 @@ function _phrasesAdd( src )
   if( replaceDescriptor )
   {
 
-    _.arrayReplaceOnceStrictly( self.descriptorArray,replaceDescriptor,descriptor );
+    _.arrayReplaceOnceStrictly( self.descriptorArray, replaceDescriptor, descriptor );
 
   }
   else
@@ -289,7 +289,7 @@ function _updateWordMap( descriptor,words,phrase,replaceDescriptor )
 
     if( replaceDescriptor )
     {
-      _.arrayReplaceOnceStrictly( self.wordMap[ word ],replaceDescriptor,descriptor );
+      _.arrayReplaceOnceStrictly( self.wordMap[ word ], replaceDescriptor, descriptor );
     }
     else
     {
@@ -320,7 +320,7 @@ function _updateSubjectMap( descriptor,words,phrase,replaceDescriptor )
 
       if( replaceDescriptor )
       {
-        var i = _.arrayLeftIndexOf( self.subjectMap[ slicePhrase ],replaceDescriptor,function( a ){ return a.descriptor; } );
+        var i = _.arrayRightIndex( self.subjectMap[ slicePhrase ], replaceDescriptor, ( e ) => e.descriptor, ( e ) => e );
         _.assert( i >= 0 );
         self.subjectMap[ slicePhrase ][ i ].descriptor = descriptor;
         return;
