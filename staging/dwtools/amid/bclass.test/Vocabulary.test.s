@@ -518,7 +518,7 @@ function wordsComplySubject( test )
 var Self =
 {
 
-  name : 'Tools/amid/Vocabulary',
+  name : 'Tools/mid/Vocabulary',
   silencing : 1,
 
   context :

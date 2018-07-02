@@ -662,7 +662,7 @@ function wordsComplySubject( words,subject )
   debugger
   _.assert( _.arrayIs( words ) );
   _.assert( _.arrayIs( subject ) );
-  _.assert( arguments.length === 2, 'expects exactly two argument' );
+  _.assert( arguments.length === 2, 'expects exactly two arguments' );
 
   if( subject.length === 0 ) return true;
   if( words.length === 0 ) return false;
