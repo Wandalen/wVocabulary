@@ -489,19 +489,19 @@ function wordsComplySubject( test )
 
   /**/
 
-  test.shouldBe( !wordsComplySubject( [], [ 'a' ] ) );
-  test.shouldBe( wordsComplySubject( [ 'a' ], [] ) );
-  test.shouldBe( wordsComplySubject( [], [] ) );
-  test.shouldBe( wordsComplySubject( [], [] ) );
-  test.shouldBe( wordsComplySubject( [ 'a', 'b' ], [ 'a', 'b' ] ) );
-  test.shouldBe( wordsComplySubject( [ 'a', 'b' ], [] ) );
-  test.shouldBe( wordsComplySubject( [ 'a', 'b' ], [ '' ] ) );
-  test.shouldBe( !wordsComplySubject( [ 'a', 'b' ], [ 'b', 'c' ] ) );
-  test.shouldBe( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c' ] ) );
-  test.shouldBe( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b' ] ) );
-  test.shouldBe( wordsComplySubject( [ 'a', 'b', 'c', 'x' ], [ 'b', 'c' ] ) );
-  test.shouldBe( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x' ] ) );
-  test.shouldBe( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x', 'y' ] ) );
+  test.is( !wordsComplySubject( [], [ 'a' ] ) );
+  test.is( wordsComplySubject( [ 'a' ], [] ) );
+  test.is( wordsComplySubject( [], [] ) );
+  test.is( wordsComplySubject( [], [] ) );
+  test.is( wordsComplySubject( [ 'a', 'b' ], [ 'a', 'b' ] ) );
+  test.is( wordsComplySubject( [ 'a', 'b' ], [] ) );
+  test.is( wordsComplySubject( [ 'a', 'b' ], [ '' ] ) );
+  test.is( !wordsComplySubject( [ 'a', 'b' ], [ 'b', 'c' ] ) );
+  test.is( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c' ] ) );
+  test.is( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b' ] ) );
+  test.is( wordsComplySubject( [ 'a', 'b', 'c', 'x' ], [ 'b', 'c' ] ) );
+  test.is( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x' ] ) );
+  test.is( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x', 'y' ] ) );
 
   /**/
 
@@ -518,7 +518,7 @@ function wordsComplySubject( test )
 var Self =
 {
 
-  name : 'Vocabulary',
+  name : 'Tools/amid/Vocabulary',
   silencing : 1,
 
   context :

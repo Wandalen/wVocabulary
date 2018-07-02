@@ -162,7 +162,7 @@ function phrasesAdd( src )
   var self = this;
 
   _.assert( _.strIs( src ) || _.arrayIs( src ),'phrasesAdd expects string or array' );
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
 
   var vocabulary = self._phrasesAdd( src );
   return vocabulary;
@@ -176,7 +176,7 @@ function _phrasesAdd( src )
   var vocabulary = this;
   var replaceDescriptor = null;
 
-  _.assert( arguments.length === 1 );
+  _.assert( arguments.length === 1, 'expects single argument' );
 
   //var vocabulary = o.vocabulary;
   /*_.assert( _.strIs( src ) || _.arrayIs( src ) );*/
@@ -662,7 +662,7 @@ function wordsComplySubject( words,subject )
   debugger
   _.assert( _.arrayIs( words ) );
   _.assert( _.arrayIs( subject ) );
-  _.assert( arguments.length === 2 );
+  _.assert( arguments.length === 2, 'expects exactly two argument' );
 
   if( subject.length === 0 ) return true;
   if( words.length === 0 ) return false;
