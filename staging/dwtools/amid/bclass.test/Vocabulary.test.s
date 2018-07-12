@@ -132,7 +132,7 @@ function phrasesAdd( test )
 {
   var context = this;
 
-  test.description = 'phrase as string';
+  test.case = 'phrase as string';
   var vocabulary = new wVocabulary();
 
   var phrase = 'project act2';
@@ -152,7 +152,7 @@ function phrasesAdd( test )
 
   /**/
 
-  test.description = 'phrases in array';
+  test.case = 'phrases in array';
   var vocabulary = new wVocabulary();
 
   var phrases =
@@ -178,7 +178,7 @@ function phrasesAdd( test )
 
   /**/
 
-  test.description = 'phrase already exists, override off';
+  test.case = 'phrase already exists, override off';
   var vocabulary = new wVocabulary({ override : 0 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
@@ -186,7 +186,7 @@ function phrasesAdd( test )
 
   /**/
 
-  test.description = 'phrase already exists, override on';
+  test.case = 'phrase already exists, override on';
   var vocabulary = new wVocabulary({ override : 1 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
@@ -206,7 +206,7 @@ function phrasesAdd( test )
 
   /**/
 
-  test.description = 'phrase already exists, usingFreeze off';
+  test.case = 'phrase already exists, usingFreeze off';
   var vocabulary = new wVocabulary({ usingFreeze : 0 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
@@ -217,7 +217,7 @@ function phrasesAdd( test )
 
   /**/
 
-  test.description = 'phrase already exists, usingFreeze on';
+  test.case = 'phrase already exists, usingFreeze on';
   var vocabulary = new wVocabulary({ usingFreeze : 1 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
@@ -240,7 +240,7 @@ function phrasesAdd( test )
 
 function subPhrase( test )
 {
-  test.description = 'remove part of a phrase';
+  test.case = 'remove part of a phrase';
   var vocabulary = new wVocabulary();
 
   /* strings */
@@ -306,7 +306,7 @@ function subPhrase( test )
 
 function phrasesForSubject( test )
 {
-  test.description = 'subject as string';
+  test.case = 'subject as string';
   var vocabulary = new wVocabulary();
   var phrase = 'project act2'
   vocabulary.phrasesAdd( phrase );
@@ -375,7 +375,7 @@ function phrasesForSubject( test )
 
   /**/
 
-  test.description = 'subject as array';
+  test.case = 'subject as array';
   var subject = [ 'project', 'act2' ];
   var got = vocabulary.phrasesForSubject( subject );
   var descriptor =
