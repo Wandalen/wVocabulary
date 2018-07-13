@@ -285,7 +285,7 @@ function _updateWordMap( descriptor,words,phrase,replaceDescriptor )
   for( var w = 0 ; w < words.length ; w++ )
   {
     var word = words[ w ];
-    self.wordMap[ word ] = _.arrayAs( self.wordMap[ word ] );
+    self.wordMap[ word ] = _.arrayAs( self.wordMap[ word ] || [] );
 
     if( replaceDescriptor )
     {
@@ -334,7 +334,7 @@ function _updateSubjectMap( descriptor,words,phrase,replaceDescriptor )
       slice.descriptor = descriptor;
       slice.kind = 'subject';
 
-      self.subjectMap[ slice.phrase ] = _.arrayAs( self.subjectMap[ slice.phrase ] );
+      self.subjectMap[ slice.phrase ] = _.arrayAs( self.subjectMap[ slice.phrase ] || [] );
       self.subjectMap[ slice.phrase ].push( slice );
 
     }
@@ -434,7 +434,7 @@ function _updateClauseMap( descriptor,words,phrase,replaceDescriptor )
 
       _.assert( !self.clauseMap[ clausePhrase ] );
 
-      self.clauseForSubjectMap[ subjectPhrase ] = _.arrayAs( self.clauseForSubjectMap[ subjectPhrase ] );
+      self.clauseForSubjectMap[ subjectPhrase ] = _.arrayAs( self.clauseForSubjectMap[ subjectPhrase ] || [] );
       self.clauseForSubjectMap[ subjectPhrase ].push( clause )
       self.clauseMap[ clausePhrase ] = clause;
 
