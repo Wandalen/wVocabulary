@@ -2,7 +2,7 @@
   "name": "wvocabulary",
   "version": "0.3.11",
   "description": "Dynamic phrases vocabulary",
-  "author": "Kostiantyn Wandalen <wtory.net@domainsbyproxy.com>",
+  "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
   "license": "MIT",
   "main": "staging/dwtools/amid/bclass/Vocabulary.s",
   "files": [
