@@ -71,7 +71,7 @@ function makeDescriptorArray( phrases )
     var d =
     {
       phrase : p,
-      words : _.strSplit( p )
+      words : _.strSplitNonPreserving/**1**/({ src : p }),
     }
     return d;
   });
@@ -115,7 +115,7 @@ function makeSubjectMap( descriptorArray )
       subject.kind = 'subject';
       subject.phrase = w;
       subject.subPhrase = sub;
-      subject.words = _.strSplit( w );
+      subject.words = _.strSplitNonPreserving/**1**/({ src : w });
 
       subjectMap[ w ].push( subject );
     })
@@ -317,13 +317,13 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplit( phrase )
+    words : _.strSplitNonPreserving/**1**/({ src : phase }),
   };
   var expected =
   [{
     descriptor : descriptor,
     phrase : phrase,
-    words : _.strSplit( phrase )
+    words : _.strSplitNonPreserving/**1**/({ src : phase })
   }];
   test.identical( got, expected );
 
@@ -340,7 +340,7 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplit( phrase )
+    words : _.strSplitNonPreserving/**1**/({ src : phase }),
   };
   var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
@@ -360,7 +360,7 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplit( phrase )
+    words : _.strSplitNonPreserving/**1**/({ src : phase })
   };
   var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
@@ -381,7 +381,7 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplit( phrase )
+    words : _.strSplitNonPreserving/**1**/({ src : phase }),
   };
   var expected =
   [{

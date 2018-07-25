@@ -189,7 +189,7 @@ function _phrasesAdd( src )
   }
 
   var descriptor = self.onDescriptorMake( src );
-  var words = descriptor.words = _.strSplit( descriptor.phrase );
+  var words = descriptor.words = _.strSplitNonPreserving/**1**/({ src : descriptor.phrase });
   var phrase = descriptor.phrase = descriptor.words.join( ' ' );
 
   if( !_.objectIs( descriptor ) )
@@ -550,7 +550,7 @@ function phrasesForSubject( subject,usingClausing )
   _.assert( _.strIs( subject ) || _.arrayIs( subject ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
 
-  var subjectWords = _.arrayIs( subject ) ? subject : _.strSplit( subject );
+  var subjectWords = _.arrayIs( subject ) ? subject : _.strSplitNonPreserving/**1**/({ src : subject });
   var subjectPhrase = subjectWords.join( ' ' );
   var subject = self.subjectMap[ subjectPhrase ] || [];
 
