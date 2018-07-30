@@ -96,7 +96,7 @@ var Self = function wVocabulary( o )
   return Self.prototype.init.apply( this,arguments );
 }
 
-Self.nameShort = 'Vocabulary';
+Self.shortName = 'Vocabulary';
 
 //
 
@@ -679,7 +679,7 @@ function wordsComplySubject( words,subject )
 }
 
 // --
-// relationships
+// relations
 // --
 
 var Composes =
@@ -734,7 +734,7 @@ var Proto =
 
   wordsComplySubject : wordsComplySubject,
 
-  // relationships
+  // relations
 
   constructor : Self,
   Composes : Composes,
@@ -758,7 +758,7 @@ _.Copyable.mixin( Self );
 // export
 // --
 
-_global_[ Self.name ] = _[ Self.nameShort ] = Self;
+_global_[ Self.name ] = _[ Self.shortName ] = Self;
 
 if( typeof module !== 'undefined' )
 if( _global_.WTOOLS_PRIVATE )
