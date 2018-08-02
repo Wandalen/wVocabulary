@@ -317,13 +317,13 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phase }),
+    words : _.strSplitNonPreserving/**1**/({ src : phrase }),
   };
   var expected =
   [{
     descriptor : descriptor,
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phase })
+    words : _.strSplitNonPreserving/**1**/({ src : phrase })
   }];
   test.identical( got, expected );
 
@@ -340,7 +340,7 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phase }),
+    words : _.strSplitNonPreserving/**1**/({ src : phrase }),
   };
   var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
@@ -360,7 +360,7 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phase })
+    words : _.strSplitNonPreserving/**1**/({ src : phrase })
   };
   var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
@@ -381,7 +381,7 @@ function phrasesForSubject( test )
   var descriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phase }),
+    words : _.strSplitNonPreserving/**1**/({ src : phrase }),
   };
   var expected =
   [{
