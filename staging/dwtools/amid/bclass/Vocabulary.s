@@ -690,15 +690,15 @@ var Composes =
 var Aggregates =
 {
 
-  phraseArray : [],
-  descriptorArray : [],
+  phraseArray : _.define.own([]),
+  descriptorArray : _.define.own([]),
 
-  descriptorMap : {},
-  wordMap : {},
-  subjectMap : {},
+  descriptorMap : _.define.own({}),
+  wordMap : _.define.own({}),
+  subjectMap : _.define.own({}),
 
-  clauseForSubjectMap : {},
-  clauseMap : {},
+  clauseForSubjectMap : _.define.own({}),
+  clauseMap : _.define.own({}),
 
 }
 
@@ -731,7 +731,7 @@ var Proto =
 
   // relations
 
-  
+
   Composes : Composes,
   Aggregates : Aggregates,
   Restricts : Restricts,
