@@ -8,3 +8,4 @@ Class to operate phrases. A phrase consists of words. Vocabulary enables the des
 npm install
 node sample/Sample.s
 ```
+
