@@ -512,6 +512,8 @@ function subjectDescriptorFor( o )
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( subjectDescriptorFor, o );
 
+  o.delimeter = o.delimeter === null ? self.lookingDelimeter : o.delimeter;
+
   let subjectWords = _.arrayIs( o.subject ) ? o.subject : _.strSplitNonPreserving({ src : o.subject, delimeter : o.delimeter });
   let subjectPhrase = subjectWords.join( ' ' );
   result = self.subjectMap[ subjectPhrase ] || [];
@@ -533,7 +535,7 @@ function subjectDescriptorFor( o )
 subjectDescriptorFor.defaults =
 {
   subject : null,
-  delimeter : [ ' ' ],
+  delimeter : null,
   exact : 0,
 }
 
