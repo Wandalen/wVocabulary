@@ -22,7 +22,7 @@ if( typeof module !== 'undefined' )
     require( toolsPath );
   }
 
-  var _ = _global_.wTools;
+  let _ = _global_.wTools;
 
   _.include( 'wCopyable' );
 
@@ -30,7 +30,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-var _ = _global_.wTools;
+let _ = _global_.wTools;
 
 /**
 * Definitions :
@@ -39,7 +39,7 @@ var _ = _global_.wTools;
 *  phrase : : combination of words with space as separator( e.g., 'deck properties' ).
 *  subject : : a word or combination of it, used during search to determine if phrase is related to the subject.
 *  clause : : a piece of a phrase( e.g. 'deck' is subphrase of 'deck properties' ).
-*  phrase descriptor : : object that contains info about a phrase.
+*  phrase phraseDescriptor : : object that contains info about a phrase.
 
 
 */
@@ -52,10 +52,10 @@ var _ = _global_.wTools;
 /**
 * Options object for wVocabulary constructor
 * @typedef {Object} wVocabulary~wVocabularyOptions
-* @property {function} [ onDescriptorMake ] - Creates descriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
+* @property {function} [ onDescriptorMake ] - Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
 * @property {boolean} [ override=0 ] - Controls overwriting of existing phrases.
 * @property {boolean} [ usingClausing=0 ] -
-* @property {boolean} [ usingFreeze=1 ] - Prevents future extensions of phrase descriptor.
+* @property {boolean} [ usingFreeze=1 ] - Prevents future extensions of phrase phraseDescriptor.
 */
 
 /**
@@ -63,7 +63,7 @@ var _ = _global_.wTools;
 * @typedef {Object} wVocabulary~wVocabularyMaps
 * @property {Array} [ phraseArray ] - Contains available phrases.
 * @property {Array} [ descriptorArray ] - Contains descriptors of available phrases.
-* @property {Object} [ descriptorMap ] - Maps phrase with its descriptor.
+* @property {Object} [ descriptorMap ] - Maps phrase with its phraseDescriptor.
 * @property {Object} [ wordMap ] - Maps each word of the phrase with descriptors of phrases that contains it.
 * @property {Object} [ subjectMap ] - Maps possible subjects with descriptors of phrases that contains it.
 * @property {Object} [ clauseForSubjectMap ] - Maps subjects to clause.
@@ -73,11 +73,11 @@ var _ = _global_.wTools;
 /**
  * Creates instance of wVocabulary
  * @example
-   var vocabulary = new wVocabulary();
+   let vocabulary = new wVocabulary();
 
  * @example
-   var o = { usingFreeze : 0 }
-   var vocabulary = new wVocabulary( o );
+   let o = { usingFreeze : 0 }
+   let vocabulary = new wVocabulary( o );
 
  * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link wVocabulary~wVocabularyOptions}.
  * @returns {wVocabulary}
@@ -85,8 +85,8 @@ var _ = _global_.wTools;
  * @see {@link wVocabulary}
  */
 
-var Parent = null;
-var Self = function wVocabulary( o )
+let Parent = null;
+let Self = function wVocabulary( o )
 {
   return _.instanceConstructor( Self, this, arguments );
 }
@@ -105,7 +105,7 @@ Self.shortName = 'Vocabulary';
 
 function init( o )
 {
-  var self = this;
+  let self = this;
 
   _.instanceInit( self );
 
@@ -118,23 +118,23 @@ function init( o )
 
 /**
  * Adds provided phrase(s) to the vocabulary.
- * Routine analyzes provided phrase(s) and creates descriptor for each phrase by calling ( wVocabulary.onDescriptorMake ) routine and complementing it with additional data.
+ * Routine analyzes provided phrase(s) and creates phraseDescriptor for each phrase by calling ( wVocabulary.onDescriptorMake ) routine and complementing it with additional data.
  * Routine expects that result of ( wVocabulary.onDescriptorMake ) call will be an Object.
- * Data from descriptor is used to update containers of the vocabulary, see {@link wVocabulary~wVocabularyOptions} for details.
+ * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link wVocabulary~wVocabularyOptions} for details.
  * If phrases are provided in Array, they can have any type.
  * If ( wVocabulary.override ) is enabled, existing phrase can be rewritten by new one.
  * @param {String|Array} src - Source phrase or array of phrases.
  * @returns {wVocabulary} Returns wVocabulary instance.
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrase = 'deck properties';
+ * let vocabulary = new wVocabulary();
+ * let phrase = 'deck properties';
  * vocabulary.phrasesAdd( phrases );
  * console.log( _.toStr( vocabulary, { levels : 99 } ) )
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrases =
+ * let vocabulary = new wVocabulary();
+ * let phrases =
  * [
  *  'deck properties',
  *  'deck about'
@@ -145,7 +145,7 @@ function init( o )
  * @method phrasesAdd
  * @throws { Exception } Throw an exception if more than one argument is provided.
  * @throws { Exception } Throw an exception if ( src ) is not a String or Array.
- * @throws { Exception } Throw an exception if ( descriptor ) made by ( onDescriptorMake ) routine is not an Object.
+ * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onDescriptorMake ) routine is not an Object.
  * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
  * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.override ) is disabled.
  * @memberof wVocabulary
@@ -154,141 +154,125 @@ function init( o )
 
 function phrasesAdd( src )
 {
-  var self = this;
+  let self = this;
+  let vocabulary = this;
+  let replaceDescriptor = null;
 
-  _.assert( _.strIs( src ) || _.arrayIs( src ),'phrasesAdd expects string or array' );
+  _.assert( _.strIs( src ) || _.containerIs( src ), 'expects string or array' );
   _.assert( arguments.length === 1, 'expects single argument' );
 
-  var vocabulary = self._phrasesAdd( src );
-  return vocabulary;
+  if( _.arrayIs( src ) )
+  _.each( src, ( e,k ) =>
+  {
+    self.phraseAdd( e );
+  });
+  else if( _.objectIs( src ) )
+  _.each( src, ( e,k ) =>
+  {
+    self.phraseAdd([ k,e ]);
+  });
+  else
+  {
+    self.phraseAdd( src );
+  }
+
+  return self;
 }
 
 //
 
-function _phrasesAdd( src )
+function phraseAdd( src )
 {
-  var self = this;
-  var vocabulary = this;
-  var replaceDescriptor = null;
+  let self = this;
+  let vocabulary = this;
+  let replaceDescriptor = null;
 
   _.assert( arguments.length === 1, 'expects single argument' );
 
-  //var vocabulary = o.vocabulary;
-  /*_.assert( _.strIs( src ) || _.arrayIs( src ) );*/
+  let phraseDescriptor = self.onDescriptorMake( src );
+  let words = phraseDescriptor.words = _.strSplitNonPreserving({ src : phraseDescriptor.phrase });
+  let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
 
-  if( _.arrayIs( src ) )
-  {
-    for( var s = 0 ; s < src.length ; s++ )
-    self._phrasesAdd( src[ s ] );
-    return self;
-  }
+  _.assert( _.objectIs( phraseDescriptor ), 'phrase phraseDescriptor should be object' );
+  _.assert( _.strIs( phrase ), 'empty phrase' );
 
-  var descriptor = self.onDescriptorMake( src );
-  var words = descriptor.words = _.strSplitNonPreserving/**1**/({ src : descriptor.phrase });
-  var phrase = descriptor.phrase = descriptor.words.join( ' ' );
-
-  if( !_.objectIs( descriptor ) )
-  throw _.err( 'phrase descriptor should be object' );
-
-  if( !phrase )
-  throw _.err( 'empty phrase' );
-
-  //
+  /* */
 
   if( self.descriptorMap[ phrase ] )
   {
 
-    //throw _.err( 'not implemented' ); // !!!
-    //logger.warn( 'not implemented' );
-
-    if( !descriptor.override && !self.override )
-    throw _.err( 'phrase override :',descriptor.phrase );
-
-    //var i = self.descriptorArray.indexOf( self.descriptorMap[ phrase ] );
-    //_.assert( i !== -1 );
+    _.assert( phraseDescriptor.override || self.override, 'phrase override :',phraseDescriptor.phrase );
 
     replaceDescriptor = self.descriptorMap[ phrase ];
 
 /*
     if( o.usingNounVerb )
     {
-      descriptor.noun = replaceDescriptor.noun;
-      descriptor.verb = replaceDescriptor.verb;
+      phraseDescriptor.noun = replaceDescriptor.noun;
+      phraseDescriptor.verb = replaceDescriptor.verb;
     }
 */
 /*
     if( o.usingClausing )
     {
-      descriptor.clauseLimit = replaceDescriptor.clauseLimit;
-      descriptor.clauses = replaceDescriptor.clauses;
+      phraseDescriptor.clauseLimit = replaceDescriptor.clauseLimit;
+      phraseDescriptor.clauses = replaceDescriptor.clauses;
     }
 */
 
     //return self;
   }
 
-/*
-  phraseArray : [],
-  descriptorArray : [],
-  descriptorMap : {},
+  /* */
 
-  wordMap : {},
-  subjectMap : {},
-
-  clauseForSubjectMap : {},
-  clauseMap : {},
-*/
-
-  //
-
-  self.descriptorMap[ phrase ] = descriptor;
+  self.descriptorMap[ phrase ] = phraseDescriptor;
 
   if( replaceDescriptor )
   {
 
-    _.arrayReplaceOnceStrictly( self.descriptorArray, replaceDescriptor, descriptor );
+    _.arrayReplaceOnceStrictly( self.descriptorArray, replaceDescriptor, phraseDescriptor );
 
   }
   else
   {
 
     self.phraseArray.push( phrase );
-    self.descriptorArray.push( descriptor );
+    self.descriptorArray.push( phraseDescriptor );
 
   }
 
-  //
+  /* */
 
-  self._updateWordMap( descriptor,words,phrase,replaceDescriptor );
-  self._updateSubjectMap( descriptor,words,phrase,replaceDescriptor );
-  self._updateClauseMap( descriptor,words,phrase,replaceDescriptor );
+  self._updateWordMap( phraseDescriptor,words,phrase,replaceDescriptor );
+  self._updateSubjectMap( phraseDescriptor,words,phrase,replaceDescriptor );
+  self._updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor );
 
-  // freeze
+  /* freeze */
 
   if( self.usingFreeze )
-  Object.preventExtensions( descriptor );
+  Object.preventExtensions( phraseDescriptor );
 
   return self;
 }
 
 //
 
-function _updateWordMap( descriptor,words,phrase,replaceDescriptor )
+function _updateWordMap( phraseDescriptor,words,phrase,replaceDescriptor )
 {
-  var self = this;
+  let self = this;
 
-  for( var w = 0 ; w < words.length ; w++ )
+  for( let w = 0 ; w < words.length ; w++ )
   {
-    var word = words[ w ];
+    let word = words[ w ];
     self.wordMap[ word ] = _.arrayAs( self.wordMap[ word ] || [] );
 
     if( replaceDescriptor )
     {
-      _.arrayReplaceOnceStrictly( self.wordMap[ word ], replaceDescriptor, descriptor );
+      _.arrayReplaceOnceStrictly( self.wordMap[ word ], replaceDescriptor, phraseDescriptor );
     }
     else
     {
-      self.wordMap[ word ].push( descriptor );
+      self.wordMap[ word ].push( phraseDescriptor );
     }
 
   }
@@ -298,42 +282,44 @@ function _updateWordMap( descriptor,words,phrase,replaceDescriptor )
 
 //
 
-function _updateSubjectMap( descriptor,words,phrase,replaceDescriptor )
+function _updateSubjectMap( phraseDescriptor,words,phrase,replaceDescriptor )
 {
-  var self = this;
+  let self = this;
 
-  /*self.subjectMap[ '' ].push({ descriptor : descriptor });*/
-
-  for( var c = 1 ; c <= words.length ; c++ )
+  function use( w,c )
   {
+    let sliceWords = words.slice( w,w+c );
+    let slicePhrase = sliceWords.join( ' ' );
 
-    for( var w = 0 ; w <= words.length-c ; w++ )
+    if( replaceDescriptor )
     {
-
-      var sliceWords = words.slice( w,w+c );
-      var slicePhrase = sliceWords.join( ' ' );
-
-      if( replaceDescriptor )
-      {
-        var i = _.arrayRightIndex( self.subjectMap[ slicePhrase ], replaceDescriptor, ( e ) => e.descriptor, ( e ) => e );
-        _.assert( i >= 0 );
-        self.subjectMap[ slicePhrase ][ i ].descriptor = descriptor;
-        return;
-      }
-
-      var slice = {};
-
-      slice.words = sliceWords;
-      slice.phrase = slicePhrase;
-      slice.subPhrase = self.subPhrase( descriptor.phrase,slice.phrase );
-      slice.descriptor = descriptor;
-      slice.kind = 'subject';
-
-      self.subjectMap[ slice.phrase ] = _.arrayAs( self.subjectMap[ slice.phrase ] || [] );
-      self.subjectMap[ slice.phrase ].push( slice );
-
+      debugger;
+      let i = _.arrayRightIndex( self.subjectMap[ slicePhrase ], replaceDescriptor, ( e ) => e.phraseDescriptor, ( e ) => e );
+      _.assert( i >= 0 );
+      self.subjectMap[ slicePhrase ][ i ].phraseDescriptor = phraseDescriptor;
+      return;
     }
 
+    let slice = Object.create( null );
+
+    slice.words = sliceWords;
+    slice.phrase = slicePhrase;
+    slice.subPhrase = self.subPhrase( phraseDescriptor.phrase, slice.phrase );
+    slice.phraseDescriptor = phraseDescriptor;
+    slice.kind = 'subject';
+
+    self.subjectMap[ slice.phrase ] = _.arrayAs( self.subjectMap[ slice.phrase ] || [] );
+    self.subjectMap[ slice.phrase ].push( slice );
+  }
+
+  use( 0,0 );
+
+  for( let c = 1 ; c <= words.length ; c++ )
+  {
+    for( let w = 0 ; w <= words.length-c ; w++ )
+    {
+      use( w,c );
+    }
   }
 
   return self;
@@ -341,9 +327,9 @@ function _updateSubjectMap( descriptor,words,phrase,replaceDescriptor )
 
 //
 
-function _updateClauseMap( descriptor,words,phrase,replaceDescriptor )
+function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
 {
-  var self = this;
+  let self = this;
 
   // clausing
 
@@ -359,40 +345,40 @@ function _updateClauseMap( descriptor,words,phrase,replaceDescriptor )
   if( !self.usingClausing )
   return;
 
-  if( descriptor.clauseLimit === null )
-  descriptor.clauseLimit = [ 1,+Infinity ];
-  else if( _.numberIs( descriptor.clauseLimit ) )
-  descriptor.clauseLimit = [ 1,descriptor.clauseLimit ];
-  else if( !_.arrayIs( descriptor.clauseLimit ) )
-  throw _.err( 'expects clauseLimit as number or array' );
+  if( phraseDescriptor.clauseLimit === null )
+  phraseDescriptor.clauseLimit = [ 1,+Infinity ];
+  else if( _.numberIs( phraseDescriptor.clauseLimit ) )
+  phraseDescriptor.clauseLimit = [ 1,phraseDescriptor.clauseLimit ];
+  else if( !_.arrayIs( phraseDescriptor.clauseLimit ) )
+  _.assert( 0, 'expects clauseLimit as number or array' );
 
-  _.assert( descriptor.clauseLimit[ 0 ] >= 1 );
+  _.assert( phraseDescriptor.clauseLimit[ 0 ] >= 1 );
 
-  function dequalizer( a,b ){ return a.descriptor === b };
+  function dequalizer( a,b ){ return a.phraseDescriptor === b };
 
-  var clauseLength = 0;
-  var maxClauseLength = Math.min( words.length,descriptor.clauseLimit[ 1 ] );
-  for( clauseLength = maxClauseLength ; clauseLength >= descriptor.clauseLimit[ 0 ] ; clauseLength-- )
+  let clauseLength = 0;
+  let maxClauseLength = Math.min( words.length,phraseDescriptor.clauseLimit[ 1 ] );
+  for( clauseLength = maxClauseLength ; clauseLength >= phraseDescriptor.clauseLimit[ 0 ] ; clauseLength-- )
   {
 
-    for( var w = 0 ; w <= words.length-clauseLength ; w++ )
+    for( let w = 0 ; w <= words.length-clauseLength ; w++ )
     {
 
-      var subjectLength = clauseLength - 1;
-      var subjectWords = words.slice( w,w+subjectLength );
-      var subjectPhrase = subjectWords.join( ' ' );
+      let subjectLength = clauseLength - 1;
+      let subjectWords = words.slice( w,w+subjectLength );
+      let subjectPhrase = subjectWords.join( ' ' );
 
-      var clauseWords = words.slice( w,w+clauseLength );
-      var clausePhrase = clauseWords.join( ' ' );
-      var clause = self.clauseMap[ clausePhrase ];
+      let clauseWords = words.slice( w,w+clauseLength );
+      let clausePhrase = clauseWords.join( ' ' );
+      let clause = self.clauseMap[ clausePhrase ];
 
-      var subject = self.subjectMap[ clausePhrase ];
+      let subject = self.subjectMap[ clausePhrase ];
       subject = _.entityFilter( subject, function( e )
       {
-        if( e.descriptor.words.length === clauseLength )
+        if( e.phraseDescriptor.words.length === clauseLength )
         return;
-        if( e.descriptor.clauseLimit[ 0 ] <= clauseLength && clauseLength <= e.descriptor.clauseLimit[ 1 ] )
-        return e.descriptor;
+        if( e.phraseDescriptor.clauseLimit[ 0 ] <= clauseLength && clauseLength <= e.phraseDescriptor.clauseLimit[ 1 ] )
+        return e.phraseDescriptor;
       });
 
       if( subject.length < 2 )
@@ -401,29 +387,29 @@ function _updateClauseMap( descriptor,words,phrase,replaceDescriptor )
       if( clause )
       {
 
-        _.assert( descriptor.phrase.indexOf( clause.phrase ) !== -1 );
+        _.assert( phraseDescriptor.phrase.indexOf( clause.phrase ) !== -1 );
 
         if( replaceDescriptor )
         {
-          var i = _.arrayUpdate( clause.descriptors,replaceDescriptor,descriptor );
+          let i = _.arrayUpdate( clause.descriptors,replaceDescriptor,phraseDescriptor );
           _.assert( i >= 0 );
         }
         else
         {
-          clause.descriptors.push( descriptor );
+          clause.descriptors.push( phraseDescriptor );
         }
 
         continue;
       }
 
-      var clause = {};
+      clause = Object.create( null );
       clause.words = clauseWords;
       clause.phrase = clausePhrase;
       clause.subjectWords = subjectWords;
       clause.subjectPhrase = subjectPhrase;
       clause.subPhrase = self.subPhrase( clausePhrase,subjectPhrase );
 
-      clause.descriptor = clause;
+      clause.phraseDescriptor = clause;
       clause.descriptors = subject;
       clause.kind = 'clause';
 
@@ -452,26 +438,26 @@ function _updateClauseMap( descriptor,words,phrase,replaceDescriptor )
  * @returns {String} Returns adjusted phrase.
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrase = 'deck properties';
- * var subject = 'properties';
- * var subPhrase = vocabulary.subPhrase( phrase, subject );
+ * let vocabulary = new wVocabulary();
+ * let phrase = 'deck properties';
+ * let subject = 'properties';
+ * let subPhrase = vocabulary.subPhrase( phrase, subject );
  * console.log( subPhrase );
  * //deck
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrase = [ 'deck', 'properties' ];
- * var subject = 'properties';
- * var subPhrase = vocabulary.subPhrase( phrase, subject );
+ * let vocabulary = new wVocabulary();
+ * let phrase = [ 'deck', 'properties' ];
+ * let subject = 'properties';
+ * let subPhrase = vocabulary.subPhrase( phrase, subject );
  * console.log( subPhrase );
  * //deck
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrase = [ '  deck', 'properties  ' ];
- * var subject = 'xxx';
- * var strippedPhrase = vocabulary.subPhrase( phrase, subject );
+ * let vocabulary = new wVocabulary();
+ * let phrase = [ '  deck', 'properties  ' ];
+ * let subject = 'xxx';
+ * let strippedPhrase = vocabulary.subPhrase( phrase, subject );
  * console.log( strippedPhrase );
  * //deck properties
  *
@@ -503,6 +489,47 @@ function subPhrase( phrase,subject )
 
 //
 
+function subjectDescriptorFor( o )
+{
+  let self = this;
+  let result = [];
+  let added = [];
+
+  if( !_.objectIs( o ) )
+  o = { subject : arguments[ 0 ] };
+
+  _.assert( _.mapIs( self.wordMap ) );
+  _.assert( _.strIs( o.subject ) || _.arrayIs( o.subject ) );
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.routineOptions( subjectDescriptorFor, o );
+
+  let subjectWords = _.arrayIs( o.subject ) ? o.subject : _.strSplitNonPreserving({ src : o.subject, delimeter : o.delimeter });
+  let subjectPhrase = subjectWords.join( ' ' );
+  result = self.subjectMap[ subjectPhrase ] || [];
+
+  if( o.exact )
+  {
+    result = result.filter( ( e ) =>
+    {
+      if( e.phraseDescriptor.phrase === subjectPhrase )
+      return e;
+    });
+    _.assert( result.length <= 1 );
+    return result[ 0 ];
+  }
+
+  return result;
+}
+
+subjectDescriptorFor.defaults =
+{
+  subject : null,
+  delimeter : [ ' ' ],
+  exact : 0,
+}
+
+//
+
 /**
  * Searchs for phrase that has subject( subject ) and returns them in Array.
  * If ( subject ) is an Array, routine joins it into a String with whitespace as seperator.
@@ -513,19 +540,19 @@ function subPhrase( phrase,subject )
  * @returns {Array} Returns found phrases in Array.
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrases =
+ * let vocabulary = new wVocabulary();
+ * let phrases =
  * [
  *  'deck properties',
  *  'deck about',
  *  'project about',
  * ];
  * vocabulary.phrasesAdd( phrases );
- * var subject = 'deck';
- * var result = vocabulary.phrasesForSubject( subject );
+ * let subject = 'deck';
+ * let result = vocabulary.subjectDescriptorForWithClause( subject );
  * console.log( _.toStr( result, { levels : 3 } ) );
  *
- * @method phrasesForSubject
+ * @method subjectDescriptorForWithClause
  * @throws { Exception } Throw an exception if no arguments provided.
  * @throws { Exception } Throw an exception if more than two arguments provided.
  * @throws { Exception } Throw an exception if( wVocabulary.wordMap ) is not a Object.
@@ -534,42 +561,50 @@ function subPhrase( phrase,subject )
  *
  */
 
-function phrasesForSubject( subject,usingClausing )
+// function subjectDescriptorForWithClause( subject, usingClausing )
+function subjectDescriptorForWithClause( o )
 {
-  var self = this;
-  var result = [];
-  var added = [];
-  var usingClausing = usingClausing !== undefined ? usingClausing : self.usingClausing;
+  let self = this;
+  let result = [];
+  let added = [];
+
+  if( !_.objectIs( o ) )
+  o = { subject : arguments[ 0 ], usingClausing : arguments[ 1 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
-  _.assert( _.strIs( subject ) || _.arrayIs( subject ) );
+  _.assert( _.strIs( o.subject ) || _.arrayIs( o.subject ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.routineOptions( subjectDescriptorForWithClause, o );
 
-  var subjectWords = _.arrayIs( subject ) ? subject : _.strSplitNonPreserving/**1**/({ src : subject });
-  var subjectPhrase = subjectWords.join( ' ' );
-  var subject = self.subjectMap[ subjectPhrase ] || [];
+  o.usingClausing = o.usingClausing !== null ? o.usingClausing : self.usingClausing;
 
-  if( subjectPhrase === '' )
-  {
-    subject = _.entityMap( self.descriptorArray,function( e )
-    {
-      return { descriptor : e, phrase : e.phrase, words : e.words };
-    });
-  }
+  let subjectWords = _.arrayIs( o.subject ) ? o.subject : _.strSplitNonPreserving({ src : o.subject, delimeter : o.delimeter });
+  let subjectPhrase = subjectWords.join( ' ' );
+  result = self.subjectMap[ subjectPhrase ] || [];
+
+  debugger;
+
+  // if( subjectPhrase === '' )
+  // {
+  //   result = _.entityMap( self.descriptorArray,function( e )
+  //   {
+  //     return { phraseDescriptor : e, phrase : e.phrase, words : e.words };
+  //   });
+  // }
 
 /*
   if( !subject.length && subjectPhrase === '' )
   {
     debugger;
     result = self.descriptorArray.slice();
-    var clauses = _.entityFilter( self.clauseForSubjectMap,function( e ){ if( e.subjectWords.length === 1 ) return e; } );
-    for( var c in clauses )
+    let clauses = _.entityFilter( self.clauseForSubjectMap,function( e ){ if( e.subjectWords.length === 1 ) return e; } );
+    for( let c in clauses )
     _.arrayRemoveArrayOnce( result,clauses[ c ].descriptors );
-    result = _.entityMap( result,function( e ){ return { descriptor : e } } );
+    result = _.entityMap( result,function( e ){ return { phraseDescriptor : e } } );
     clauses = _.entityMap( clauses,function( e )
     {
-      var result = { descriptors : e.descriptors, words : e.subjectWords, phrase : e.subjectPhrase, kind : 'forSubject' };
-      result.descriptor = result;
+      let result = { descriptors : e.descriptors, words : e.subjectWords, phrase : e.subjectPhrase, kind : 'subjectDescriptorForWithClause' };
+      result.phraseDescriptor = result;
       return result;
     });
     _.arrayAppendArray( result,_.mapVals( clauses ) );
@@ -577,24 +612,31 @@ function phrasesForSubject( subject,usingClausing )
   }
 */
 
-  if( !usingClausing || !self.clauseForSubjectMap[ subjectPhrase ] )
-  return subject;
+  if( !o.usingClausing || !self.clauseForSubjectMap[ subjectPhrase ] )
+  return result;
 
-  /* */
+  let clauses = self.clauseForSubjectMap[ subjectPhrase ];
 
-  var clauses = self.clauseForSubjectMap[ subjectPhrase ];
+  debugger;
 
-  if( clauses.length === 1 && clauses[ 0 ].descriptors.length === subject.length )
-  return subject;
+  if( clauses.length === 1 && clauses[ 0 ].descriptors.length === result.length )
+  return result;
 
-  _.arrayAppendArray( result,clauses );
-  var added = _.arrayFlatten( [],_.entitySelect( clauses,'*.descriptors' ) );
+  _.arrayAppendArray( result, clauses );
+  added = _.arrayFlatten( [], _.entitySelect( clauses, '*.descriptors' ) );
 
-  for( var s = 0 ; s < subject.length ; s++ )
-  if( added.indexOf( subject[ s ].descriptor ) === -1 )
-  result.push( subject[ s ] );
+  for( let s = 0 ; s < result.length ; s++ )
+  if( added.indexOf( result[ s ].phraseDescriptor ) === -1 )
+  result.push( result[ s ] );
 
   return result;
+}
+
+subjectDescriptorForWithClause.defaults =
+{
+  subject : null,
+  usingClausing : null,
+  delimeter : [ ' ' ],
 }
 
 //
@@ -602,23 +644,23 @@ function phrasesForSubject( subject,usingClausing )
 /**
  * Generate help string(s) for phrase(s) found by using ( subject ) as query.
  * If no phrase(s) found returns an empty String.
- * If phrase descriptor has 'hint' propery defined, routine uses it, otherwise inserts capitalized phrase literal.
+ * If phrase phraseDescriptor has 'hint' propery defined, routine uses it, otherwise inserts capitalized phrase literal.
  * Returns generated strings in Array.
  * @param {String|Array} subject - Source phrase or array of words to join into phrase.
  * @param {Boolean} usingClausing -
  * @returns {Array} Returns found phrases in Array.
  *
  * @example
- * var vocabulary = new wVocabulary();
- * var phrases =
+ * let vocabulary = new wVocabulary();
+ * let phrases =
  * [
  *  'deck properties',
  *  'deck about',
  *  'project about',
  * ];
  * vocabulary.phrasesAdd( phrases );
- * var subject = 'deck';
- * var result = vocabulary.helpForSubject( subject );
+ * let subject = 'deck';
+ * let result = vocabulary.helpForSubject( subject );
  * console.log( result );
  * //[ '.deck.properties - Deck properties.', '.deck.about - Deck about.' ]
  *
@@ -631,28 +673,27 @@ function phrasesForSubject( subject,usingClausing )
  *
  */
 
-function helpForSubject( subject,usingClausing )
+function helpForSubject( subject, usingClausing )
 {
-  var self = this;
+  let self = this;
 
-  var actions = self.phrasesForSubject( subject,usingClausing );
+  let actions = self.subjectDescriptorForWithClause( subject, usingClausing );
 
   if( !actions.length )
   return '';
 
-  var part1 = actions.map( function( e ){ return e.descriptor.words.join( '.' ); } );
-  var part2 = actions.map( function( e ){ return e.descriptor.hint || _.strCapitalize( e.descriptor.phrase + '.' ); });
-
-  var help = _.strJoin( '.',part1,' - ',part2 );
+  let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
+  let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
+  let help = _.strJoin( '.',part1,' - ',part2 );
 
   return help;
 }
 
 //
 
-function wordsComplySubject( words,subject )
+function wordsComplySubject( words, subject )
 {
-  var result = [];
+  let result = [];
 
   debugger
   _.assert( _.arrayIs( words ) );
@@ -662,32 +703,43 @@ function wordsComplySubject( words,subject )
   if( subject.length === 0 ) return true;
   if( words.length === 0 ) return false;
 
-  var w = words.indexOf( subject[ 0 ] )
+  let w = words.indexOf( subject[ 0 ] )
   if( words.length - w < subject.length )
   return false;
 
-  for( var i = w+1 ; i < w+subject.length ; i++ )
+  for( let i = w+1 ; i < w+subject.length ; i++ )
   if( subject[ i-w ] !== words[ i ] )
   return false;
 
   return true;
 }
 
+//
+
+function _onDescriptorMake( src )
+{
+  let result = Object.create( null );
+  _.assert( _.strIs( src ) );
+  _.assert( arguments.length === 1 );
+  result.phrase = src;
+  return result;
+}
+
 // --
 // relations
 // --
 
-var Composes =
+let Composes =
 {
 
-  onDescriptorMake : function( src ){ return { phrase : src }; },
+  onDescriptorMake : _onDescriptorMake,
   override : 0,
   usingClausing : 0,
   usingFreeze : 1,
 
 }
 
-var Aggregates =
+let Aggregates =
 {
 
   phraseArray : _.define.own([]),
@@ -702,7 +754,7 @@ var Aggregates =
 
 }
 
-var Restricts =
+let Restricts =
 {
 }
 
@@ -710,13 +762,13 @@ var Restricts =
 // declare
 // --
 
-var Proto =
+let Proto =
 {
 
   init : init,
 
   phrasesAdd : phrasesAdd,
-  _phrasesAdd : _phrasesAdd,
+  phraseAdd : phraseAdd,
 
   _updateWordMap : _updateWordMap,
   _updateSubjectMap : _updateSubjectMap,
@@ -724,13 +776,15 @@ var Proto =
 
   subPhrase : subPhrase,
 
-  phrasesForSubject : phrasesForSubject,
+  subjectDescriptorFor : subjectDescriptorFor,
+  subjectDescriptorForWithClause : subjectDescriptorForWithClause,
   helpForSubject : helpForSubject,
 
   wordsComplySubject : wordsComplySubject,
 
-  // relations
+  _onDescriptorMake : _onDescriptorMake,
 
+  // relations
 
   Composes : Composes,
   Aggregates : Aggregates,

@@ -51,9 +51,9 @@ function makeWordMap( phrases, descriptorArray, descriptorMap )
       {
         if( _.strHas( p, w ) )
         {
-          var descriptor = descriptorMap[ p ];
-          if( wordMap[ w ].indexOf( descriptor ) === -1 )
-          wordMap[ w ].push( descriptor );
+          var phraseDescriptor = descriptorMap[ p ];
+          if( wordMap[ w ].indexOf( phraseDescriptor ) === -1 )
+          wordMap[ w ].push( phraseDescriptor );
         }
       })
     })
@@ -71,7 +71,7 @@ function makeDescriptorArray( phrases )
     var d =
     {
       phrase : p,
-      words : _.strSplitNonPreserving/**1**/({ src : p }),
+      words : _.strSplitNonPreserving({ src : p }),
     }
     return d;
   });
@@ -111,11 +111,11 @@ function makeSubjectMap( descriptorArray )
       subjectMap[ w ] = [];
 
       var subject = Object.create( null );
-      subject.descriptor = d;
+      subject.phraseDescriptor = d;
       subject.kind = 'subject';
       subject.phrase = w;
       subject.subPhrase = sub;
-      subject.words = _.strSplitNonPreserving/**1**/({ src : w });
+      subject.words = _.strSplitNonPreserving({ src : w });
 
       subjectMap[ w ].push( subject );
     })
@@ -304,7 +304,7 @@ function subPhrase( test )
 
 //
 
-function phrasesForSubject( test )
+function subjectDescriptorForWithClause( test )
 {
   test.case = 'subject as string';
   var vocabulary = new wVocabulary();
@@ -313,39 +313,39 @@ function phrasesForSubject( test )
 
   /**/
 
-  var got = vocabulary.phrasesForSubject( '' );
-  var descriptor =
+  var got = vocabulary.subjectDescriptorForWithClause( '' );
+  var phraseDescriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phrase }),
+    words : _.strSplitNonPreserving({ src : phrase }),
   };
   var expected =
   [{
-    descriptor : descriptor,
+    phraseDescriptor : phraseDescriptor,
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phrase })
+    words : _.strSplitNonPreserving({ src : phrase })
   }];
   test.identical( got, expected );
 
   /**/
 
-  var got = vocabulary.phrasesForSubject( 'xxx' );
+  var got = vocabulary.subjectDescriptorForWithClause( 'xxx' );
   var expected = [];
   test.identical( got, expected );
 
   /**/
 
   var subject = 'act2';
-  var got = vocabulary.phrasesForSubject( subject );
-  var descriptor =
+  var got = vocabulary.subjectDescriptorForWithClause( subject );
+  var phraseDescriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phrase }),
+    words : _.strSplitNonPreserving({ src : phrase }),
   };
   var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
   [{
-    descriptor : descriptor,
+    phraseDescriptor : phraseDescriptor,
     kind : 'subject',
     phrase : subject,
     subPhrase : subPhrase,
@@ -356,16 +356,16 @@ function phrasesForSubject( test )
   /**/
 
   var subject = 'project';
-  var got = vocabulary.phrasesForSubject( subject );
-  var descriptor =
+  var got = vocabulary.subjectDescriptorForWithClause( subject );
+  var phraseDescriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phrase })
+    words : _.strSplitNonPreserving({ src : phrase })
   };
   var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
   [{
-    descriptor : descriptor,
+    phraseDescriptor : phraseDescriptor,
     kind : 'subject',
     phrase : subject,
     subPhrase : subPhrase,
@@ -377,15 +377,15 @@ function phrasesForSubject( test )
 
   test.case = 'subject as array';
   var subject = [ 'project', 'act2' ];
-  var got = vocabulary.phrasesForSubject( subject );
-  var descriptor =
+  var got = vocabulary.subjectDescriptorForWithClause( subject );
+  var phraseDescriptor =
   {
     phrase : phrase,
-    words : _.strSplitNonPreserving/**1**/({ src : phrase }),
+    words : _.strSplitNonPreserving({ src : phrase }),
   };
   var expected =
   [{
-    descriptor : descriptor,
+    phraseDescriptor : phraseDescriptor,
     kind : 'subject',
     phrase : subject.join( ' ' ),
     subPhrase : '',
@@ -398,8 +398,8 @@ function phrasesForSubject( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => vocabulary.phrasesForSubject() );
-  test.shouldThrowError( () => vocabulary.phrasesForSubject( 1 ) );
+  test.shouldThrowError( () => vocabulary.subjectDescriptorForWithClause() );
+  test.shouldThrowError( () => vocabulary.subjectDescriptorForWithClause( 1 ) );
 }
 
 //
@@ -533,7 +533,7 @@ var Self =
   {
     phrasesAdd : phrasesAdd,
     subPhrase : subPhrase,
-    phrasesForSubject : phrasesForSubject,
+    subjectDescriptorForWithClause : subjectDescriptorForWithClause,
     helpForSubject : helpForSubject,
     wordsComplySubject : wordsComplySubject
   }
