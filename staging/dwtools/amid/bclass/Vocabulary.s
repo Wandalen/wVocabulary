@@ -61,9 +61,9 @@ let _ = _global_.wTools;
 * Options object for wVocabulary constructor
 * @typedef {Object} wVocabulary~wVocabularyOptions
 * @property {function} [ onDescriptorMake ] - Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
-* @property {boolean} [ override=0 ] - Controls overwriting of existing phrases.
-* @property {boolean} [ usingClausing=0 ] -
-* @property {boolean} [ usingFreeze=1 ] - Prevents future extensions of phrase phraseDescriptor.
+* @property {boolean} [ overriding=0 ] - Controls overwriting of existing phrases.
+* @property {boolean} [ clausing=0 ] -
+* @property {boolean} [ freezing=1 ] - Prevents future extensions of phrase phraseDescriptor.
 */
 
 /**
@@ -84,7 +84,7 @@ let _ = _global_.wTools;
    let vocabulary = new wVocabulary();
 
  * @example
-   let o = { usingFreeze : 0 }
+   let o = { freezing : 0 }
    let vocabulary = new wVocabulary( o );
 
  * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link wVocabulary~wVocabularyOptions}.
@@ -116,6 +116,7 @@ function init( o )
   let self = this;
 
   _.instanceInit( self );
+  Object.preventExtensions( self );
 
   if( o )
   self.copy( o );
@@ -130,7 +131,7 @@ function init( o )
  * Routine expects that result of ( wVocabulary.onDescriptorMake ) call will be an Object.
  * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link wVocabulary~wVocabularyOptions} for details.
  * If phrases are provided in Array, they can have any type.
- * If ( wVocabulary.override ) is enabled, existing phrase can be rewritten by new one.
+ * If ( wVocabulary.overriding ) is enabled, existing phrase can be rewritten by new one.
  * @param {String|Array} src - Source phrase or array of phrases.
  * @returns {wVocabulary} Returns wVocabulary instance.
  *
@@ -155,7 +156,7 @@ function init( o )
  * @throws { Exception } Throw an exception if ( src ) is not a String or Array.
  * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onDescriptorMake ) routine is not an Object.
  * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
- * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.override ) is disabled.
+ * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.overriding ) is disabled.
  * @memberof wVocabulary
  *
  */
@@ -198,7 +199,7 @@ function phraseAdd( src )
   _.assert( arguments.length === 1, 'expects single argument' );
 
   let phraseDescriptor = self.onDescriptorMake( src );
-  let words = phraseDescriptor.words = _.strSplitNonPreserving({ src : phraseDescriptor.phrase });
+  let words = phraseDescriptor.words = _.strSplitNonPreserving({ src : phraseDescriptor.phrase, delimeter : self.addingDelimeter });
   let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
 
   _.assert( _.objectIs( phraseDescriptor ), 'phrase phraseDescriptor should be object' );
@@ -209,7 +210,7 @@ function phraseAdd( src )
   if( self.descriptorMap[ phrase ] )
   {
 
-    _.assert( phraseDescriptor.override || self.override, 'phrase override :',phraseDescriptor.phrase );
+    _.assert( phraseDescriptor.overriding || self.overriding, 'phrase overriding :',phraseDescriptor.phrase );
 
     replaceDescriptor = self.descriptorMap[ phrase ];
 
@@ -221,7 +222,7 @@ function phraseAdd( src )
     }
 */
 /*
-    if( o.usingClausing )
+    if( o.clausing )
     {
       phraseDescriptor.clauseLimit = replaceDescriptor.clauseLimit;
       phraseDescriptor.clauses = replaceDescriptor.clauses;
@@ -257,7 +258,7 @@ function phraseAdd( src )
 
   /* freeze */
 
-  if( self.usingFreeze )
+  if( self.freezing )
   Object.preventExtensions( phraseDescriptor );
 
   return self;
@@ -350,7 +351,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
 
   // debugger
 
-  if( !self.usingClausing )
+  if( !self.clausing )
   return;
 
   if( phraseDescriptor.clauseLimit === null )
@@ -544,7 +545,7 @@ subjectDescriptorFor.defaults =
  * If no phrases found - routine returns an empty Array.
  * If ( subject ) is an empty String - routine returns an Array of available phrases, some phrases can be grouped by their clause.
  * @param {String|Array} subject - Source phrase or array of words to join into phrase.
- * @param {Boolean} usingClausing -
+ * @param {Boolean} clausing -
  * @returns {Array} Returns found phrases in Array.
  *
  * @example
@@ -569,7 +570,6 @@ subjectDescriptorFor.defaults =
  *
  */
 
-// function subjectDescriptorForWithClause( subject, usingClausing )
 function subjectDescriptorForWithClause( o )
 {
   let self = this;
@@ -577,20 +577,19 @@ function subjectDescriptorForWithClause( o )
   let added = [];
 
   if( !_.objectIs( o ) )
-  o = { subject : arguments[ 0 ], usingClausing : arguments[ 1 ] };
+  o = { subject : arguments[ 0 ], clausing : arguments[ 1 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
   _.assert( _.strIs( o.subject ) || _.arrayIs( o.subject ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( subjectDescriptorForWithClause, o );
 
-  o.usingClausing = o.usingClausing !== null ? o.usingClausing : self.usingClausing;
+  o.clausing = o.clausing === null ? self.clausing : o.clausing;
+  o.delimeter = o.delimeter === null ? self.lookingDelimeter : o.delimeter;
 
   let subjectWords = _.arrayIs( o.subject ) ? o.subject : _.strSplitNonPreserving({ src : o.subject, delimeter : o.delimeter });
   let subjectPhrase = subjectWords.join( ' ' );
   result = self.subjectMap[ subjectPhrase ] || [];
-
-  debugger;
 
   // if( subjectPhrase === '' )
   // {
@@ -620,7 +619,7 @@ function subjectDescriptorForWithClause( o )
   }
 */
 
-  if( !o.usingClausing || !self.clauseForSubjectMap[ subjectPhrase ] )
+  if( !o.clausing || !self.clauseForSubjectMap[ subjectPhrase ] )
   return result;
 
   let clauses = self.clauseForSubjectMap[ subjectPhrase ];
@@ -643,8 +642,8 @@ function subjectDescriptorForWithClause( o )
 subjectDescriptorForWithClause.defaults =
 {
   subject : null,
-  usingClausing : null,
-  delimeter : [ ' ' ],
+  clausing : null,
+  delimeter : null,
 }
 
 //
@@ -655,7 +654,7 @@ subjectDescriptorForWithClause.defaults =
  * If phrase phraseDescriptor has 'hint' propery defined, routine uses it, otherwise inserts capitalized phrase literal.
  * Returns generated strings in Array.
  * @param {String|Array} subject - Source phrase or array of words to join into phrase.
- * @param {Boolean} usingClausing -
+ * @param {Boolean} clausing -
  * @returns {Array} Returns found phrases in Array.
  *
  * @example
@@ -681,11 +680,17 @@ subjectDescriptorForWithClause.defaults =
  *
  */
 
-function helpForSubject( subject, usingClausing )
+function helpForSubject( o )
 {
   let self = this;
 
-  let actions = self.subjectDescriptorForWithClause( subject, usingClausing );
+  if( !_.objectIs( o ) )
+  o = { subject : arguments[ 0 ], clausing : arguments[ 1 ] };
+
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.routineOptions( helpForSubject, o );
+
+  let actions = self.subjectDescriptorForWithClause( o );
 
   if( !actions.length )
   return '';
@@ -696,6 +701,8 @@ function helpForSubject( subject, usingClausing )
 
   return help;
 }
+
+helpForSubject.defaults = Object.create( subjectDescriptorForWithClause.defaults );
 
 //
 
@@ -741,9 +748,12 @@ let Composes =
 {
 
   onDescriptorMake : _onDescriptorMake,
-  override : 0,
-  usingClausing : 0,
-  usingFreeze : 1,
+
+  addingDelimeter : _.define.own([ ' ' ]),
+  lookingDelimeter : _.define.own([ ' ' ]),
+  overriding : 0,
+  clausing : 0,
+  freezing : 1,
 
 }
 

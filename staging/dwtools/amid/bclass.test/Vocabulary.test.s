@@ -178,16 +178,16 @@ function phrasesAdd( test )
 
   /**/
 
-  test.case = 'phrase already exists, override off';
-  var vocabulary = new wVocabulary({ override : 0 });
+  test.case = 'phrase already exists, overriding off';
+  var vocabulary = new wVocabulary({ overriding : 0 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
   test.shouldThrowError( () => vocabulary.phrasesAdd( phrase ) )
 
   /**/
 
-  test.case = 'phrase already exists, override on';
-  var vocabulary = new wVocabulary({ override : 1 });
+  test.case = 'phrase already exists, overriding on';
+  var vocabulary = new wVocabulary({ overriding : 1 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
   vocabulary.phrasesAdd( phrase );
@@ -206,8 +206,8 @@ function phrasesAdd( test )
 
   /**/
 
-  test.case = 'phrase already exists, usingFreeze off';
-  var vocabulary = new wVocabulary({ usingFreeze : 0 });
+  test.case = 'phrase already exists, freezing off';
+  var vocabulary = new wVocabulary({ freezing : 0 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
   test.mustNotThrowError( () =>
@@ -217,8 +217,8 @@ function phrasesAdd( test )
 
   /**/
 
-  test.case = 'phrase already exists, usingFreeze on';
-  var vocabulary = new wVocabulary({ usingFreeze : 1 });
+  test.case = 'phrase already exists, freezing on';
+  var vocabulary = new wVocabulary({ freezing : 1 });
   var phrase = 'project act1';
   vocabulary.phrasesAdd( phrase );
   test.shouldThrowError( () =>
