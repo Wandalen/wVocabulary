@@ -60,7 +60,7 @@ let _ = _global_.wTools;
 /**
 * Options object for wVocabulary constructor
 * @typedef {Object} wVocabulary~wVocabularyOptions
-* @property {function} [ onDescriptorMake ] - Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
+* @property {function} [ onPhraseDescriptorMake ] - Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
 * @property {boolean} [ overriding=0 ] - Controls overwriting of existing phrases.
 * @property {boolean} [ clausing=0 ] -
 * @property {boolean} [ freezing=1 ] - Prevents future extensions of phrase phraseDescriptor.
@@ -127,8 +127,8 @@ function init( o )
 
 /**
  * Adds provided phrase(s) to the vocabulary.
- * Routine analyzes provided phrase(s) and creates phraseDescriptor for each phrase by calling ( wVocabulary.onDescriptorMake ) routine and complementing it with additional data.
- * Routine expects that result of ( wVocabulary.onDescriptorMake ) call will be an Object.
+ * Routine analyzes provided phrase(s) and creates phraseDescriptor for each phrase by calling ( wVocabulary.onPhraseDescriptorMake ) routine and complementing it with additional data.
+ * Routine expects that result of ( wVocabulary.onPhraseDescriptorMake ) call will be an Object.
  * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link wVocabulary~wVocabularyOptions} for details.
  * If phrases are provided in Array, they can have any type.
  * If ( wVocabulary.overriding ) is enabled, existing phrase can be rewritten by new one.
@@ -154,7 +154,7 @@ function init( o )
  * @method phrasesAdd
  * @throws { Exception } Throw an exception if more than one argument is provided.
  * @throws { Exception } Throw an exception if ( src ) is not a String or Array.
- * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onDescriptorMake ) routine is not an Object.
+ * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onPhraseDescriptorMake ) routine is not an Object.
  * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
  * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.overriding ) is disabled.
  * @memberof wVocabulary
@@ -195,13 +195,12 @@ function phraseAdd( src )
   let self = this;
   let vocabulary = this;
   let replaceDescriptor = null;
-
-  _.assert( arguments.length === 1, 'expects single argument' );
-
-  let phraseDescriptor = self.onDescriptorMake( src );
+  let phraseDescriptor = self.onPhraseDescriptorMake( src );
   let words = phraseDescriptor.words = _.strSplitNonPreserving({ src : phraseDescriptor.phrase, delimeter : self.addingDelimeter });
   let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
 
+  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( _.strIs( self.addingDelimeter ) );
   _.assert( _.objectIs( phraseDescriptor ), 'phrase phraseDescriptor should be object' );
   _.assert( _.strIs( phrase ), 'empty phrase' );
 
@@ -291,7 +290,7 @@ function _updateWordMap( phraseDescriptor,words,phrase,replaceDescriptor )
 
 //
 
-function _updateSubjectMap( phraseDescriptor,words,phrase,replaceDescriptor )
+function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
 {
   let self = this;
 
@@ -309,16 +308,19 @@ function _updateSubjectMap( phraseDescriptor,words,phrase,replaceDescriptor )
       return;
     }
 
-    let slice = Object.create( null );
+    let subject = Object.create( null );
 
-    slice.words = sliceWords;
-    slice.phrase = slicePhrase;
-    slice.subPhrase = self.subPhrase( phraseDescriptor.phrase, slice.phrase );
-    slice.phraseDescriptor = phraseDescriptor;
-    slice.kind = 'subject';
+    subject.words = sliceWords;
+    subject.slicePhrase = slicePhrase;
+    subject.wholePhrase = phraseDescriptor.phrase;
+    subject.subPhrase = self.subPhrase( phraseDescriptor.phrase, slicePhrase );
+    subject.phraseDescriptor = phraseDescriptor;
+    subject.kind = 'subject';
 
-    self.subjectMap[ slice.phrase ] = _.arrayAs( self.subjectMap[ slice.phrase ] || [] );
-    self.subjectMap[ slice.phrase ].push( slice );
+    _.accessorForbid( subject, 'phrase' );
+
+    self.subjectMap[ slicePhrase ] = _.arrayAs( self.subjectMap[ slicePhrase ] || [] );
+    self.subjectMap[ slicePhrase ].push( subject );
   }
 
   use( 0,0 );
@@ -505,24 +507,21 @@ function subjectDescriptorFor( o )
   let added = [];
 
   if( !_.objectIs( o ) )
-  o = { subject : arguments[ 0 ] };
+  o = { phrase : arguments[ 0 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
-  _.assert( _.strIs( o.subject ) || _.arrayIs( o.subject ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( subjectDescriptorFor, o );
 
-  o.delimeter = o.delimeter === null ? self.lookingDelimeter : o.delimeter;
+  let parsed = self.phraseParse({ phrase : o.phrase, delimeter : o.delimeter });
 
-  let subjectWords = _.arrayIs( o.subject ) ? o.subject : _.strSplitNonPreserving({ src : o.subject, delimeter : o.delimeter });
-  let subjectPhrase = subjectWords.join( ' ' );
-  result = self.subjectMap[ subjectPhrase ] || [];
+  result = self.subjectMap[ parsed.phrase ] || [];
 
   if( o.exact )
   {
     result = result.filter( ( e ) =>
     {
-      if( e.phraseDescriptor.phrase === subjectPhrase )
+      if( e.phraseDescriptor.phrase === parsed.phrase )
       return e;
     });
     _.assert( result.length <= 1 );
@@ -534,7 +533,7 @@ function subjectDescriptorFor( o )
 
 subjectDescriptorFor.defaults =
 {
-  subject : null,
+  phrase : null,
   delimeter : null,
   exact : 0,
 }
@@ -582,27 +581,17 @@ function subjectDescriptorForWithClause( o )
   o = { subject : arguments[ 0 ], clausing : arguments[ 1 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
-  _.assert( _.strIs( o.subject ) || _.arrayIs( o.subject ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( subjectDescriptorForWithClause, o );
 
   o.clausing = o.clausing === null ? self.clausing : o.clausing;
-  o.delimeter = o.delimeter === null ? self.lookingDelimeter : o.delimeter;
 
-  let subjectWords = _.arrayIs( o.subject ) ? o.subject : _.strSplitNonPreserving({ src : o.subject, delimeter : o.delimeter });
-  let subjectPhrase = subjectWords.join( ' ' );
-  result = self.subjectMap[ subjectPhrase ] || [];
+  let parsed = self.phraseParse({ phrase : o.phrase, delimeter : o.delimeter });
 
-  // if( subjectPhrase === '' )
-  // {
-  //   result = _.entityMap( self.descriptorArray,function( e )
-  //   {
-  //     return { phraseDescriptor : e, phrase : e.phrase, words : e.words };
-  //   });
-  // }
+  result = self.subjectMap[ parsed.phrase ] || [];
 
 /*
-  if( !subject.length && subjectPhrase === '' )
+  if( !subject.length && parsed.phrase === '' )
   {
     debugger;
     result = self.descriptorArray.slice();
@@ -612,7 +601,7 @@ function subjectDescriptorForWithClause( o )
     result = _.entityMap( result,function( e ){ return { phraseDescriptor : e } } );
     clauses = _.entityMap( clauses,function( e )
     {
-      let result = { descriptors : e.descriptors, words : e.subjectWords, phrase : e.subjectPhrase, kind : 'subjectDescriptorForWithClause' };
+      let result = { descriptors : e.descriptors, words : e.subjectWords, phrase : e.parsed.phrase, kind : 'subjectDescriptorForWithClause' };
       result.phraseDescriptor = result;
       return result;
     });
@@ -621,10 +610,10 @@ function subjectDescriptorForWithClause( o )
   }
 */
 
-  if( !o.clausing || !self.clauseForSubjectMap[ subjectPhrase ] )
+  if( !o.clausing || !self.clauseForSubjectMap[ parsed.phrase ] )
   return result;
 
-  let clauses = self.clauseForSubjectMap[ subjectPhrase ];
+  let clauses = self.clauseForSubjectMap[ parsed.phrase ];
 
   debugger;
 
@@ -643,7 +632,7 @@ function subjectDescriptorForWithClause( o )
 
 subjectDescriptorForWithClause.defaults =
 {
-  subject : null,
+  phrase : null,
   clausing : null,
   delimeter : null,
 }
@@ -687,7 +676,7 @@ function helpForSubject( o )
   let self = this;
 
   if( !_.objectIs( o ) )
-  o = { subject : arguments[ 0 ], clausing : arguments[ 1 ] };
+  o = { phrase : arguments[ 0 ], clausing : arguments[ 1 ] };
 
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( helpForSubject, o );
@@ -705,6 +694,65 @@ function helpForSubject( o )
 }
 
 helpForSubject.defaults = Object.create( subjectDescriptorForWithClause.defaults );
+
+//
+
+function phraseParse( o )
+{
+  let self = this;
+  let result = Object.create( null );
+
+  if( !_.objectIs( o ) )
+  o = { phrase : arguments[ 0 ] };
+
+  _.assert( _.mapIs( self.wordMap ) );
+  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'expects string or array of words, but got ' + _.strTypeOf( o.phrase ) );
+  _.assert( arguments.length === 1 );
+  _.routineOptions( phraseParse, o );
+
+  o.delimeter = o.delimeter === null ? self.lookingDelimeter : o.delimeter;
+
+  result.words = _.arrayIs( o.phrase ) ? o.phrase : _.strSplitNonPreserving({ src : o.phrase, delimeter : o.delimeter });
+  result.phrase = result.words.join( self.addingDelimeter );
+
+  return result;
+}
+
+phraseParse.defaults =
+{
+  phrase : null,
+  delimeter : null,
+}
+
+//
+
+function subjectsFilter( subjects, selector )
+{
+  let self = this;
+
+  _.assert( arguments.length === 2 );
+  _.assert( _.arrayIs( subjects ) );
+  _.assertMapHasOnly( selector, subjectsFilter.defaults );
+
+  if( selector.wholePhrase )
+  selector.wholePhrase = self.phraseParse({ phrase : selector.wholePhrase }).phrase;
+  if( selector.slicePhrase )
+  selector.slicePhrase = self.phraseParse({ phrase : selector.slicePhrase }).phrase;
+  if( selector.subPhrase )
+  selector.subPhrase = self.phraseParse({ phrase : selector.subPhrase }).phrase;
+
+  let _onEach = _._selectorMake( selector, 1 );
+  let result = _.entityFilter( subjects, _onEach );
+
+  return result;
+}
+
+subjectsFilter.defaults =
+{
+  slicePhrase : null,
+  wholePhrase : null,
+  subPhrase : null,
+}
 
 //
 
@@ -733,12 +781,47 @@ function wordsComplySubject( words, subject )
 
 //
 
-function _onDescriptorMake( src )
+function _onDescriptorSimplestMake( src )
 {
   let result = Object.create( null );
   _.assert( _.strIs( src ) );
   _.assert( arguments.length === 1 );
   result.phrase = src;
+  return result;
+}
+
+//
+
+function _onPhraseDescriptorMake( src )
+{
+
+  _.assert(  _.strIs( src ) || _.arrayIs( src ) );
+  _.assert( arguments.length === 1 );
+
+  let self = this;
+  let result = Object.create( null );
+  let phrase = src;
+  let executable = null;
+
+  if( phrase )
+  {
+    _.assert( phrase.length === 2 );
+    executable = phrase[ 1 ];
+    phrase = phrase[ 0 ];
+  }
+
+  let hint = phrase;
+
+  if( _.objectIs( executable ) )
+  {
+    _.assertMapHasOnly( executable, { e : null, h : null } );
+    hint = executable.h;
+    executable = executable.e;
+  }
+
+  result.phrase = phrase;
+  result.hint = hint;
+
   return result;
 }
 
@@ -749,9 +832,9 @@ function _onDescriptorMake( src )
 let Composes =
 {
 
-  onDescriptorMake : _onDescriptorMake,
+  onPhraseDescriptorMake : _onPhraseDescriptorMake,
 
-  addingDelimeter : _.define.own([ ' ' ]),
+  addingDelimeter : ' ',
   lookingDelimeter : _.define.own([ ' ' ]),
   overriding : 0,
   clausing : 0,
@@ -800,9 +883,12 @@ let Proto =
   subjectDescriptorForWithClause : subjectDescriptorForWithClause,
   helpForSubject : helpForSubject,
 
+  phraseParse : phraseParse,
+  subjectsFilter : subjectsFilter,
   wordsComplySubject : wordsComplySubject,
 
-  _onDescriptorMake : _onDescriptorMake,
+  _onDescriptorSimplestMake : _onDescriptorSimplestMake,
+  _onPhraseDescriptorMake : _onPhraseDescriptorMake,
 
   // relations
 
