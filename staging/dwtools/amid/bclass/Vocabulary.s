@@ -639,6 +639,24 @@ subjectDescriptorForWithClause.defaults =
 
 //
 
+function helpForSubject_pre( routine, args )
+{
+  let self = this;
+
+  let o = args[ 0 ];
+
+  if( !_.objectIs( o ) )
+  o = { phrase : args[ 0 ], clausing : args[ 1 ] };
+
+  _.assert( arguments.length === 2 );
+  _.assert( args.length === 1 || args.length === 2 );
+  _.routineOptions( routine, o );
+
+  return o;
+}
+
+//
+
 /**
  * Generate help string(s) for phrase(s) found by using ( subject ) as query.
  * If no phrase(s) found returns an empty String.
@@ -671,15 +689,11 @@ subjectDescriptorForWithClause.defaults =
  *
  */
 
-function helpForSubject( o )
+function helpForSubject_body( o )
 {
   let self = this;
 
-  if( !_.objectIs( o ) )
-  o = { phrase : arguments[ 0 ], clausing : arguments[ 1 ] };
-
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( helpForSubject, o );
+  _.assert( arguments.length === 1 );
 
   let actions = self.subjectDescriptorForWithClause( o );
 
@@ -688,12 +702,26 @@ function helpForSubject( o )
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
-  let help = _.strJoin( '.',part1,' - ',part2 );
+  let help = _.strJoin( '.', part1, ' - ', part2 );
 
   return help;
 }
 
-helpForSubject.defaults = Object.create( subjectDescriptorForWithClause.defaults );
+helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
+
+let helpForSubject = _.routineForPreAndBody( helpForSubject_pre, helpForSubject_body );
+
+//
+
+function helpForSubjectAsString_body( o )
+{
+  let self = this;
+  return _.toStr( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } ); 
+}
+
+helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
+
+let helpForSubjectAsString = _.routineForPreAndBody( helpForSubject_pre, helpForSubjectAsString_body );
 
 //
 
@@ -882,6 +910,7 @@ let Proto =
   subjectDescriptorFor : subjectDescriptorFor,
   subjectDescriptorForWithClause : subjectDescriptorForWithClause,
   helpForSubject : helpForSubject,
+  helpForSubjectAsString : helpForSubjectAsString,
 
   phraseParse : phraseParse,
   subjectsFilter : subjectsFilter,
