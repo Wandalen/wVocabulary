@@ -209,7 +209,7 @@ function phraseAdd( src )
   if( self.descriptorMap[ phrase ] )
   {
 
-    _.assert( phraseDescriptor.overriding || self.overriding, 'phrase overriding :',phraseDescriptor.phrase );
+    _.assert( phraseDescriptor.override || self.overriding, 'phrase overriding :',phraseDescriptor.phrase );
 
     replaceDescriptor = self.descriptorMap[ phrase ];
 
@@ -578,7 +578,7 @@ function subjectDescriptorForWithClause( o )
   let added = [];
 
   if( !_.objectIs( o ) )
-  o = { subject : arguments[ 0 ], clausing : arguments[ 1 ] };
+  o = { phrase : arguments[ 0 ], clausing : arguments[ 1 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
@@ -716,7 +716,7 @@ let helpForSubject = _.routineForPreAndBody( helpForSubject_pre, helpForSubject_
 function helpForSubjectAsString_body( o )
 {
   let self = this;
-  return _.toStr( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } ); 
+  return _.toStr( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } );
 }
 
 helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
