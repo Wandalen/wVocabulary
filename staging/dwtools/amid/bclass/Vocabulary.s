@@ -301,7 +301,7 @@ function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
 
     if( replaceDescriptor )
     {
-      debugger;
+      // debugger;
       let i = _.arrayRightIndex( self.subjectMap[ slicePhrase ], replaceDescriptor, ( e ) => e.phraseDescriptor, ( e ) => e );
       _.assert( i >= 0 );
       self.subjectMap[ slicePhrase ][ i ].phraseDescriptor = phraseDescriptor;
