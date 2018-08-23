@@ -716,7 +716,7 @@ let helpForSubject = _.routineForPreAndBody( helpForSubject_pre, helpForSubject_
 function helpForSubjectAsString_body( o )
 {
   let self = this;
-  return _.toStr( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } ); 
+  return _.toStr( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } );
 }
 
 helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
