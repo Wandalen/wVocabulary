@@ -128,113 +128,492 @@ function makeSubjectMap( descriptorArray )
 // Tests
 // --
 
-function phrasesAdd( test )
+function phraseAdd( test )
 {
-  var context = this;
-
-  test.case = 'phrase as string';
-  var vocabulary = new wVocabulary();
-
-  var phrase = 'project act2';
-  vocabulary.phrasesAdd( phrase );
-
-  var phraseArray = [ phrase ];
-  var descriptorArray = context.makeDescriptorArray( phraseArray );
-  var descriptorMap = context.makeDescriptorMap( descriptorArray );
-  var wordMap = context.makeWordMap( phraseArray, descriptorArray, descriptorMap );
-  var subjectMap = context.makeSubjectMap( descriptorArray );
-
-  test.identical( vocabulary.phraseArray, phraseArray );
-  test.identical( vocabulary.descriptorArray, descriptorArray );
-  test.identical( vocabulary.descriptorMap, descriptorMap );
-  test.identical( vocabulary.wordMap, wordMap );
-  test.identical( vocabulary.subjectMap, subjectMap );
-
-  /**/
-
-  test.case = 'phrases in array';
-  var vocabulary = new wVocabulary();
-
-  var phrases =
-  [
-    'project act1',
-    'project act2',
-    'project act3',
-  ]
-
-  vocabulary.phrasesAdd( phrases );
-
-  var phraseArray = phrases;
-  var descriptorArray = context.makeDescriptorArray( phrases );
-  var descriptorMap = context.makeDescriptorMap( descriptorArray );
-  var wordMap = context.makeWordMap( phraseArray, descriptorArray, descriptorMap );
-  var subjectMap = context.makeSubjectMap( descriptorArray );
-
-  test.identical( vocabulary.phraseArray, phraseArray );
-  test.identical( vocabulary.descriptorArray, descriptorArray );
-  test.identical( vocabulary.descriptorMap, descriptorMap );
-  test.identical( vocabulary.wordMap, wordMap );
-  test.identical( vocabulary.subjectMap, subjectMap );
-
-  /**/
-
-  test.case = 'phrase already exists, overriding off';
-  var vocabulary = new wVocabulary({ overriding : 0 });
-  var phrase = 'project act1';
-  vocabulary.phrasesAdd( phrase );
-  test.shouldThrowError( () => vocabulary.phrasesAdd( phrase ) )
-
-  /**/
-
-  test.case = 'phrase already exists, overriding on';
-  var vocabulary = new wVocabulary({ overriding : 1 });
-  var phrase = 'project act1';
-  vocabulary.phrasesAdd( phrase );
-  vocabulary.phrasesAdd( phrase );
-
-  var phraseArray = [ phrase ];
-  var descriptorArray = context.makeDescriptorArray( phraseArray );
-  var descriptorMap = context.makeDescriptorMap( descriptorArray );
-  var wordMap = context.makeWordMap( phraseArray, descriptorArray, descriptorMap );
-  var subjectMap = context.makeSubjectMap( descriptorArray );
-
-  test.identical( vocabulary.phraseArray, phraseArray );
-  test.identical( vocabulary.descriptorArray, descriptorArray );
-  test.identical( vocabulary.descriptorMap, descriptorMap );
-  test.identical( vocabulary.wordMap, wordMap );
-  test.identical( vocabulary.subjectMap, subjectMap );
-
-  /**/
-
-  test.case = 'phrase already exists, freezing off';
-  var vocabulary = new wVocabulary({ freezing : 0 });
-  var phrase = 'project act1';
-  vocabulary.phrasesAdd( phrase );
-  test.mustNotThrowError( () =>
+  var pd =
   {
-    vocabulary.descriptorArray[ 0 ].xxx = 1
-  });
+    phrase : 'project act',
+    words : [ 'project', 'act' ],
+    hint : 'project act',
+    executable : null
+  }
+  var phraseArray = [ pd.phrase ];
+  var descriptorArray = [ pd ]
+  var descriptorMap =
+  {
+    'project act' : pd
+  }
+  var wordMap =
+  {
+    'project' : [ pd ],
+    'act' : [ pd ],
+  }
+  var subjectMap =
+  {
+   '' :
+   [
+     {
+       words : [],
+       slicePhrase : '',
+       wholePhrase : 'project act',
+       subPhrase : 'project act',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ],
+   'project' :
+   [
+     {
+       words : [ 'project' ],
+       slicePhrase : 'project',
+       wholePhrase : 'project act',
+       subPhrase : 'act',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ],
+   'act' :
+   [
+     {
+       words : [ 'act' ],
+       slicePhrase : 'act',
+       wholePhrase : 'project act',
+       subPhrase : 'project',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ],
+   'project act' :
+   [
+     {
+       words : [ 'project', 'act' ],
+       slicePhrase : 'project act',
+       wholePhrase : 'project act',
+       subPhrase : '',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ]
+  }
 
-  /**/
+  test.case = 'string'
+  var voc = new _.Vocabulary();
+  voc.phraseAdd( 'project act' );
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
 
-  test.case = 'phrase already exists, freezing on';
-  var vocabulary = new wVocabulary({ freezing : 1 });
-  var phrase = 'project act1';
-  vocabulary.phrasesAdd( phrase );
+  test.case = 'array'
+  var voc = new _.Vocabulary();
+  voc.phraseAdd([ 'project act', 'executable' ]);
+  pd.executable = 'executable';
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'array'
+  function executable(){}
+  var voc = new _.Vocabulary();
+  voc.phraseAdd([ 'project act', { e : executable, h : 'function' } ]);
+  pd.executable = executable;
+  pd.hint = 'function';
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+  pd.executable = null;
+  pd.hint = pd.phrase;
+
+  test.case = 'override existing phrase'
+  var voc = new _.Vocabulary({ overriding : 1 });
+  voc.phraseAdd( 'project act' );
+  voc.phraseAdd( 'project act' );
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'lock descriptor: on'
+  var voc = new _.Vocabulary({ freezing : 1 });
+  voc.phraseAdd( 'project act' );
+  test.identical( voc.descriptorArray[ 0 ], voc.descriptorMap[ 'project act' ] );
+  test.identical( voc.descriptorMap[ 'project act' ], pd );
   test.shouldThrowError( () =>
   {
-    vocabulary.descriptorArray[ 0 ].xxx = 1
+    voc.descriptorMap[ 'project act' ].someField = 1;
   })
 
-  /**/
+  test.case = 'lock descriptor: off'
+  var voc = new _.Vocabulary({ freezing : 0 });
+  voc.phraseAdd( 'project act' );
+  test.identical( voc.descriptorArray[ 0 ], voc.descriptorMap[ 'project act' ] );
+  test.identical( voc.descriptorMap[ 'project act' ], pd );
+  test.mustNotThrowError( () =>
+  {
+    voc.descriptorMap[ 'project act' ].someField = 1;
+  })
+
+  //
 
   if( !Config.debug )
-  return
+  return;
 
-  test.shouldThrowError( () => vocabulary.phrasesAdd() );
-  test.shouldThrowError( () => vocabulary.phrasesAdd( 1 ) );
-  test.shouldThrowError( () => vocabulary.phrasesAdd( '', '' ) );
+  var voc = new _.Vocabulary();
+  test.shouldThrowError( () => voc.phraseAdd( 1 ) )
+  test.shouldThrowError( () => voc.phraseAdd( { phrase : 'executable' } ) )
+
+  var voc = new _.Vocabulary({ overriding : 0 });
+  voc.phrasesAdd( 'project act' );
+  test.shouldThrowError( () => voc.phraseAdd( 'project act' ) )
 }
+
+//
+
+function phrasesAdd( test )
+{
+  var pd =
+  {
+    phrase : 'project act',
+    words : [ 'project', 'act' ],
+    hint : 'project act',
+    executable : null
+  }
+  var phraseArray = [ pd.phrase ];
+  var descriptorArray = [ pd ]
+  var descriptorMap =
+  {
+    'project act' : pd
+  }
+  var wordMap =
+  {
+    'project' : [ pd ],
+    'act' : [ pd ],
+  }
+  var subjectMap =
+  {
+   '' :
+   [
+     {
+       words : [],
+       slicePhrase : '',
+       wholePhrase : 'project act',
+       subPhrase : 'project act',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ],
+   'project' :
+   [
+     {
+       words : [ 'project' ],
+       slicePhrase : 'project',
+       wholePhrase : 'project act',
+       subPhrase : 'act',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ],
+   'act' :
+   [
+     {
+       words : [ 'act' ],
+       slicePhrase : 'act',
+       wholePhrase : 'project act',
+       subPhrase : 'project',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ],
+   'project act' :
+   [
+     {
+       words : [ 'project', 'act' ],
+       slicePhrase : 'project act',
+       wholePhrase : 'project act',
+       subPhrase : '',
+       phraseDescriptor : pd,
+       kind : 'subject'
+     }
+   ]
+  }
+
+  test.case = 'string'
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd( 'project act' );
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'array of strings'
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ 'project act' ]);
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'array of arrays'
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ [ 'project act', 'executable' ] ]);
+  pd.executable = 'executable';
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+  pd.executable = null;
+
+  test.case = 'object'
+  var voc = new _.Vocabulary();
+  function executable(){}
+  var phrase = [ 'project act', { e : executable, h : 'function' } ];
+  voc.phrasesAdd([ phrase ]);
+  pd.executable = executable;
+  pd.hint = 'function';
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+  pd.executable = null;
+  pd.hint = pd.phrase;
+
+  test.case = 'object'
+  var voc = new _.Vocabulary();
+  function executable(){}
+  var phrase = { 'project act' : { e : executable, h : 'function' } };
+  voc.phrasesAdd( phrase );
+  pd.executable = executable;
+  pd.hint = 'function';
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+  pd.executable = null;
+  pd.hint = pd.phrase;
+
+  test.case = 'several phrases array'
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd
+  ([
+    'phrase1 act',
+    'phrase2 act'
+  ]);
+  test.identical( voc.phraseArray, [ 'phrase1 act', 'phrase2 act' ] )
+  test.identical( voc.descriptorArray.length, 2 )
+  test.identical( _.mapOwnKeys( voc.descriptorMap ), [ 'phrase1 act', 'phrase2 act' ] )
+  test.identical( _.mapOwnKeys( voc.wordMap ),[ 'phrase1', 'act', 'phrase2' ] )
+  test.identical( _.mapOwnKeys( voc.subjectMap ),[ '', 'phrase1', 'act', 'phrase1 act', 'phrase2', 'phrase2 act' ] )
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'several phrases object'
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd
+  ({
+    'phrase1 act' : 'executable1',
+    'phrase2 act' : 'executable2'
+  });
+  test.identical( voc.phraseArray, [ 'phrase1 act', 'phrase2 act' ] )
+  test.identical( voc.descriptorArray.length, 2 )
+  test.identical( _.mapOwnKeys( voc.descriptorMap ), [ 'phrase1 act', 'phrase2 act' ] )
+  test.identical( _.mapOwnKeys( voc.wordMap ),[ 'phrase1', 'act', 'phrase2' ] )
+  test.identical( _.mapOwnKeys( voc.subjectMap ),[ '', 'phrase1', 'act', 'phrase1 act', 'phrase2', 'phrase2 act' ] )
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'override existing phrase'
+  var voc = new _.Vocabulary({ overriding : 1 });
+  voc.phrasesAdd( 'project act' );
+  voc.phrasesAdd( 'project act' );
+  test.identical( voc.phraseArray, phraseArray )
+  test.identical( voc.descriptorArray, descriptorArray )
+  test.identical( voc.descriptorMap, descriptorMap )
+  test.identical( voc.wordMap,wordMap )
+  test.identical( voc.subjectMap, subjectMap );
+  test.identical( voc.clausing, 0 );
+  test.identical( voc.clauseMap, {} );
+  test.identical( voc.clauseForSubjectMap, {} );
+
+  test.case = 'lock descriptor: on'
+  var voc = new _.Vocabulary({ freezing : 1 });
+  voc.phrasesAdd( 'project act' );
+  test.identical( voc.descriptorArray[ 0 ], voc.descriptorMap[ 'project act' ] );
+  test.identical( voc.descriptorMap[ 'project act' ], pd );
+  test.shouldThrowError( () =>
+  {
+    voc.descriptorMap[ 'project act' ].someField = 1;
+  })
+
+  test.case = 'lock descriptor: off'
+  var voc = new _.Vocabulary({ freezing : 0 });
+  voc.phrasesAdd( 'project act' );
+  test.identical( voc.descriptorArray[ 0 ], voc.descriptorMap[ 'project act' ] );
+  test.identical( voc.descriptorMap[ 'project act' ], pd );
+  test.mustNotThrowError( () =>
+  {
+    voc.descriptorMap[ 'project act' ].someField = 1;
+  })
+
+  if( !Config.debug )
+  return;
+
+  var voc = new _.Vocabulary();
+  test.shouldThrowError( () => voc.phrasesAdd( 1 ) )
+  test.shouldThrowError( () => voc.phrasesAdd( [ 1 ] ) )
+  test.shouldThrowError( () => voc.phrasesAdd( [ { phrase : 'executable' } ] ) )
+
+  var voc = new _.Vocabulary({ overriding : 0 });
+  voc.phrasesAdd( 'project act' );
+  test.shouldThrowError( () => voc.phrasesAdd( 'project act' ) )
+}
+
+//
+
+function phraseParse( test )
+{
+  let voc = new _.Vocabulary();
+
+  test.case = 'default delimeter';
+
+  var phrase = '';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : '', words : [] };
+  test.identical( got, expected );
+
+  var phrase = 'project';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project', words : [ 'project' ] };
+  test.identical( got, expected );
+
+  var phrase = 'project a';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project a', words : [ 'project', 'a' ] };
+  test.identical( got, expected );
+
+  var phrase = ' project a b  ';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project a b', words : [ 'project', 'a', 'b' ] };
+  test.identical( got, expected );
+
+  test.case = 'custom delimeter';
+
+  voc.lookingDelimeter = '.';
+
+  var phrase = '';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : '', words : [] };
+  test.identical( got, expected );
+
+  var phrase = 'project';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project', words : [ 'project' ] };
+  test.identical( got, expected );
+
+  var phrase = '  project  ';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project', words : [ 'project' ] };
+  test.identical( got, expected );
+
+  var phrase = 'project.a';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project a', words : [ 'project', 'a' ] };
+  test.identical( got, expected );
+
+  var phrase = ' project.a ';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project a', words : [ 'project', 'a' ] };
+  test.identical( got, expected );
+
+  var phrase = ' . project . a . b . ';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project a b', words : [ 'project', 'a', 'b' ] };
+  test.identical( got, expected );
+
+  var phrase = ' .. project .. a .. b  .. ';
+  var got = voc.phraseParse( phrase );
+  var expected = { phrase : 'project a b', words : [ 'project', 'a', 'b' ] };
+  test.identical( got, expected );
+
+  test.case = 'custom delimeter as option';
+  voc = new _.Vocabulary();
+
+  var phrase = '';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : '', words : [] };
+  test.identical( got, expected );
+
+  var phrase = 'project';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : 'project', words : [ 'project' ] };
+  test.identical( got, expected );
+
+  var phrase = '  project  ';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : 'project', words : [ 'project' ] };
+  test.identical( got, expected );
+
+  var phrase = 'project.a';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : 'project a', words : [ 'project', 'a' ] };
+  test.identical( got, expected );
+
+  var phrase = ' project.a ';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : 'project a', words : [ 'project', 'a' ] };
+  test.identical( got, expected );
+
+  var phrase = ' . project . a . b . ';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : 'project a b', words : [ 'project', 'a', 'b' ] };
+  test.identical( got, expected );
+
+  var phrase = ' .. project .. a .. b  .. ';
+  var got = voc.phraseParse({ phrase : phrase , delimeter : '.' });
+  var expected = { phrase : 'project a b', words : [ 'project', 'a', 'b' ] };
+  test.identical( got, expected );
+
+}
+
 
 //
 
@@ -314,17 +693,23 @@ function subjectDescriptorForWithClause( test )
   /**/
 
   var got = vocabulary.subjectDescriptorForWithClause( '' );
-  var phraseDescriptor =
-  {
-    phrase : phrase,
-    words : _.strSplitNonPreserving({ src : phrase }),
-  };
   var expected =
-  [{
-    phraseDescriptor : phraseDescriptor,
-    phrase : phrase,
-    words : _.strSplitNonPreserving({ src : phrase })
-  }];
+  [
+    {
+      words : [],
+      slicePhrase : '',
+      wholePhrase : 'project act2',
+      subPhrase : 'project act2',
+      phraseDescriptor :
+      {
+        phrase : 'project act2',
+        hint : 'project act2',
+        words : [ 'project', 'act2' ],
+        executable : null
+      },
+      kind : 'subject'
+    }
+  ]
   test.identical( got, expected );
 
   /**/
@@ -337,40 +722,46 @@ function subjectDescriptorForWithClause( test )
 
   var subject = 'act2';
   var got = vocabulary.subjectDescriptorForWithClause( subject );
-  var phraseDescriptor =
-  {
-    phrase : phrase,
-    words : _.strSplitNonPreserving({ src : phrase }),
-  };
-  var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
-  [{
-    phraseDescriptor : phraseDescriptor,
-    kind : 'subject',
-    phrase : subject,
-    subPhrase : subPhrase,
-    words : [ subject ]
-  }];
+  [
+    {
+      words : [ 'act2' ],
+      slicePhrase : 'act2',
+      wholePhrase : 'project act2',
+      subPhrase : 'project',
+      phraseDescriptor :
+      {
+        phrase : 'project act2',
+        hint : 'project act2',
+        words : [ 'project', 'act2' ],
+        executable : null
+      },
+      kind : 'subject'
+    }
+  ]
   test.identical( got, expected );
 
   /**/
 
   var subject = 'project';
   var got = vocabulary.subjectDescriptorForWithClause( subject );
-  var phraseDescriptor =
-  {
-    phrase : phrase,
-    words : _.strSplitNonPreserving({ src : phrase })
-  };
-  var subPhrase = vocabulary.subPhrase( phrase, subject );
   var expected =
-  [{
-    phraseDescriptor : phraseDescriptor,
-    kind : 'subject',
-    phrase : subject,
-    subPhrase : subPhrase,
-    words : [ subject ]
-  }];
+  [
+    {
+      words : [ 'project' ],
+      slicePhrase : 'project',
+      wholePhrase : 'project act2',
+      subPhrase : 'act2',
+      phraseDescriptor :
+      {
+        phrase : 'project act2',
+        hint : 'project act2',
+        words : [ 'project', 'act2' ],
+        executable : null
+      },
+      kind : 'subject'
+    }
+  ]
   test.identical( got, expected );
 
   /**/
@@ -378,19 +769,23 @@ function subjectDescriptorForWithClause( test )
   test.case = 'subject as array';
   var subject = [ 'project', 'act2' ];
   var got = vocabulary.subjectDescriptorForWithClause( subject );
-  var phraseDescriptor =
-  {
-    phrase : phrase,
-    words : _.strSplitNonPreserving({ src : phrase }),
-  };
   var expected =
-  [{
-    phraseDescriptor : phraseDescriptor,
-    kind : 'subject',
-    phrase : subject.join( ' ' ),
-    subPhrase : '',
-    words : subject
-  }];
+  [
+    {
+      words : [ 'project', 'act2' ],
+      slicePhrase : 'project act2',
+      wholePhrase : 'project act2',
+      subPhrase : '',
+      phraseDescriptor :
+      {
+        phrase : 'project act2',
+        hint : 'project act2',
+        words : [ 'project', 'act2' ],
+        executable : null
+      },
+      kind : 'subject'
+    }
+  ]
   test.identical( got, expected );
 
   /**/
@@ -400,6 +795,146 @@ function subjectDescriptorForWithClause( test )
 
   test.shouldThrowError( () => vocabulary.subjectDescriptorForWithClause() );
   test.shouldThrowError( () => vocabulary.subjectDescriptorForWithClause( 1 ) );
+}
+
+//
+
+function subjectsFilter( test )
+{
+  let voc = new _.Vocabulary();
+  let phrases =
+  [
+    'project act1',
+  ]
+  voc.phrasesAdd( phrases );
+
+  let subjects =
+  [
+    {
+      words : [],
+      slicePhrase : '',
+      wholePhrase : 'project act1',
+      subPhrase : 'project act1',
+      phraseDescriptor :
+      {
+        phrase : 'project act1',
+        hint : 'project act1',
+        executable : null,
+        words : [ 'project', 'act1' ]
+      },
+      kind : 'subject'
+    },
+    {
+      words : [ 'project' ],
+      slicePhrase : 'project',
+      wholePhrase : 'project act1',
+      subPhrase : 'act1',
+      phraseDescriptor :
+      {
+        phrase : 'project act1',
+        hint : 'project act1',
+        executable : null,
+        words : [ 'project', 'act1' ]
+      },
+      kind : 'subject'
+    },
+    {
+      words : [ 'act1' ],
+      slicePhrase : 'act1',
+      wholePhrase : 'project act1',
+      subPhrase : 'project',
+      phraseDescriptor :
+      {
+        phrase : 'project act1',
+        hint : 'project act1',
+        executable : null,
+        words : [ 'project', 'act1' ]
+      },
+      kind : 'subject'
+    },
+    {
+      words : [ 'project', 'act1' ],
+      slicePhrase : 'project act1',
+      wholePhrase : 'project act1',
+      subPhrase : '',
+      phraseDescriptor :
+      {
+        phrase : 'project act1',
+        hint : 'project act1',
+        executable : null,
+        words : [ 'project', 'act1' ]
+      },
+      kind : 'subject'
+    }
+  ];
+
+  test.case = 'slicePhrase';
+
+  var src = 'project';
+  var selector = { slicePhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = subjects[ 1 ];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = 'act1';
+  var selector = { slicePhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = subjects[ 2 ];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = 'proj';
+  var selector = { slicePhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = [];
+  test.identical( got, expected );
+
+  //
+
+  test.case = 'wholePhrase';
+
+  var src = 'project';
+  var selector = { wholePhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = [];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = 'act1';
+  var selector = { wholePhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = [];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = 'project act1';
+  var selector = { wholePhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = subjects;
+  test.identical( got, expected );
+
+  test.case = 'subPhrase';
+
+  var src = 'sub';
+  var selector = { subPhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = [];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = '';
+  var selector = { subPhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = subjects[ 3 ];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = 'project';
+  var selector = { subPhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = subjects[ 2 ];
+  test.identical( got, _.arrayAs( expected ) );
+
+  var src = 'act1';
+  var selector = { subPhrase : src }
+  var got = voc.subjectsFilter( subjects, selector )
+  var expected = subjects[ 1 ];
+  test.identical( got, _.arrayAs( expected ) );
 }
 
 //
@@ -420,15 +955,15 @@ function helpForSubject( test )
   var got = vocabulary.helpForSubject( '' );
   var expected =
   [
-    '.project.act1 - Project act1.',
-    '.project.act2 - Project act2.',
-    '.project.act3 - Project act3.'
+    '.project.act1 - project act1',
+    '.project.act2 - project act2',
+    '.project.act3 - project act3'
   ]
   test.identical( got, expected );
 
   /**/
 
-  var got = vocabulary.helpForSubject( 'xxx' );
+  var got = vocabulary.helpForSubject( 'some subject' );
   var expected = '';
   test.identical( got, expected );
 
@@ -437,9 +972,9 @@ function helpForSubject( test )
   var got = vocabulary.helpForSubject( 'project' );
   var expected =
   [
-    '.project.act1 - Project act1.',
-    '.project.act2 - Project act2.',
-    '.project.act3 - Project act3.'
+    '.project.act1 - project act1',
+    '.project.act2 - project act2',
+    '.project.act3 - project act3'
   ]
   test.identical( got, expected );
 
@@ -448,7 +983,7 @@ function helpForSubject( test )
   var got = vocabulary.helpForSubject( 'act1' );
   var expected =
   [
-    '.project.act1 - Project act1.',
+    '.project.act1 - project act1',
   ]
   test.identical( got, expected );
 
@@ -457,7 +992,7 @@ function helpForSubject( test )
   var got = vocabulary.helpForSubject( 'act3' );
   var expected =
   [
-    '.project.act3 - Project act3.'
+    '.project.act3 - project act3'
   ]
   test.identical( got, expected );
 
@@ -466,7 +1001,7 @@ function helpForSubject( test )
   var got = vocabulary.helpForSubject( [ 'project', 'act1' ]);
   var expected =
   [
-    '.project.act1 - Project act1.',
+    '.project.act1 - project act1',
   ]
   test.identical( got, expected );
 
@@ -475,7 +1010,7 @@ function helpForSubject( test )
   var got = vocabulary.helpForSubject( [ 'project', 'act3' ]);
   var expected =
   [
-    '.project.act3 - Project act3.'
+    '.project.act3 - project act3'
   ]
   test.identical( got, expected );
 }
@@ -531,9 +1066,12 @@ var Self =
 
   tests :
   {
+    phraseAdd : phraseAdd,
     phrasesAdd : phrasesAdd,
+    phraseParse : phraseParse,
     subPhrase : subPhrase,
     subjectDescriptorForWithClause : subjectDescriptorForWithClause,
+    subjectsFilter : subjectsFilter,
     helpForSubject : helpForSubject,
     wordsComplySubject : wordsComplySubject
   }

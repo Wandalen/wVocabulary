@@ -47,7 +47,7 @@ let _ = _global_.wTools;
 *  phrase : : combination of words with space as separator( e.g., 'deck properties' ).
 *  subject : : a word or combination of it, used during search to determine if phrase is related to the subject.
 *  clause : : a piece of a phrase( e.g. 'deck' is subphrase of 'deck properties' ).
-*  phrase phraseDescriptor : : object that contains info about a phrase.
+*  phraseDescriptor : : object that contains info about a phrase.
 
 
 */
@@ -209,7 +209,7 @@ function phraseAdd( src )
   if( self.descriptorMap[ phrase ] )
   {
 
-    _.assert( phraseDescriptor.overriding || self.overriding, 'phrase overriding :',phraseDescriptor.phrase );
+    _.assert( phraseDescriptor.override || self.overriding, 'phrase overriding :',phraseDescriptor.phrase );
 
     replaceDescriptor = self.descriptorMap[ phrase ];
 
@@ -578,7 +578,7 @@ function subjectDescriptorForWithClause( o )
   let added = [];
 
   if( !_.objectIs( o ) )
-  o = { subject : arguments[ 0 ], clausing : arguments[ 1 ] };
+  o = { phrase : arguments[ 0 ], clausing : arguments[ 1 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
@@ -831,7 +831,7 @@ function _onPhraseDescriptorMake( src )
   let phrase = src;
   let executable = null;
 
-  if( phrase )
+  if( _.arrayIs( phrase ) )
   {
     _.assert( phrase.length === 2 );
     executable = phrase[ 1 ];
@@ -849,6 +849,7 @@ function _onPhraseDescriptorMake( src )
 
   result.phrase = phrase;
   result.hint = hint;
+  result.executable = executable;
 
   return result;
 }
