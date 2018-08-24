@@ -790,6 +790,68 @@ function subjectDescriptorForWithClause( test )
 
   /**/
 
+  test.case = 'clausing';
+  let onPdMake = ( src ) => src;
+  var vocabulary = new wVocabulary({ clausing : 1, onPhraseDescriptorMake : onPdMake });
+  var pd =
+  {
+    phrase : 'project act act2',
+    clauseLimit : 2,
+    hint : 'project act',
+    executable : null
+  }
+  vocabulary.phraseAdd
+  ({
+    phrase : 'project act act1',
+    clauseLimit : null,
+    hint : 'project act',
+    executable : null
+  });
+  vocabulary.phraseAdd
+  ({
+    phrase : 'project act act2',
+    clauseLimit : null,
+    hint : 'project act',
+    executable : null
+  });
+  vocabulary.phraseAdd
+  ({
+    phrase : 'project act act3',
+    clauseLimit : null,
+    hint : 'project act',
+    executable : null
+  });
+
+  /**/
+
+  var got = vocabulary.subjectDescriptorForWithClause( '' );
+  logger.log( _.toStr( got, { levels : 3} ) )
+  var expected =
+  [
+    {
+      words : [ 'project' ],
+      phrase : 'project',
+      subjectWords : [],
+      subjectPhrase : '',
+      subPhrase : 'project',
+      descriptors : vocabulary.descriptorArray,
+      kind : 'clause'
+    },
+    {
+      words : [ 'act' ],
+      phrase : 'act',
+      subjectWords : [],
+      subjectPhrase : '',
+      subPhrase : 'act',
+      descriptors : vocabulary.descriptorArray,
+      kind : 'clause'
+    }
+  ]
+
+  test.contains( got, expected );
+
+  /**/
+
   if( !Config.debug )
   return
 
