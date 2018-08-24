@@ -301,7 +301,7 @@ function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
 
     if( replaceDescriptor )
     {
-      debugger;
+      // debugger;
       let i = _.arrayRightIndex( self.subjectMap[ slicePhrase ], replaceDescriptor, ( e ) => e.phraseDescriptor, ( e ) => e );
       _.assert( i >= 0 );
       self.subjectMap[ slicePhrase ][ i ].phraseDescriptor = phraseDescriptor;
@@ -588,7 +588,7 @@ function subjectDescriptorForWithClause( o )
 
   let parsed = self.phraseParse({ phrase : o.phrase, delimeter : o.delimeter });
 
-  result = self.subjectMap[ parsed.phrase ] || [];
+  let subject = self.subjectMap[ parsed.phrase ] || [];
 
 /*
   if( !subject.length && parsed.phrase === '' )
@@ -611,21 +611,21 @@ function subjectDescriptorForWithClause( o )
 */
 
   if( !o.clausing || !self.clauseForSubjectMap[ parsed.phrase ] )
-  return result;
+  return subject;
 
   let clauses = self.clauseForSubjectMap[ parsed.phrase ];
 
   debugger;
 
-  if( clauses.length === 1 && clauses[ 0 ].descriptors.length === result.length )
-  return result;
+  if( clauses.length === 1 && clauses[ 0 ].descriptors.length === subject.length )
+  return subject;
 
   _.arrayAppendArray( result, clauses );
   added = _.arrayFlatten( [], _.entitySelect( clauses, '*.descriptors' ) );
 
-  for( let s = 0 ; s < result.length ; s++ )
-  if( added.indexOf( result[ s ].phraseDescriptor ) === -1 )
-  result.push( result[ s ] );
+  for( let s = 0 ; s < subject.length ; s++ )
+  if( added.indexOf( subject[ s ].phraseDescriptor ) === -1 )
+  result.push( subject[ s ] );
 
   return result;
 }
