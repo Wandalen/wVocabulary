@@ -700,6 +700,8 @@ function helpForSubject_body( o )
   if( !actions.length )
   return '';
 
+  debugger;
+
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
   let help = _.strJoin( '.', part1, ' - ', part2 );
@@ -868,6 +870,7 @@ let Composes =
   overriding : 0,
   clausing : 0,
   freezing : 1,
+  coloring : 1,
 
 }
 
