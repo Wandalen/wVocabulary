@@ -317,7 +317,7 @@ function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
     subject.phraseDescriptor = phraseDescriptor;
     subject.kind = 'subject';
 
-    _.accessorForbid( subject, 'phrase' );
+    _.accessor.forbid( subject, 'phrase' );
 
     self.subjectMap[ slicePhrase ] = _.arrayAs( self.subjectMap[ slicePhrase ] || [] );
     self.subjectMap[ slicePhrase ].push( subject );
@@ -771,7 +771,7 @@ function subjectsFilter( subjects, selector )
   if( selector.subPhrase )
   selector.subPhrase = self.phraseParse({ phrase : selector.subPhrase }).phrase;
 
-  let _onEach = _._selectorMake( selector, 1 );
+  let _onEach = _._filter_functor( selector, 1 );
   let result = _.entityFilter( subjects, _onEach );
 
   return result;
