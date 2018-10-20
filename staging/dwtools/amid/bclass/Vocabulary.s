@@ -700,8 +700,6 @@ function helpForSubject_body( o )
   if( !actions.length )
   return '';
 
-  debugger;
-
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
   let help = _.strJoin( '.', part1, ' - ', part2 );
@@ -832,6 +830,7 @@ function _onPhraseDescriptorMake( src )
   let result = Object.create( null );
   let phrase = src;
   let executable = null;
+  let hint = phrase;
 
   if( _.arrayIs( phrase ) )
   {
@@ -839,8 +838,6 @@ function _onPhraseDescriptorMake( src )
     executable = phrase[ 1 ];
     phrase = phrase[ 0 ];
   }
-
-  let hint = phrase;
 
   if( _.objectIs( executable ) )
   {
