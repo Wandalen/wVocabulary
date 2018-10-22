@@ -837,6 +837,7 @@ function _onPhraseDescriptorMake( src )
     _.assert( phrase.length === 2 );
     executable = phrase[ 1 ];
     phrase = phrase[ 0 ];
+    hint = phrase;
   }
 
   if( _.objectIs( executable ) )
