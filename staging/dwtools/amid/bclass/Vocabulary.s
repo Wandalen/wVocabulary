@@ -167,8 +167,8 @@ function phrasesAdd( src )
   let vocabulary = this;
   let replaceDescriptor = null;
 
-  _.assert( _.strIs( src ) || _.containerIs( src ), 'expects string or array' );
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( _.strIs( src ) || _.containerIs( src ), 'Expects string or array' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( _.arrayIs( src ) )
   _.each( src, ( e,k ) =>
@@ -199,7 +199,7 @@ function phraseAdd( src )
   let words = phraseDescriptor.words = _.strSplitNonPreserving({ src : phraseDescriptor.phrase, delimeter : self.addingDelimeter });
   let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
 
-  _.assert( arguments.length === 1, 'expects single argument' );
+  _.assert( arguments.length === 1, 'Expects single argument' );
   _.assert( _.strIs( self.addingDelimeter ) );
   _.assert( _.objectIs( phraseDescriptor ), 'phrase phraseDescriptor should be object' );
   _.assert( _.strIs( phrase ), 'empty phrase' );
@@ -361,7 +361,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
   else if( _.numberIs( phraseDescriptor.clauseLimit ) )
   phraseDescriptor.clauseLimit = [ 1,phraseDescriptor.clauseLimit ];
   else if( !_.arrayIs( phraseDescriptor.clauseLimit ) )
-  _.assert( 0, 'expects clauseLimit as number or array' );
+  _.assert( 0, 'Expects clauseLimit as number or array' );
 
   _.assert( phraseDescriptor.clauseLimit[ 0 ] >= 1 );
 
@@ -734,7 +734,7 @@ function phraseParse( o )
   o = { phrase : arguments[ 0 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
-  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'expects string or array of words, but got ' + _.strTypeOf( o.phrase ) );
+  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'Expects string or array of words, but got ' + _.strTypeOf( o.phrase ) );
   _.assert( arguments.length === 1 );
   _.routineOptions( phraseParse, o );
 
