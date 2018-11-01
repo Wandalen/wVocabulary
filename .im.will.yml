@@ -77,9 +77,13 @@ step :
   grab.release :
     inherit : grab
     reflector : reflector::grab.release
-  grab.dependencies :
+
+  grab.dependencies.debug :
     inherit : grab
-    reflector : reflector::grab.release
+    reflector : reflector::grab.debug
+  grab.dependencies.debug :
+    inherit : grab
+    reflector : reflector::grab.debug
 
 build :
 
