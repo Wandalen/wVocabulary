@@ -7,7 +7,7 @@
   "main": "proto/dwtools/amid/bclass/Vocabulary.s",
   "files": [
     "proto/dwtools/amid/bclass",
-    "production"
+    "proto/dwtools/Tools.s", "production"
   ],
   "scripts": {
     "test": "wtest staging",
