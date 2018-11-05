@@ -1,13 +1,14 @@
 {
   "name": "wvocabulary",
-  "version": "0.3.48",
+  "version": "0.3.49",
   "description": "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
   "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
   "license": "MIT",
   "main": "proto/dwtools/amid/bclass/Vocabulary.s",
   "files": [
     "proto/dwtools/amid/bclass",
-    "proto/dwtools/Tools.s", "production"
+    "proto/dwtools/Tools.s",
+    "production"
   ],
   "scripts": {
     "test": "wtest staging",
