@@ -709,7 +709,7 @@ function helpForSubject_body( o )
 
 helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
 
-let helpForSubject = _.routineForPreAndBody( helpForSubject_pre, helpForSubject_body );
+let helpForSubject = _.routineFromPreAndBody( helpForSubject_pre, helpForSubject_body );
 
 //
 
@@ -721,7 +721,7 @@ function helpForSubjectAsString_body( o )
 
 helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
 
-let helpForSubjectAsString = _.routineForPreAndBody( helpForSubject_pre, helpForSubjectAsString_body );
+let helpForSubjectAsString = _.routineFromPreAndBody( helpForSubject_pre, helpForSubjectAsString_body );
 
 //
 
