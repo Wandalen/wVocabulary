@@ -621,7 +621,7 @@ function subjectDescriptorForWithClause( o )
   return subject;
 
   _.arrayAppendArray( result, clauses );
-  added = _.arrayFlatten( [], _.entitySelect( clauses, '*/descriptors' ) );
+  added = _.arrayFlatten( [], _.select( clauses, '*/descriptors' ) );
 
   for( let s = 0 ; s < subject.length ; s++ )
   if( added.indexOf( subject[ s ].phraseDescriptor ) === -1 )
