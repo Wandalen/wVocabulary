@@ -702,7 +702,7 @@ function helpForSubject_body( o )
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
-  let help = _.strJoin( '.', part1, ' - ', part2 );
+  let help = _.strJoin([ '.', part1, ' - ', part2 ]);
 
   return help;
 }
