@@ -1,0 +1,297 @@
+format: willfile-1.0.0
+about:
+  name: wVocabulary
+  description: >-
+    Class to operate phrases. A phrase consists of words. Vocabulary enables the
+    design of CLI based on phrases instead of words. It makes possible to group
+    several similar phrases and help a user learn CLI faster. Use it to make
+    your CLI more user-friendly.
+  version: 0.3.56
+  enabled: 1
+  interpreters:
+    - nodejs >= 6.0.0
+    - chrome >= 60.0.0
+    - firefox >= 60.0.0
+  keywords:
+    - wTools
+execution:
+  scripts:
+    test: wtest staging
+    docgen: wdocgen staging
+path:
+  proto:
+    path: ./proto
+  in:
+    path: .
+  out:
+    path: out
+  out.debug:
+    path: ./out.debug
+    criterion:
+      debug: 1
+  out.release:
+    path: ./out.release
+    criterion:
+      debug: 0
+  repository:
+    path: 'git+https://github.com/Wandalen/wVocabulary.git'
+  bugs:
+    path: 'https://github.com/Wandalen/wVocabulary/issues'
+  exportedDir.0:
+    path: ./proto
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+  baseDir:
+    path: ..
+  exportedFiles.0:
+    path:
+      - .
+      - ./dwtools
+      - ./dwtools/Tools.s
+      - ./dwtools/abase
+      - ./dwtools/amid
+      - ./dwtools/amid/bclass
+      - ./dwtools/amid/bclass/Vocabulary.s
+      - ./dwtools/amid/bclass.test
+      - ./dwtools/amid/bclass.test/Vocabulary.test.s
+      - ./dwtools/atop
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+  exportedTerminals.0:
+    path:
+      - ./dwtools/Tools.s
+      - ./dwtools/amid/bclass/Vocabulary.s
+      - ./dwtools/amid/bclass.test/Vocabulary.test.s
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+submodule: {}
+reflector:
+  reflect.proto.0:
+    reflectMap:
+      ./proto: ./out.release
+    srcFilter:
+      maskAll:
+        excludeAny:
+          - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
+          - !<tag:yaml.org,2002:js/regexp> /\.unique$/
+          - !<tag:yaml.org,2002:js/regexp> /\.git$/
+          - !<tag:yaml.org,2002:js/regexp> /\.svn$/
+          - !<tag:yaml.org,2002:js/regexp> /\.hg$/
+          - !<tag:yaml.org,2002:js/regexp> /\.DS_Store$/
+          - !<tag:yaml.org,2002:js/regexp> /(^|\/)-/
+          - !<tag:yaml.org,2002:js/regexp> /\.release($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.debug($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.test($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.experiment($|\.|\/)/i
+      prefixPath: .
+    dstFilter:
+      prefixPath: .
+    criterion:
+      debug: 0
+    inherit:
+      - predefined.*
+  reflect.proto.1:
+    reflectMap:
+      ./proto: ./out.debug
+    srcFilter:
+      maskAll:
+        excludeAny:
+          - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
+          - !<tag:yaml.org,2002:js/regexp> /\.unique$/
+          - !<tag:yaml.org,2002:js/regexp> /\.git$/
+          - !<tag:yaml.org,2002:js/regexp> /\.svn$/
+          - !<tag:yaml.org,2002:js/regexp> /\.hg$/
+          - !<tag:yaml.org,2002:js/regexp> /\.DS_Store$/
+          - !<tag:yaml.org,2002:js/regexp> /(^|\/)-/
+          - !<tag:yaml.org,2002:js/regexp> /\.release($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.debug($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.test($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.experiment($|\.|\/)/i
+      prefixPath: .
+    dstFilter:
+      prefixPath: .
+    criterion:
+      debug: 1
+    inherit:
+      - predefined.*
+  reflect.submodules:
+    srcFilter:
+      maskAll:
+        excludeAny:
+          - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
+          - !<tag:yaml.org,2002:js/regexp> /\.unique$/
+          - !<tag:yaml.org,2002:js/regexp> /\.git$/
+          - !<tag:yaml.org,2002:js/regexp> /\.svn$/
+          - !<tag:yaml.org,2002:js/regexp> /\.hg$/
+          - !<tag:yaml.org,2002:js/regexp> /\.DS_Store$/
+          - !<tag:yaml.org,2002:js/regexp> /(^|\/)-/
+          - !<tag:yaml.org,2002:js/regexp> /\.release($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.debug($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.test($|\.|\/)/i
+          - !<tag:yaml.org,2002:js/regexp> /\.experiment($|\.|\/)/i
+      prefixPath: .
+    dstFilter:
+      prefixPath: .
+    criterion:
+      debug: 1
+    inherit:
+      - predefined.*
+  exported.0:
+    reflectMap:
+      ./proto: true
+    srcFilter:
+      prefixPath: .
+    dstFilter:
+      prefixPath: .
+  exportedFiles.0:
+    recursive: 0
+    reflectMap:
+      ./dwtools/Tools.s: true
+      ./dwtools/amid/bclass/Vocabulary.s: true
+      ./dwtools/amid/bclass.test/Vocabulary.test.s: true
+    srcFilter:
+      basePath: ./proto
+      prefixPath: proto
+    dstFilter:
+      basePath: .
+      prefixPath: .
+step:
+  reflect.proto.0:
+    criterion:
+      debug: 0
+      raw: 0
+    opts:
+      reflector: 'reflector::reflect.proto.*=1'
+    inherit:
+      - predefined.reflect
+  reflect.proto.1:
+    criterion:
+      debug: 1
+      raw: 0
+    opts:
+      reflector: 'reflector::reflect.proto.*=1'
+    inherit:
+      - predefined.reflect
+  reflect.proto.2:
+    criterion:
+      debug: 0
+      raw: 1
+    opts:
+      reflector: 'reflector::reflect.proto.*=1'
+    inherit:
+      - predefined.reflect
+  reflect.proto.3:
+    criterion:
+      debug: 1
+      raw: 1
+    opts:
+      reflector: 'reflector::reflect.proto.*=1'
+    inherit:
+      - predefined.reflect
+  reflect.submodules.0:
+    criterion:
+      debug: 1
+      raw: 0
+    opts:
+      reflector: 'reflector::reflect.submodules*=1'
+    inherit:
+      - predefined.reflect
+  reflect.submodules.1:
+    criterion:
+      debug: 1
+      raw: 1
+    opts:
+      reflector: 'reflector::reflect.submodules*=1'
+    inherit:
+      - predefined.reflect
+  export.proto:
+    criterion:
+      debug: 1
+      proto: 1
+    opts:
+      export: 'path::proto'
+      tar: 0
+    inherit:
+      - export
+build:
+  debug.raw:
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+    steps:
+      - 'step::reflect.proto.*=1'
+  debug.compiled:
+    criterion:
+      debug: 1
+      raw: 0
+    steps:
+      - 'step::reflect.proto.*=1'
+  release.raw:
+    criterion:
+      debug: 0
+      raw: 1
+    steps:
+      - 'step::reflect.proto.*=1'
+  release.compiled:
+    criterion:
+      debug: 0
+      raw: 0
+    steps:
+      - 'step::reflect.proto.*=1'
+  all:
+    steps:
+      - 'build::debug.raw'
+      - 'build::release.compiled'
+  proto.export:
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+    steps:
+      - 'build::debug.raw'
+      - 'step::export.proto'
+exported:
+  proto.export:
+    version: 0.3.56
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+    exportedReflector: 'reflector::exported.0'
+    exportedFilesReflector: 'reflector::exportedFiles.0'
+    exportedDirPath: 'path::exportedDir.0'
+    exportedFilesPath: 'path::exportedFiles.0'
+    exportedTerminalsPath:
+      path:
+        - ./dwtools/Tools.s
+        - ./dwtools/amid/bclass/Vocabulary.s
+        - ./dwtools/amid/bclass.test/Vocabulary.test.s
+      criterion:
+        default: 1
+        debug: 1
+        raw: 1
+        proto: 1
+        export: 1
+        tar: 1
