@@ -6,7 +6,7 @@ about:
     design of CLI based on phrases instead of words. It makes possible to group
     several similar phrases and help a user learn CLI faster. Use it to make
     your CLI more user-friendly.
-  version: 0.3.56
+  version: 0.3.57
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -271,7 +271,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.3.56
+    version: 0.3.57
     criterion:
       default: 1
       debug: 1
