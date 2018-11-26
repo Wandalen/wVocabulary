@@ -734,7 +734,7 @@ function phraseParse( o )
   o = { phrase : arguments[ 0 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
-  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'Expects string or array of words, but got ' + _.strTypeOf( o.phrase ) );
+  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'Expects string or array of words, but got ' + _.strType( o.phrase ) );
   _.assert( arguments.length === 1 );
   _.routineOptions( phraseParse, o );
 
