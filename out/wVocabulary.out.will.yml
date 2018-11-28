@@ -164,8 +164,8 @@ reflector:
       ./dwtools/amid/bclass/Vocabulary.s: true
       ./dwtools/amid/bclass.test/Vocabulary.test.s: true
     srcFilter:
-      basePath: ./proto
-      prefixPath: .
+      basePath: .
+      prefixPath: proto
     dstFilter:
       basePath: .
       prefixPath: .
