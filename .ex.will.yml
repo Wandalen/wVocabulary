@@ -3,7 +3,7 @@ about :
 
   name : "wVocabulary"
   description : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly."
-  version : "0.3.58"
+  version : "0.3.61"
   enabled : 1
   interpreters :
   - nodejs >= 6.0.0
@@ -43,6 +43,7 @@ build :
       proto : 1
       export : 1
       tar : 1
+      public : 1
     steps :
       - build::debug.raw
       - step::export.proto
