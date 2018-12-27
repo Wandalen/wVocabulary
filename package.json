@@ -28,8 +28,7 @@
     "wstringsextra": ""
   },
   "devDependencies": {
-    "wTesting": "",
-    "wvocabulary": "."
+    "wTesting": ""
   },
   "keywords": [
     "wTools"
