@@ -882,34 +882,34 @@ let Restricts =
 let Proto =
 {
 
-  init : init,
+  init,
 
-  phrasesAdd : phrasesAdd,
-  phraseAdd : phraseAdd,
+  phrasesAdd,
+  phraseAdd,
 
-  _updateWordMap : _updateWordMap,
-  _updateSubjectMap : _updateSubjectMap,
-  _updateClauseMap : _updateClauseMap,
+  _updateWordMap,
+  _updateSubjectMap,
+  _updateClauseMap,
 
-  subPhrase : subPhrase,
+  subPhrase,
 
-  subjectDescriptorFor : subjectDescriptorFor,
-  subjectDescriptorForWithClause : subjectDescriptorForWithClause,
-  helpForSubject : helpForSubject,
-  helpForSubjectAsString : helpForSubjectAsString,
+  subjectDescriptorFor,
+  subjectDescriptorForWithClause,
+  helpForSubject,
+  helpForSubjectAsString,
 
-  phraseParse : phraseParse,
-  subjectsFilter : subjectsFilter,
-  wordsComplySubject : wordsComplySubject,
+  phraseParse,
+  subjectsFilter,
+  wordsComplySubject,
 
-  _onDescriptorSimplestMake : _onDescriptorSimplestMake,
-  _onPhraseDescriptorMake : _onPhraseDescriptorMake,
+  _onDescriptorSimplestMake,
+  _onPhraseDescriptorMake,
 
   // relations
 
-  Composes : Composes,
-  Aggregates : Aggregates,
-  Restricts : Restricts,
+  Composes,
+  Aggregates,
+  Restricts,
 
 }
 
@@ -930,9 +930,9 @@ _.Copyable.mixin( Self );
 
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
 
-if( typeof module !== 'undefined' )
-if( _global_.WTOOLS_PRIVATE )
-{ /* delete require.cache[ module.id ]; */ }
+// if( typeof module !== 'undefined' )
+// if( _global_.WTOOLS_PRIVATE )
+// { /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;
