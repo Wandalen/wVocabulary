@@ -6,7 +6,7 @@ about:
     design of CLI based on phrases instead of words. It makes possible to group
     several similar phrases and help a user learn CLI faster. Use it to make
     your CLI more user-friendly.
-  version: 0.3.71
+  version: 0.3.72
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -70,8 +70,6 @@ path:
 submodule: {}
 reflector:
   reflect.proto.:
-    filePath:
-      ./proto: ./out.release
     srcFilter:
       filePath:
         ./proto: ./out.release
@@ -93,8 +91,6 @@ reflector:
     inherit:
       - predefined.*
   reflect.proto.debug:
-    filePath:
-      ./proto: ./out.debug
     srcFilter:
       filePath:
         ./proto: ./out.debug
@@ -131,23 +127,11 @@ reflector:
     inherit:
       - predefined.*
   exported.0:
-    filePath: ./proto
     srcFilter:
       filePath: ./proto
       prefixPath: .
   exportedFiles.0:
     recursive: 0
-    filePath:
-      .: true
-      ./dwtools: true
-      ./dwtools/Tools.s: true
-      ./dwtools/abase: true
-      ./dwtools/amid: true
-      ./dwtools/amid/bclass: true
-      ./dwtools/amid/bclass/Vocabulary.s: true
-      ./dwtools/amid/bclass.test: true
-      ./dwtools/amid/bclass.test/Vocabulary.test.s: true
-      ./dwtools/atop: true
     srcFilter:
       filePath:
         .: true
@@ -282,7 +266,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.3.71
+    version: 0.3.72
     criterion:
       default: 1
       debug: 1
