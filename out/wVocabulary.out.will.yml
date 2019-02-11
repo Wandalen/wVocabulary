@@ -6,7 +6,7 @@ about:
     design of CLI based on phrases instead of words. It makes possible to group
     several similar phrases and help a user learn CLI faster. Use it to make
     your CLI more user-friendly.
-  version: 0.3.72
+  version: 0.3.73
   enabled: 1
   interpreters:
     - nodejs >= 6.0.0
@@ -26,18 +26,18 @@ path:
   out:
     path: out
   out.debug:
-    path: ./out.debug
+    path: ./out/debug
     criterion:
       debug: 1
   out.release:
-    path: ./out.release
+    path: ./out/release
     criterion:
       debug: 0
   repository:
     path: 'git+https://github.com/Wandalen/wVocabulary.git'
   bugs:
     path: 'https://github.com/Wandalen/wVocabulary/issues'
-  exportedDir.0:
+  exportedDir.proto.export:
     path: ./proto
     criterion:
       default: 1
@@ -47,18 +47,18 @@ path:
       export: 1
       tar: 1
       public: 1
-  exportedFiles.0:
+  exportedFiles.proto.export:
     path:
-      - .
-      - ./dwtools
-      - ./dwtools/Tools.s
-      - ./dwtools/abase
-      - ./dwtools/amid
-      - ./dwtools/amid/bclass
-      - ./dwtools/amid/bclass/Vocabulary.s
-      - ./dwtools/amid/bclass.test
-      - ./dwtools/amid/bclass.test/Vocabulary.test.s
-      - ./dwtools/atop
+      - proto
+      - proto/dwtools
+      - proto/dwtools/Tools.s
+      - proto/dwtools/abase
+      - proto/dwtools/amid
+      - proto/dwtools/amid/bclass
+      - proto/dwtools/amid/bclass/Vocabulary.s
+      - proto/dwtools/amid/bclass.test
+      - proto/dwtools/amid/bclass.test/Vocabulary.test.s
+      - proto/dwtools/atop
     criterion:
       default: 1
       debug: 1
@@ -72,7 +72,7 @@ reflector:
   reflect.proto.:
     srcFilter:
       filePath:
-        ./proto: ./out.release
+        ./proto: ./out/release
       maskAll:
         excludeAny:
           - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
@@ -93,7 +93,7 @@ reflector:
   reflect.proto.debug:
     srcFilter:
       filePath:
-        ./proto: ./out.debug
+        ./proto: ./out/debug
       maskAll:
         excludeAny:
           - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
@@ -126,26 +126,43 @@ reflector:
       debug: 1
     inherit:
       - predefined.*
-  exported.0:
+  exported.proto.export:
     srcFilter:
-      filePath: ./proto
+      filePath:
+        ./proto: true
       prefixPath: .
-  exportedFiles.0:
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+      public: 1
+  exportedFiles.proto.export:
     recursive: 0
     srcFilter:
       filePath:
         .: true
-        ./dwtools: true
-        ./dwtools/Tools.s: true
-        ./dwtools/abase: true
-        ./dwtools/amid: true
-        ./dwtools/amid/bclass: true
-        ./dwtools/amid/bclass/Vocabulary.s: true
-        ./dwtools/amid/bclass.test: true
-        ./dwtools/amid/bclass.test/Vocabulary.test.s: true
-        ./dwtools/atop: true
+        dwtools: true
+        dwtools/Tools.s: true
+        dwtools/abase: true
+        dwtools/amid: true
+        dwtools/amid/bclass: true
+        dwtools/amid/bclass/Vocabulary.s: true
+        dwtools/amid/bclass.test: true
+        dwtools/amid/bclass.test/Vocabulary.test.s: true
+        dwtools/atop: true
       basePath: .
       prefixPath: proto
+    criterion:
+      default: 1
+      debug: 1
+      raw: 1
+      proto: 1
+      export: 1
+      tar: 1
+      public: 1
 step:
   clean.out.:
     criterion:
@@ -266,7 +283,7 @@ build:
       - 'step::export.proto'
 exported:
   proto.export:
-    version: 0.3.72
+    version: 0.3.73
     criterion:
       default: 1
       debug: 1
@@ -275,7 +292,7 @@ exported:
       export: 1
       tar: 1
       public: 1
-    exportedReflector: 'reflector::exported.0'
-    exportedFilesReflector: 'reflector::exportedFiles.0'
-    exportedDirPath: 'path::exportedDir.0'
-    exportedFilesPath: 'path::exportedFiles.0'
+    exportedReflector: 'reflector::exported.proto.export'
+    exportedFilesReflector: 'reflector::exportedFiles.proto.export'
+    exportedDirPath: 'path::exportedDir.proto.export'
+    exportedFilesPath: 'path::exportedFiles.proto.export'
