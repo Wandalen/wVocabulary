@@ -74,22 +74,7 @@ reflector:
   reflect.proto.:
     src:
       filePath:
-        .: .
-      prefixPath: proto
-      maskAll:
-        excludeAny:
-          - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
-          - !<tag:yaml.org,2002:js/regexp> /\.unique$/
-          - !<tag:yaml.org,2002:js/regexp> /\.git$/
-          - !<tag:yaml.org,2002:js/regexp> /\.svn$/
-          - !<tag:yaml.org,2002:js/regexp> /\.hg$/
-          - !<tag:yaml.org,2002:js/regexp> /\.DS_Store$/
-          - !<tag:yaml.org,2002:js/regexp> /(^|\/)-/
-          - !<tag:yaml.org,2002:js/regexp> /\.debug($|\.|\/)/i
-          - !<tag:yaml.org,2002:js/regexp> /\.test($|\.|\/)/i
-          - !<tag:yaml.org,2002:js/regexp> /\.experiment($|\.|\/)/i
-    dst:
-      prefixPath: out/release
+        'path::proto': 'path::out.*=1'
     criterion:
       debug: 0
     inherit:
@@ -97,36 +82,15 @@ reflector:
   reflect.proto.debug:
     src:
       filePath:
-        .: .
-      prefixPath: proto
-      maskAll:
-        excludeAny:
-          - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
-          - !<tag:yaml.org,2002:js/regexp> /\.unique$/
-          - !<tag:yaml.org,2002:js/regexp> /\.git$/
-          - !<tag:yaml.org,2002:js/regexp> /\.svn$/
-          - !<tag:yaml.org,2002:js/regexp> /\.hg$/
-          - !<tag:yaml.org,2002:js/regexp> /\.DS_Store$/
-          - !<tag:yaml.org,2002:js/regexp> /(^|\/)-/
-          - !<tag:yaml.org,2002:js/regexp> /\.release($|\.|\/)/i
-    dst:
-      prefixPath: out/debug
+        'path::proto': 'path::out.*=1'
     criterion:
       debug: 1
     inherit:
       - predefined.*
   reflect.submodules:
     src:
-      maskAll:
-        excludeAny:
-          - !<tag:yaml.org,2002:js/regexp> /(\W|^)node_modules(\W|$)/
-          - !<tag:yaml.org,2002:js/regexp> /\.unique$/
-          - !<tag:yaml.org,2002:js/regexp> /\.git$/
-          - !<tag:yaml.org,2002:js/regexp> /\.svn$/
-          - !<tag:yaml.org,2002:js/regexp> /\.hg$/
-          - !<tag:yaml.org,2002:js/regexp> /\.DS_Store$/
-          - !<tag:yaml.org,2002:js/regexp> /(^|\/)-/
-          - !<tag:yaml.org,2002:js/regexp> /\.release($|\.|\/)/i
+      filePath:
+        'submodule::*/exported::*=1/path::exportedDir*=1': 'path::out.*=1'
     criterion:
       debug: 1
     inherit:
@@ -147,19 +111,9 @@ reflector:
   exportedFiles.proto.export:
     recursive: 0
     src:
-      filePath:
-        .: null
-        dwtools: null
-        dwtools/Tools.s: null
-        dwtools/abase: null
-        dwtools/amid: null
-        dwtools/amid/bclass: null
-        dwtools/amid/bclass/Vocabulary.s: null
-        dwtools/amid/bclass.test: null
-        dwtools/amid/bclass.test/Vocabulary.test.s: null
-        dwtools/atop: null
+      filePath: 'path::exportedFiles.proto.export'
       basePath: .
-      prefixPath: proto
+      prefixPath: 'path::exportedDir.proto.export'
     criterion:
       default: 1
       debug: 1
@@ -229,6 +183,13 @@ step:
       raw: 1
     opts:
       reflector: 'reflector::reflect.submodules*=1'
+    inherit:
+      - predefined.reflect
+  reflect.submodules:
+    criterion:
+      debug: 1
+    opts:
+      reflector: 'reflector::reflect.submodules*'
     inherit:
       - predefined.reflect
   export.proto:
