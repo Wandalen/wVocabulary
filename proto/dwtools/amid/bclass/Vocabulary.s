@@ -679,19 +679,23 @@ function helpForSubject_body( o )
 
   _.assert( arguments.length === 1 );
 
-  let actions = self.subjectDescriptorForWithClause( o );
+  let o2 = _.mapOnly( o, self.subjectDescriptorForWithClause.defaults );
+  let actions = self.subjectDescriptorForWithClause( o2 );
 
   if( !actions.length )
   return '';
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
-  let help = _.strJoin([ '.', part1, ' - ', part2 ]);
+
+  debugger;
+  let help = _.strJoin([ o.decorating ? _.color.strFormat( '.', 'code' ) : '.', o.decorating ? _.color.strFormat( part1, 'code' ) : part1, ' - ', part2 ]);
 
   return help;
 }
 
-helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
+var defaults = helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
+defaults.decorating = 1;
 
 let helpForSubject = _.routineFromPreAndBody( helpForSubject_pre, helpForSubject_body );
 
