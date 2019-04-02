@@ -27,11 +27,11 @@ let _ = _global_.wTools;
 /**
 * Definitions :
 
-*  word : : smallest part of a phrase( e.g., 'deck' ).
-*  phrase : : combination of words with space as separator( e.g., 'deck properties' ).
-*  subject : : a word or combination of it, used during search to determine if phrase is related to the subject.
-*  clause : : a piece of a phrase( e.g. 'deck' is subphrase of 'deck properties' ).
-*  phraseDescriptor : : object that contains info about a phrase.
+*  word :: smallest part of a phrase( e.g., 'deck' ).
+*  phrase :: combination of words with space as separator( e.g., 'deck properties' ).
+*  subject :: a word or combination of it, used during search to determine if phrase is related to the subject.
+*  clause :: a piece of a phrase( e.g. 'deck' is subphrase of 'deck properties' ).
+*  phraseDescriptor :: object that contains info about a phrase.
 
 
 */
@@ -687,8 +687,6 @@ function helpForSubject_body( o )
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
-
-  debugger;
   let help = _.strJoin([ o.decorating ? _.color.strFormat( '.', 'code' ) : '.', o.decorating ? _.color.strFormat( part1, 'code' ) : part1, ' - ', part2 ]);
 
   return help;
