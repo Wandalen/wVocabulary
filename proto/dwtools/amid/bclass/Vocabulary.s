@@ -4,7 +4,7 @@
 
 /**
  * Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.
-  @module Tools/mid/vocabulary
+  @module Tools/mid/Vocabulary
 */
 
 /**
@@ -37,7 +37,7 @@ let _ = _global_.wTools;
 */
 
 /**
- * Class wVocabulary
+ * @classdesc Class to operate phrases.
  * @class wVocabulary
  */
 
