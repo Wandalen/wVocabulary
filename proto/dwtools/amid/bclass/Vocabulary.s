@@ -36,23 +36,21 @@ let _ = _global_.wTools;
 
 */
 
-/**
- * @classdesc Class to operate phrases.
- * @class wVocabulary
- */
+
 
 /**
 * Options object for wVocabulary constructor
-* @typedef {Object} wVocabulary~wVocabularyOptions
+* @typedef {Object} wVocabularyOptions
 * @property {function} [ onPhraseDescriptorMake ] - Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
 * @property {boolean} [ overriding=0 ] - Controls overwriting of existing phrases.
 * @property {boolean} [ clausing=0 ] -
 * @property {boolean} [ freezing=1 ] - Prevents future extensions of phrase phraseDescriptor.
+* @memberof module:Tools/mid/Vocabulary.wVocabulary~
 */
 
 /**
 * Containers of wVocabulary instance
-* @typedef {Object} wVocabulary~wVocabularyMaps
+* @typedef {Object} wVocabularyMaps
 * @property {Array} [ phraseArray ] - Contains available phrases.
 * @property {Array} [ descriptorArray ] - Contains descriptors of available phrases.
 * @property {Object} [ descriptorMap ] - Maps phrase with its phraseDescriptor.
@@ -60,22 +58,25 @@ let _ = _global_.wTools;
 * @property {Object} [ subjectMap ] - Maps possible subjects with descriptors of phrases that contains it.
 * @property {Object} [ clauseForSubjectMap ] - Maps subjects to clause.
 * @property {Object} [ clauseMap ] - Maps possible subphrases( clause ) with descriptors of phrases that contains it.
+* @memberof module:Tools/mid/Vocabulary.wVocabulary~
 */
 
 /**
- * Creates instance of wVocabulary
- * @example
+* Creates instance of wVocabulary
+*
+* @classdesc Class to operate phrases.
+* @example
    let vocabulary = new wVocabulary();
 
- * @example
+* @example
    let o = { freezing : 0 }
    let vocabulary = new wVocabulary( o );
 
- * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link wVocabulary~wVocabularyOptions}.
- * @returns {wVocabulary}
- * @constructor
- * @see {@link wVocabulary}
- */
+* @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions}.
+* @class wVocabulary
+* @memberof module:Tools/mid/Vocabulary
+* @returns {wVocabulary}
+*/
 
 let Parent = null;
 let Self = function wVocabulary( o )
@@ -89,10 +90,10 @@ Self.shortName = 'Vocabulary';
 
 /**
  * Initialises instance of wVocabulary
- * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link wVocabulary~wVocabularyOptions}.
+ * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions}.
  * @private
  * @method init
- * @memberof wVocabulary#
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
  */
 
 function init( o )
@@ -113,7 +114,7 @@ function init( o )
  * Adds provided phrase(s) to the vocabulary.
  * Routine analyzes provided phrase(s) and creates phraseDescriptor for each phrase by calling ( wVocabulary.onPhraseDescriptorMake ) routine and complementing it with additional data.
  * Routine expects that result of ( wVocabulary.onPhraseDescriptorMake ) call will be an Object.
- * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link wVocabulary~wVocabularyOptions} for details.
+ * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions} for details.
  * If phrases are provided in Array, they can have any type.
  * If ( wVocabulary.overriding ) is enabled, existing phrase can be rewritten by new one.
  * @param {String|Array} src - Source phrase or array of phrases.
@@ -141,7 +142,7 @@ function init( o )
  * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onPhraseDescriptorMake ) routine is not an Object.
  * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
  * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.overriding ) is disabled.
- * @memberof wVocabulary
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
  *
  */
 
@@ -459,7 +460,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
  * @method subPhrase
  * @throws { Exception } Throw an exception if( phrase ) is not a String.
  * @throws { Exception } Throw an exception if( subject ) is not a String.
- * @memberof wVocabulary
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
  *
  */
 
@@ -551,7 +552,7 @@ subjectDescriptorFor.defaults =
  * @throws { Exception } Throw an exception if more than two arguments provided.
  * @throws { Exception } Throw an exception if( wVocabulary.wordMap ) is not a Object.
  * @throws { Exception } Throw an exception if( subject ) is not a String or Array.
- * @memberof wVocabulary
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
  *
  */
 
@@ -669,7 +670,7 @@ function helpForSubject_pre( routine, args )
  * @throws { Exception } Throw an exception if more than two arguments provided.
  * @throws { Exception } Throw an exception if( wVocabulary.wordMap ) is not a Object.
  * @throws { Exception } Throw an exception if( subject ) is not a String or Array.
- * @memberof wVocabulary
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
  *
  */
 
