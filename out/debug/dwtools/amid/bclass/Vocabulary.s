@@ -41,41 +41,41 @@ let _ = _global_.wTools;
 /**
 * Options object for wVocabulary constructor
 * @typedef {Object} wVocabularyOptions
-* @property {function} [ onPhraseDescriptorMake ] - Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
-* @property {boolean} [ overriding=0 ] - Controls overwriting of existing phrases.
-* @property {boolean} [ clausing=0 ] -
-* @property {boolean} [ freezing=1 ] - Prevents future extensions of phrase phraseDescriptor.
+* @property {function} [ onPhraseDescriptorMake ] Creates phraseDescriptor based on data of the phrase. By default its a routine that wraps passed phrase into object.
+* @property {boolean} [ overriding=0 ] Controls overwriting of existing phrases.
+* @property {boolean} [ clausing=0 ]
+* @property {boolean} [ freezing=1 ] Prevents future extensions of phrase phraseDescriptor.
 * @memberof module:Tools/mid/Vocabulary.wVocabulary~
 */
 
 /**
 * Containers of wVocabulary instance
 * @typedef {Object} wVocabularyMaps
-* @property {Array} [ phraseArray ] - Contains available phrases.
-* @property {Array} [ descriptorArray ] - Contains descriptors of available phrases.
-* @property {Object} [ descriptorMap ] - Maps phrase with its phraseDescriptor.
-* @property {Object} [ wordMap ] - Maps each word of the phrase with descriptors of phrases that contains it.
-* @property {Object} [ subjectMap ] - Maps possible subjects with descriptors of phrases that contains it.
-* @property {Object} [ clauseForSubjectMap ] - Maps subjects to clause.
-* @property {Object} [ clauseMap ] - Maps possible subphrases( clause ) with descriptors of phrases that contains it.
+* @property {Array} [ phraseArray ] Contains available phrases.
+* @property {Array} [ descriptorArray ] Contains descriptors of available phrases.
+* @property {Object} [ descriptorMap ] Maps phrase with its phraseDescriptor.
+* @property {Object} [ wordMap ] Maps each word of the phrase with descriptors of phrases that contains it.
+* @property {Object} [ subjectMap ] Maps possible subjects with descriptors of phrases that contains it.
+* @property {Object} [ clauseForSubjectMap ] Maps subjects to clause.
+* @property {Object} [ clauseMap ] Maps possible subphrases( clause ) with descriptors of phrases that contains it.
 * @memberof module:Tools/mid/Vocabulary.wVocabulary~
 */
 
 /**
-* Creates instance of wVocabulary
+* @summary Creates instance of wVocabulary
 *
 * @classdesc Class to operate phrases.
 * @example
-   let vocabulary = new wVocabulary();
-
+*  let vocabulary = new wVocabulary();
+*
 * @example
-   let o = { freezing : 0 }
-   let vocabulary = new wVocabulary( o );
-
+* let o = { freezing : 0 }
+* let vocabulary = new wVocabulary( o );
+*
 * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions}.
 * @class wVocabulary
+* @returns {Object} Returns instance of `wVocabulary`.
 * @memberof module:Tools/mid/Vocabulary
-* @returns {wVocabulary}
 */
 
 let Parent = null;
@@ -111,13 +111,15 @@ function init( o )
 //
 
 /**
+ * Shrort-cut for {@link module:Tools/mid/Vocabulary.wVocabulary#phraseAdd wVocabulary.phraseAdd} method.
+ * @description
  * Adds provided phrase(s) to the vocabulary.
  * Routine analyzes provided phrase(s) and creates phraseDescriptor for each phrase by calling ( wVocabulary.onPhraseDescriptorMake ) routine and complementing it with additional data.
  * Routine expects that result of ( wVocabulary.onPhraseDescriptorMake ) call will be an Object.
  * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions} for details.
  * If phrases are provided in Array, they can have any type.
  * If ( wVocabulary.overriding ) is enabled, existing phrase can be rewritten by new one.
- * @param {String|Array} src - Source phrase or array of phrases.
+ * @param {String|Array} src Source phrase or array of phrases.
  * @returns {wVocabulary} Returns wVocabulary instance.
  *
  * @example
@@ -174,6 +176,31 @@ function phrasesAdd( src )
 }
 
 //
+
+/**
+ * @summary Adds provided phraseto the vocabulary.
+ * Routine analyzes provided phrase and creates phraseDescriptor for each phrase by calling ( wVocabulary.onPhraseDescriptorMake ) routine and complementing it with additional data.
+ * Routine expects that result of ( wVocabulary.onPhraseDescriptorMake ) call will be an Object.
+ * Data from phraseDescriptor is used to update containers of the vocabulary, see {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions} for details.
+ * If ( wVocabulary.overriding ) is enabled, existing phrase can be rewritten by new one.
+ * @param {String} src Source phrase or array of phrases.
+ * @returns {wVocabulary} Returns `wVocabulary` instance.
+ *
+ * @example
+ * let vocabulary = new wVocabulary();
+ * let phrase = 'deck properties';
+ * vocabulary.phraseAdd( phrase );
+ * console.log( _.toStr( vocabulary, { levels : 99 } ) )
+ *
+ * @method phraseAdd
+ * @throws { Exception } Throw an exception if more than one argument is provided.
+ * @throws { Exception } Throw an exception if ( src ) is not a String.
+ * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onPhraseDescriptorMake ) routine is not an Object.
+ * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
+ * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.overriding ) is disabled.
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ *
+ */
 
 function phraseAdd( src )
 {
@@ -429,8 +456,8 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
  * After subject removal routine replaces tabs with whitespaces and cuts off leading/trailing whitespaces.
  * If one of arguments is an Array, routine joins it into a String with whitespace as seperator.
  * If ( phrase ) was an Array and wasn't changed, it will be still returned as String.
- * @param {String|Array} phrase - Source phrase or array of words to join into phrase.
- * @param {String|Array} subject - Source subject or array of words to join into subject.
+ * @param {String|Array} phrase Source phrase or array of words to join into phrase.
+ * @param {String|Array} subject Source subject or array of words to join into subject.
  * @returns {String} Returns adjusted phrase.
  *
  * @example
@@ -484,6 +511,28 @@ function subPhrase( phrase,subject )
 }
 
 //
+
+/**
+ * @summary Returns subject descriptor for phrase.
+ * @param {String} o Options map.
+ * @param {String} o.phrase Source phrase.
+ * @param {String} o.delimeter Delimeter used in phrase.
+ * @param {Boolean} o.exact Tries to find descriptor with identical phrase.
+ * @returns {Object} Returns single descriptor or several in map. Returns `undefined` if `o.exact` is enabled and nothing was found.
+ *
+ * @example
+ * let vocabulary = new wVocabulary();
+ * let phrase = 'deck properties';
+ * vocabulary.phraseAdd( phrase );
+ * let descriptor = vocabulary.subjectDescriptorFor({ phrase : phrase });
+ * console.log( descriptor );
+ *
+ * @method subjectDescriptorFor
+ * @throws { Exception } Throw an exception if more than one argument is provided.
+ * @throws { Exception } Throw an exception if ( src ) is not a String.
+ * @throws { Exception } Throw an exception if found more than one descriptor with `o.exact` enabled.
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ */
 
 function subjectDescriptorFor( o )
 {
@@ -712,6 +761,25 @@ let helpForSubjectAsString = _.routineFromPreAndBody( helpForSubject_pre, helpFo
 
 //
 
+/**
+ * @summary Parses provided phrase.
+ * @param {String} o Options map.
+ * @param {String} o.phrase Source phrase.
+ * @param {String} o.delimeter Delimeter used in phrase.
+ * @returns {Object} Returns map with results of parsing. Map contains source phrase and array of words that was splitted by `o.delimeneter`.
+ *
+ * @example
+ * let vocabulary = new wVocabulary();
+ * let phrase = 'deck.properties';
+ * let result = vocabulary.phraseParse({ phrase : phrase, delimeneter : '.' });
+ * console.log( result );
+ *
+ * @method phraseParse
+ * @throws { Exception } Throw an exception if more than one argument is provided.
+ * @throws { Exception } Throw an exception if ( src ) is not a String.
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ */
+
 function phraseParse( o )
 {
   let self = this;
@@ -740,6 +808,19 @@ phraseParse.defaults =
 }
 
 //
+
+/**
+ * @summary Filters array of `subjects` using selector `selector`.
+ * @param {Array} subjects Array of subjects.
+ * @param {Object} selector Selector for filter.
+ * @param {Object} selector.slicePhrase Part of targer phrase.
+ * @param {Object} selector.wholePhrase Target phrase.
+ * @param {Object} selector.subPhrase Subject of target phrase.
+ * @method subjectsFilter
+ * @throws { Exception } Throw an exception if arguments length is not equal 2.
+ * @returns {Array} Returns found subjects.
+ * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ */
 
 function subjectsFilter( subjects, selector )
 {

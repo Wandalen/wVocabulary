@@ -6,14 +6,17 @@ about:
     design of CLI based on phrases instead of words. It makes possible to group
     several similar phrases and help a user learn CLI faster. Use it to make
     your CLI more user-friendly.
-  version: 0.3.75
   enabled: 1
-  interpreters:
-    - nodejs >= 6.0.0
-    - chrome >= 60.0.0
-    - firefox >= 60.0.0
-  keywords:
-    - wTools
+  version: 0.3.75
+  values:
+    enabled: 1
+    name: wVocabulary
+    interpreters:
+      - nodejs >= 6.0.0
+      - chrome >= 60.0.0
+      - firefox >= 60.0.0
+    keywords:
+      - wTools
 execution:
   scripts:
     test: wtest proto
