@@ -21,8 +21,8 @@ execution :
 
 path :
 
-  repository : git+https://github.com/Wandalen/wVocabulary.git
-  bugs : https://github.com/Wandalen/wVocabulary/issues
+  repository : git+https:///github.com/Wandalen/wVocabulary.git
+  bugs : https:///github.com/Wandalen/wVocabulary/issues
 
 step :
 
