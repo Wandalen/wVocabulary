@@ -693,6 +693,7 @@ function helpForSubject_pre( routine, args )
 
 /**
  * Generate help string(s) for phrase(s) found by using ( subject ) as query.
+ * Tries to find exact match of phrase first, then looks for phrase using `o.clausing`.
  * If no phrase(s) found returns an empty String.
  * If phrase phraseDescriptor has 'hint' propery defined, routine uses it, otherwise inserts capitalized phrase literal.
  * Returns generated strings in Array.
@@ -728,9 +729,18 @@ function helpForSubject_body( o )
   let self = this;
 
   _.assert( arguments.length === 1 );
-
-  let o2 = _.mapOnly( o, self.subjectDescriptorForWithClause.defaults );
-  let actions = self.subjectDescriptorForWithClause( o2 );
+  
+  let o2 = _.mapOnly( o, self.subjectDescriptorFor.defaults );
+  o2.exact = 1;
+  let actions = self.subjectDescriptorFor( o2 );
+  
+  if( !actions )
+  { 
+    let o2 = _.mapOnly( o, self.subjectDescriptorForWithClause.defaults );
+    actions = self.subjectDescriptorForWithClause( o2 );
+  }
+  
+  actions = _.arrayAs( actions );
 
   if( !actions.length )
   return '';
