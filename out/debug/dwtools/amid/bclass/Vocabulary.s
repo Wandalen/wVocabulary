@@ -36,8 +36,6 @@ let _ = _global_.wTools;
 
 */
 
-
-
 /**
 * Options object for wVocabulary constructor
 * @typedef {Object} wVocabularyOptions
@@ -81,7 +79,7 @@ let _ = _global_.wTools;
 let Parent = null;
 let Self = function wVocabulary( o )
 {
-  return _.instanceConstructor( Self, this, arguments );
+  return _.workpiece.construct( Self, this, arguments );
 }
 
 Self.shortName = 'Vocabulary';
@@ -100,7 +98,7 @@ function init( o )
 {
   let self = this;
 
-  _.instanceInit( self );
+  _.workpiece.initFields( self );
   Object.preventExtensions( self );
 
   if( o )
@@ -729,17 +727,17 @@ function helpForSubject_body( o )
   let self = this;
 
   _.assert( arguments.length === 1 );
-  
+
   let o2 = _.mapOnly( o, self.subjectDescriptorFor.defaults );
   o2.exact = 1;
   let actions = self.subjectDescriptorFor( o2 );
-  
+
   if( !actions )
-  { 
+  {
     let o2 = _.mapOnly( o, self.subjectDescriptorForWithClause.defaults );
     actions = self.subjectDescriptorForWithClause( o2 );
   }
-  
+
   actions = _.arrayAs( actions );
 
   if( !actions.length )

@@ -1,18 +1,17 @@
-
 {
   "name": "wvocabulary",
-  "version": "0.3.0",
-  "description": "___",
+  "version": "0.3.94",
+  "description": "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
   "author": "Kostiantyn Wandalen <wanalen@willbe.so>",
   "license": "MIT",
-  "main": "proto/dwtools/amid/___",
+  "main": "proto/dwtools/amid/bclass/Vocabulary.s",
   "files": [
-    "proto/dwtools/amid",
+    "proto/dwtools/amid/bclass",
     "proto/dwtools/Tools.s",
     "production"
   ],
   "scripts": {
-    "test": "wtest proto",
+    "test": "wtest .run proto/**",
     "docgen": "wdocgen proto"
   },
   "repository": {
@@ -23,7 +22,10 @@
     "url": "https://github.com/Wandalen/wVocabulary/issues"
   },
   "dependencies": {
-    "wTools": ""
+    "wTools": "",
+    "wCopyable": "",
+    "wstringer": "",
+    "wstringsextra": ""
   },
   "devDependencies": {
     "wTesting": ""
