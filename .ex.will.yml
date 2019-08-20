@@ -1,51 +1,89 @@
 
-
 about :
 
-  name : "wVocabulary"
-  description : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly."
-  version : "0.3.75"
+  name : 'wVocabulary'
+  description : 'Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.'
+  version : '0.4.0'
   enabled : 1
   interpreters :
-  - nodejs >= 8.0.0
+  - njs >= 8.0.0
   - chrome >= 60.0.0
   - firefox >= 60.0.0
   keywords :
   - wTools
-
-execution :
-
-  scripts :
-    test : wtest .run proto/**
-    docgen : wdocgen staging
+  license : MIT
+  author : 'Kostiantyn Wandalen <wanalen@willbe.so>'
+  contributors :
+  - 'Kostiantyn Wandalen <wanalen@willbe.so>'
+  npm.name : 'wvocabulary'
+  npm.scripts :
+    test : 'wtest .run proto/**'
+    docgen : 'wdocgen .build proto'
 
 path :
 
   repository : git+https:///github.com/Wandalen/wVocabulary.git
-  bugs : https:///github.com/Wandalen/wVocabulary/issues
+  bugtracker : https:///github.com/Wandalen/wVocabulary/issues
 
 step :
 
-  export.proto :
+  proto.export :
     inherit : module.export
     export : path::proto
     tar : 0
     criterion :
-      debug : 1
-      proto : 1
+      content : 'proto'
+
+  doc.export :
+    inherit : module.export
+    export : path::doc
+    tar : 0
+    criterion :
+      content : 'doc'
+
+  npm.export :
+    inherit : module.export
+    export : out.npm
+    tar : 0
+    criterion :
+      content : 'npm'
+
+  npm.publish :
+    shell : npm publish
 
 build :
 
   proto.export :
     criterion :
-      default : 1
-      debug : 1
-      raw : 1
-      proto : 1
+      content : 'proto'
       export : 1
-      tar : 1
-      public : 1
     steps :
-      - build::debug.raw
-      - step::export.proto
+      # - build::debug.raw
+      - step::proto.export
 
+  doc.export :
+    criterion :
+      content : 'doc'
+      export : 1
+    steps :
+      # - build::debug.raw
+      - step::doc.export
+
+  npm.export :
+    criterion :
+      content : 'npm'
+      export : 1
+    steps :
+      # - build::debug.raw
+      # - step::npm.export
+      - step::npm.publish
+
+  export :
+
+    criterion :
+      default : 1
+      export : 1
+    steps :
+      # - build::npm
+      - build::proto.export
+      # - build::doc.export
