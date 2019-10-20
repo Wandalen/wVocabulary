@@ -239,7 +239,7 @@ function phraseAdd( test )
   voc.phraseAdd( 'project act' );
   test.identical( voc.descriptorArray[ 0 ], voc.descriptorMap[ 'project act' ] );
   test.identical( voc.descriptorMap[ 'project act' ], pd );
-  test.shouldThrowError( () =>
+  test.shouldThrowErrorOfAnyKind( () =>
   {
     voc.descriptorMap[ 'project act' ].someField = 1;
   })
@@ -260,12 +260,12 @@ function phraseAdd( test )
   return;
 
   var voc = new _.Vocabulary();
-  test.shouldThrowError( () => voc.phraseAdd( 1 ) )
-  test.shouldThrowError( () => voc.phraseAdd( { phrase : 'executable' } ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phraseAdd( 1 ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phraseAdd( { phrase : 'executable' } ) )
 
   var voc = new _.Vocabulary({ overriding : 0 });
   voc.phrasesAdd( 'project act' );
-  test.shouldThrowError( () => voc.phraseAdd( 'project act' ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phraseAdd( 'project act' ) )
 }
 
 //
@@ -462,7 +462,7 @@ function phrasesAdd( test )
   voc.phrasesAdd( 'project act' );
   test.identical( voc.descriptorArray[ 0 ], voc.descriptorMap[ 'project act' ] );
   test.identical( voc.descriptorMap[ 'project act' ], pd );
-  test.shouldThrowError( () =>
+  test.shouldThrowErrorOfAnyKind( () =>
   {
     voc.descriptorMap[ 'project act' ].someField = 1;
   })
@@ -481,13 +481,13 @@ function phrasesAdd( test )
   return;
 
   var voc = new _.Vocabulary();
-  test.shouldThrowError( () => voc.phrasesAdd( 1 ) )
-  test.shouldThrowError( () => voc.phrasesAdd( [ 1 ] ) )
-  test.shouldThrowError( () => voc.phrasesAdd( [ { phrase : 'executable' } ] ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phrasesAdd( 1 ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phrasesAdd( [ 1 ] ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phrasesAdd( [ { phrase : 'executable' } ] ) )
 
   var voc = new _.Vocabulary({ overriding : 0 });
   voc.phrasesAdd( 'project act' );
-  test.shouldThrowError( () => voc.phrasesAdd( 'project act' ) )
+  test.shouldThrowErrorOfAnyKind( () => voc.phrasesAdd( 'project act' ) )
 }
 
 //
@@ -658,9 +658,9 @@ function subPhrase( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => vocabulary.subPhrase() );
-  test.shouldThrowError( () => vocabulary.subPhrase( 1, '' ) );
-  test.shouldThrowError( () => vocabulary.subPhrase( '', 1 ) );
+  test.shouldThrowErrorOfAnyKind( () => vocabulary.subPhrase() );
+  test.shouldThrowErrorOfAnyKind( () => vocabulary.subPhrase( 1, '' ) );
+  test.shouldThrowErrorOfAnyKind( () => vocabulary.subPhrase( '', 1 ) );
 
 }
 
@@ -838,8 +838,8 @@ function subjectDescriptorForWithClause( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => vocabulary.subjectDescriptorForWithClause() );
-  test.shouldThrowError( () => vocabulary.subjectDescriptorForWithClause( 1 ) );
+  test.shouldThrowErrorOfAnyKind( () => vocabulary.subjectDescriptorForWithClause() );
+  test.shouldThrowErrorOfAnyKind( () => vocabulary.subjectDescriptorForWithClause( 1 ) );
 }
 
 //
@@ -1088,9 +1088,9 @@ function wordsComplySubject( test )
   if( !Config.debug )
   return
 
-  test.shouldThrowError( () => wordsComplySubject() );
-  test.shouldThrowError( () => wordsComplySubject( '', [] ) );
-  test.shouldThrowError( () => wordsComplySubject( [], '' ) );
+  test.shouldThrowErrorOfAnyKind( () => wordsComplySubject() );
+  test.shouldThrowErrorOfAnyKind( () => wordsComplySubject( '', [] ) );
+  test.shouldThrowErrorOfAnyKind( () => wordsComplySubject( [], '' ) );
 }
 
 //
@@ -1098,7 +1098,7 @@ function wordsComplySubject( test )
 var Self =
 {
 
-  name : 'Tools/mid/Vocabulary',
+  name : 'Tools.mid.Vocabulary',
   silencing : 1,
 
   context :
