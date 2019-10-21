@@ -18,11 +18,11 @@
   }, 
   "dependencies" : 
   {
-    "wTools" : "", 
-    "wCopyable" : "", 
-    "wstringer" : "", 
-    "wstringsextra" : ""
+    "wTools" : "beta", 
+    "wCopyable" : "beta", 
+    "wstringer" : "beta", 
+    "wstringsextra" : "beta"
   }, 
-  "devDependencies" : { "wTesting" : "" }, 
+  "devDependencies" : { "wTesting" : "beta" }, 
   "keywords" : [ "wTools" ]
 }
