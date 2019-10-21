@@ -23,7 +23,7 @@ about :
 path :
 
   repository : git+https:///github.com/Wandalen/wVocabulary.git
-  remotes :
+  origins :
    - git+https:///github.com/Wandalen/wVocabulary.git
    - npm:///wvocabulary
   bugtracker : https:///github.com/Wandalen/wVocabulary/issues
