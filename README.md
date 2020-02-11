@@ -6,7 +6,7 @@ Class to operate phrases. A phrase consists of words. Vocabulary enables the des
 ### Try out
 ```
 npm install
-node sample/Sample.s
+node sample/Sample.js
 ```
 
 
