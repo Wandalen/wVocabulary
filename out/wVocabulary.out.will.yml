@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wVocabulary.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wVocabulary.out.will.yml: &ref_0
+    hash: acf242db89b7fab9da403143c096284d
+    size: 39044
+  ../.ex.will.yml: &ref_1
     hash: a3878ddd79dac3dc7f27e8a037b2374e
     size: 1917
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 44d1a46df5fbdf612453703938134200
     size: 5166
 module:
@@ -20,18 +23,18 @@ module:
         it to make your CLI more user-friendly.
       enabled: 1
       version: 0.4.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@willbe.so>
       npm.name: wvocabulary
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -708,6 +711,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          reflector: 'reflector::exported.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          reflector: 'reflector::exported.files.proto.export*'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -796,8 +817,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wVocabulary.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wVocabulary
@@ -809,13 +831,20 @@ module:
         it to make your CLI more user-friendly.
       enabled: 1
       version: 0.4.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 8.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@willbe.so>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@willbe.so>
       npm.name: wvocabulary
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1499,3 +1528,6 @@ module:
       ../.im.will.yml:
         hash: 44d1a46df5fbdf612453703938134200
         size: 5166
+      wVocabulary.out.will.yml:
+        hash: acf242db89b7fab9da403143c096284d
+        size: 39044
