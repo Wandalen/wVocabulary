@@ -43,7 +43,8 @@ let _ = _global_.wTools;
 * @property {boolean} [ overriding=0 ] Controls overwriting of existing phrases.
 * @property {boolean} [ clausing=0 ]
 * @property {boolean} [ freezing=1 ] Prevents future extensions of phrase phraseDescriptor.
-* @memberof module:Tools/mid/Vocabulary.wVocabulary~
+* @class wVocabulary
+* @module Tools/mid/Vocabulary
 */
 
 /**
@@ -56,7 +57,8 @@ let _ = _global_.wTools;
 * @property {Object} [ subjectMap ] Maps possible subjects with descriptors of phrases that contains it.
 * @property {Object} [ clauseForSubjectMap ] Maps subjects to clause.
 * @property {Object} [ clauseMap ] Maps possible subphrases( clause ) with descriptors of phrases that contains it.
-* @memberof module:Tools/mid/Vocabulary.wVocabulary~
+* @class wVocabulary
+* @module Tools/mid/Vocabulary
 */
 
 /**
@@ -73,7 +75,8 @@ let _ = _global_.wTools;
 * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions}.
 * @class wVocabulary
 * @returns {Object} Returns instance of `wVocabulary`.
-* @memberof module:Tools/mid/Vocabulary
+* @namespace wTools
+* @module Tools/mid/Vocabulary
 */
 
 let Parent = null;
@@ -91,7 +94,9 @@ Self.shortName = 'Vocabulary';
  * @param {wVocabulary~wVocabularyOptions}[o] initialization options {@link module:Tools/mid/Vocabulary.wVocabulary~wVocabularyOptions}.
  * @private
  * @method init
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  */
 
 function init( o )
@@ -142,7 +147,9 @@ function init( o )
  * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onPhraseDescriptorMake ) routine is not an Object.
  * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
  * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.overriding ) is disabled.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  *
  */
 
@@ -196,7 +203,9 @@ function phrasesAdd( src )
  * @throws { Exception } Throw an exception if ( phraseDescriptor ) made by ( onPhraseDescriptorMake ) routine is not an Object.
  * @throws { Exception } Throw an exception if ( src ) is an empty phrase.
  * @throws { Exception } Throw an exception if phrase ( src ) already exists and ( wVocabulary.overriding ) is disabled.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  *
  */
 
@@ -485,7 +494,9 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
  * @method subPhrase
  * @throws { Exception } Throw an exception if( phrase ) is not a String.
  * @throws { Exception } Throw an exception if( subject ) is not a String.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  *
  */
 
@@ -529,7 +540,9 @@ function subPhrase( phrase,subject )
  * @throws { Exception } Throw an exception if more than one argument is provided.
  * @throws { Exception } Throw an exception if ( src ) is not a String.
  * @throws { Exception } Throw an exception if found more than one descriptor with `o.exact` enabled.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  */
 
 function subjectDescriptorFor( o )
@@ -599,7 +612,9 @@ subjectDescriptorFor.defaults =
  * @throws { Exception } Throw an exception if more than two arguments provided.
  * @throws { Exception } Throw an exception if( wVocabulary.wordMap ) is not a Object.
  * @throws { Exception } Throw an exception if( subject ) is not a String or Array.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  *
  */
 
@@ -718,7 +733,9 @@ function helpForSubject_pre( routine, args )
  * @throws { Exception } Throw an exception if more than two arguments provided.
  * @throws { Exception } Throw an exception if( wVocabulary.wordMap ) is not a Object.
  * @throws { Exception } Throw an exception if( subject ) is not a String or Array.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  *
  */
 
@@ -785,7 +802,9 @@ let helpForSubjectAsString = _.routineFromPreAndBody( helpForSubject_pre, helpFo
  * @method phraseParse
  * @throws { Exception } Throw an exception if more than one argument is provided.
  * @throws { Exception } Throw an exception if ( src ) is not a String.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  */
 
 function phraseParse( o )
@@ -827,7 +846,9 @@ phraseParse.defaults =
  * @method subjectsFilter
  * @throws { Exception } Throw an exception if arguments length is not equal 2.
  * @returns {Array} Returns found subjects.
- * @memberof module:Tools/mid/Vocabulary.wVocabulary#
+ * @class wVocabulary
+ * @namespace wTools
+ * @module Tools/mid/Vocabulary
  */
 
 function subjectsFilter( subjects, selector )
