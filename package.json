@@ -1,28 +1,28 @@
 {
-  "name" : "wvocabulary", 
-  "version" : "0.3.148", 
-  "description" : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.", 
-  "author" : "Kostiantyn Wandalen <wanalen@willbe.so>", 
-  "license" : "MIT", 
-  "main" : "proto/dwtools/amid/bclass/Vocabulary.s", 
-  "files" : [ "proto/dwtools/amid/bclass", "proto/dwtools/Tools.s", "out" ], 
-  "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen proto" }, 
-  "repository" : 
+  "name" : "wvocabulary",
+  "version" : "0.3.149",
+  "description" : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
+  "author" : "Kostiantyn Wandalen <wanalen@willbe.so>",
+  "license" : "MIT",
+  "main" : "proto/dwtools/amid/bclass/Vocabulary.s",
+  "files" : [ "proto/dwtools/amid/bclass", "proto/dwtools/Tools.s", "out" ],
+  "scripts" : { "test" : "wtest .run proto/**", "docgen" : "wdocgen proto" },
+  "repository" :
   {
-    "type" : "git", 
+    "type" : "git",
     "url" : "https://github.com/Wandalen/wVocabulary.git"
-  }, 
-  "bugs" : 
+  },
+  "bugs" :
   {
     "url" : "https://github.com/Wandalen/wVocabulary/issues"
-  }, 
-  "dependencies" : 
+  },
+  "dependencies" :
   {
-    "wTools" : "alpha", 
-    "wCopyable" : "alpha", 
-    "wstringer" : "alpha", 
-    "wstringsextra" : "alpha"
-  }, 
-  "devDependencies" : { "wTesting" : "alpha" }, 
+    "wTools" : "gamma",
+    "wCopyable" : "gamma",
+    "wstringer" : "gamma",
+    "wstringsextra" : "gamma"
+  },
+  "devDependencies" : { "wTesting" : "gamma" },
   "keywords" : [ "wTools" ]
 }
