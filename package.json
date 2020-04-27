@@ -1,6 +1,6 @@
 {
   "name" : "wvocabulary",
-  "version" : "0.3.149",
+  "version" : "0.3.150",
   "description" : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
   "author" : "Kostiantyn Wandalen <wanalen@willbe.so>",
   "license" : "MIT",
@@ -18,11 +18,11 @@
   },
   "dependencies" :
   {
-    "wTools" : "gamma",
-    "wCopyable" : "gamma",
-    "wstringer" : "gamma",
-    "wstringsextra" : "gamma"
+    "wTools" : "beta",
+    "wCopyable" : "beta",
+    "wstringer" : "beta",
+    "wstringsextra" : "beta"
   },
-  "devDependencies" : { "wTesting" : "gamma" },
+  "devDependencies" : { "wTesting" : "beta" },
   "keywords" : [ "wTools" ]
 }
