@@ -2,13 +2,10 @@ format: outwillfile-2.0
 root:
   - wVocabulary.out
 consistency:
-  wVocabulary.out.will.yml: &ref_0
-    hash: acf242db89b7fab9da403143c096284d
-    size: 39044
-  ../.ex.will.yml: &ref_1
-    hash: a3878ddd79dac3dc7f27e8a037b2374e
+  ../.ex.will.yml: &ref_0
+    hash: d547fd1a849786b3a531989192b1b9e8
     size: 1917
-  ../.im.will.yml: &ref_2
+  ../.im.will.yml: &ref_1
     hash: 44d1a46df5fbdf612453703938134200
     size: 5166
 module:
@@ -23,18 +20,18 @@ module:
         it to make your CLI more user-friendly.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 8.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wvocabulary
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -205,6 +202,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -220,6 +218,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -235,6 +234,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -250,6 +250,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -265,6 +266,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           raw: raw
           debug: release
@@ -281,6 +283,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -298,6 +301,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -314,6 +318,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -330,6 +335,7 @@ module:
         dst:
           prefixPath: ''
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -343,6 +349,7 @@ module:
             '**': ''
           prefixPath: ../proto
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           generated: 1
           content: proto
@@ -356,6 +363,7 @@ module:
           recursive: 0
         recursive: 0
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           generated: 1
           content: proto
@@ -711,24 +719,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          reflector: 'reflector::exported.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          reflector: 'reflector::exported.files.proto.export*'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -817,9 +807,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wVocabulary.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wVocabulary
@@ -831,20 +820,13 @@ module:
         it to make your CLI more user-friendly.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 8.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wvocabulary
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -988,6 +970,7 @@ module:
           filePath:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -1000,6 +983,7 @@ module:
           filePath:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -1012,6 +996,7 @@ module:
           filePath:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -1024,6 +1009,7 @@ module:
           filePath:
             'path::proto': '{path::out.*=1}/source'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -1036,6 +1022,7 @@ module:
           filePath:
             'path::proto': '{path::out.raw.release}'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           raw: raw
           debug: release
@@ -1049,6 +1036,7 @@ module:
             '**.test/**': 0
             'path::proto': '{path::out.*=1}/Main.s'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -1063,6 +1051,7 @@ module:
             '**.test/**': 0
             'path::proto': '{path::out.*=1}/Main.s'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -1076,6 +1065,7 @@ module:
             '**.test*': 1
             'path::proto': '{path::out.*=1}/Tests.test.s'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -1089,6 +1079,7 @@ module:
             '**.test*': 1
             'path::proto': '{path::out.*=1}/Tests.test.s'
         mandatory: 1
+        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -1523,9 +1514,8 @@ module:
           - 'build::npm'
     consistency:
       ../.ex.will.yml:
-        hash: a3878ddd79dac3dc7f27e8a037b2374e
+        hash: d547fd1a849786b3a531989192b1b9e8
         size: 1917
       ../.im.will.yml:
         hash: 44d1a46df5fbdf612453703938134200
         size: 5166
-      wVocabulary.out.will.yml: *ref_0
