@@ -116,7 +116,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/amid/bclass/Vocabulary.s
+        path: ../proto/dwtools/amid/l1/vocabulary/Vocabulary.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -126,13 +126,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/Vocabulary.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/vocabulary/Vocabulary.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/Vocabulary.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/vocabulary/Vocabulary.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -162,10 +162,10 @@ module:
           - ../proto/dwtools/Tools.s
           - ../proto/dwtools/abase
           - ../proto/dwtools/amid
-          - ../proto/dwtools/amid/bclass
-          - ../proto/dwtools/amid/bclass/Vocabulary.s
-          - ../proto/dwtools/amid/bclass.test
-          - ../proto/dwtools/amid/bclass.test/Vocabulary.test.s
+          - ../proto/dwtools/amid/l1/vocabulary
+          - ../proto/dwtools/amid/l1/vocabulary/Vocabulary.s
+          - ../proto/dwtools/amid/l1/vocabulary.test
+          - ../proto/dwtools/amid/l1/vocabulary.test/Vocabulary.test.s
           - ../proto/dwtools/atop
     submodule:
       wTools:
@@ -946,7 +946,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/amid/bclass/Vocabulary.s
+        path: proto/dwtools/amid/l1/vocabulary/Vocabulary.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -956,13 +956,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/Vocabulary.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/vocabulary/Vocabulary.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/bclass/Vocabulary.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l1/vocabulary/Vocabulary.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug

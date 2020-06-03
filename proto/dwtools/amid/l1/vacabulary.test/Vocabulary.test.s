@@ -4,19 +4,17 @@
 
 if( typeof module !== 'undefined' )
 {
-
-  let _ = require( '../../../dwtools/Tools.s' );
-
-  require( '../bclass/Vocabulary.s' );
-
+  let _ = require( '../../../../dwtools/Tools.s' );
+  require( '../vocabulary/Vocabulary.s' );
   _.include( 'wTesting' );
-
 }
 
 var _ = _global_.wTools;
 var vocabulary = new wVocabulary();
 
-//
+// --
+// context
+// --
 
 function makeWordMap( phrases, descriptorArray, descriptorMap )
 {
@@ -108,7 +106,7 @@ function makeSubjectMap( descriptorArray )
 }
 
 // --
-// Tests
+// tests
 // --
 
 function phraseAdd( test )
@@ -1004,13 +1002,13 @@ function helpForSubject( test )
     '.project.act2 - project act2',
     '.project.act3 - project act3'
   ]
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
 
   /**/
 
   var got = vocabulary.helpForSubject( 'some subject' );
   var expected = '';
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
 
   /**/
 
@@ -1021,7 +1019,7 @@ function helpForSubject( test )
     '.project.act2 - project act2',
     '.project.act3 - project act3'
   ]
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
 
   /**/
 
@@ -1030,7 +1028,7 @@ function helpForSubject( test )
   [
     '.project.act1 - project act1',
   ]
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
 
   /**/
 
@@ -1039,7 +1037,7 @@ function helpForSubject( test )
   [
     '.project.act3 - project act3'
   ]
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
 
   /**/
 
@@ -1048,7 +1046,7 @@ function helpForSubject( test )
   [
     '.project.act1 - project act1',
   ]
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
 
   /**/
 
@@ -1057,7 +1055,8 @@ function helpForSubject( test )
   [
     '.project.act3 - project act3'
   ]
-  test.identical( got, expected );
+  test.identical( _.ct.strip( got ), expected );
+
 }
 
 //

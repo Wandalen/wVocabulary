@@ -13,11 +13,8 @@
 
 if( typeof module !== 'undefined' )
 {
-
-  let _ = require( '../../../dwtools/Tools.s' );
-
+  let _ = require( '../../../../dwtools/Tools.s' );
   _.include( 'wCopyable' );
-
 }
 
 //
@@ -762,7 +759,7 @@ function helpForSubject_body( o )
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
-  let help = _.strJoin([ o.decorating ? _.color.strFormat( '.', 'code' ) : '.', o.decorating ? _.color.strFormat( part1, 'code' ) : part1, ' - ', part2 ]);
+  let help = _.strJoin([ o.decorating ? _.ct.format( '.', 'code' ) : '.', o.decorating ? _.ct.format( part1, 'code' ) : part1, ' - ', part2 ]);
 
   return help;
 }
