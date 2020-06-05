@@ -1,4 +1,5 @@
-(function _Vocabulary_s_() {
+( function _Vocabulary_s_()
+{
 
 'use strict';
 
@@ -77,7 +78,8 @@ let _ = _global_.wTools;
 */
 
 let Parent = null;
-let Self = function wVocabulary( o )
+let Self = wVocabulary;
+function wVocabulary( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
@@ -160,15 +162,15 @@ function phrasesAdd( src )
   _.assert( arguments.length === 1, 'Expects single argument' );
 
   if( _.arrayIs( src ) )
-  _.each( src, ( e,k ) =>
+  _.each( src, ( e, k ) =>
   {
     self.phraseAdd( e );
-  });
+  } );
   else if( _.objectIs( src ) )
-  _.each( src, ( e,k ) =>
-  {
-    self.phraseAdd([ k,e ]);
-  });
+    _.each( src, ( e, k ) =>
+    {
+      self.phraseAdd( [ k, e ] );
+    } );
   else
   {
     self.phraseAdd( src );
@@ -212,7 +214,11 @@ function phraseAdd( src )
   let vocabulary = this;
   let replaceDescriptor = null;
   let phraseDescriptor = self.onPhraseDescriptorMake( src );
-  let words = phraseDescriptor.words = _.strSplitNonPreserving({ src : phraseDescriptor.phrase, delimeter : self.addingDelimeter });
+  let words = phraseDescriptor.words = _.strSplitNonPreserving(
+    {
+      src : phraseDescriptor.phrase, delimeter : self.addingDelimeter
+    }
+  );
   let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -225,18 +231,18 @@ function phraseAdd( src )
   if( self.descriptorMap[ phrase ] )
   {
 
-    _.assert( phraseDescriptor.override || self.overriding, 'phrase overriding :',phraseDescriptor.phrase );
+    _.assert( phraseDescriptor.override || self.overriding, 'phrase overriding :', phraseDescriptor.phrase );
 
     replaceDescriptor = self.descriptorMap[ phrase ];
 
-/*
+    /*
     if( o.usingNounVerb )
     {
       phraseDescriptor.noun = replaceDescriptor.noun;
       phraseDescriptor.verb = replaceDescriptor.verb;
     }
 */
-/*
+    /*
     if( o.clausing )
     {
       phraseDescriptor.clauseLimit = replaceDescriptor.clauseLimit;
@@ -267,9 +273,9 @@ function phraseAdd( src )
 
   /* */
 
-  self._updateWordMap( phraseDescriptor,words,phrase,replaceDescriptor );
-  self._updateSubjectMap( phraseDescriptor,words,phrase,replaceDescriptor );
-  self._updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor );
+  self._updateWordMap( phraseDescriptor, words, phrase, replaceDescriptor );
+  self._updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor );
+  self._updateClauseMap( phraseDescriptor, words, phrase, replaceDescriptor );
 
   /* freeze */
 
@@ -281,7 +287,7 @@ function phraseAdd( src )
 
 //
 
-function _updateWordMap( phraseDescriptor,words,phrase,replaceDescriptor )
+function _updateWordMap( phraseDescriptor, words, phrase, replaceDescriptor )
 {
   let self = this;
 
@@ -310,9 +316,9 @@ function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
 {
   let self = this;
 
-  function use( w,c )
+  function use( w, c )
   {
-    let sliceWords = words.slice( w,w+c );
+    let sliceWords = words.slice( w, w+c );
     let slicePhrase = sliceWords.join( ' ' );
 
     if( replaceDescriptor )
@@ -339,13 +345,13 @@ function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
     self.subjectMap[ slicePhrase ].push( subject );
   }
 
-  use( 0,0 );
+  use( 0, 0 );
 
   for( let c = 1 ; c <= words.length ; c++ )
   {
     for( let w = 0 ; w <= words.length-c ; w++ )
     {
-      use( w,c );
+      use( w, c );
     }
   }
 
@@ -354,7 +360,7 @@ function _updateSubjectMap( phraseDescriptor, words, phrase, replaceDescriptor )
 
 //
 
-function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
+function _updateClauseMap( phraseDescriptor, words, phrase, replaceDescriptor )
 {
   let self = this;
 
@@ -373,18 +379,18 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
   return;
 
   if( phraseDescriptor.clauseLimit === null )
-  phraseDescriptor.clauseLimit = [ 1,+Infinity ];
+  phraseDescriptor.clauseLimit = [ 1, +Infinity ];
   else if( _.numberIs( phraseDescriptor.clauseLimit ) )
-  phraseDescriptor.clauseLimit = [ 1,phraseDescriptor.clauseLimit ];
+    phraseDescriptor.clauseLimit = [ 1, phraseDescriptor.clauseLimit ];
   else if( !_.arrayIs( phraseDescriptor.clauseLimit ) )
-  _.assert( 0, 'Expects clauseLimit as number or array' );
+    _.assert( 0, 'Expects clauseLimit as number or array' );
 
   _.assert( phraseDescriptor.clauseLimit[ 0 ] >= 1 );
 
-  function dequalizer( a,b ){ return a.phraseDescriptor === b };
+  function dequalizer( a, b ){ return a.phraseDescriptor === b };
 
   let clauseLength = 0;
-  let maxClauseLength = Math.min( words.length,phraseDescriptor.clauseLimit[ 1 ] );
+  let maxClauseLength = Math.min( words.length, phraseDescriptor.clauseLimit[ 1 ] );
   for( clauseLength = maxClauseLength ; clauseLength >= phraseDescriptor.clauseLimit[ 0 ] ; clauseLength-- )
   {
 
@@ -392,10 +398,10 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
     {
 
       let subjectLength = clauseLength - 1;
-      let subjectWords = words.slice( w,w+subjectLength );
+      let subjectWords = words.slice( w, w+subjectLength );
       let subjectPhrase = subjectWords.join( ' ' );
 
-      let clauseWords = words.slice( w,w+clauseLength );
+      let clauseWords = words.slice( w, w+clauseLength );
       let clausePhrase = clauseWords.join( ' ' );
       let clause = self.clauseMap[ clausePhrase ];
 
@@ -406,7 +412,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
         return;
         if( e.phraseDescriptor.clauseLimit[ 0 ] <= clauseLength && clauseLength <= e.phraseDescriptor.clauseLimit[ 1 ] )
         return e.phraseDescriptor;
-      });
+      } );
 
       if( subject.length < 2 )
       continue;
@@ -418,7 +424,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
 
         if( replaceDescriptor )
         {
-          let i = _.arrayUpdate( clause.descriptors,replaceDescriptor,phraseDescriptor );
+          let i = _.arrayUpdate( clause.descriptors, replaceDescriptor, phraseDescriptor );
           _.assert( i >= 0 );
         }
         else
@@ -434,7 +440,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
       clause.phrase = clausePhrase;
       clause.subjectWords = subjectWords;
       clause.subjectPhrase = subjectPhrase;
-      clause.subPhrase = self.subPhrase( clausePhrase,subjectPhrase );
+      clause.subPhrase = self.subPhrase( clausePhrase, subjectPhrase );
 
       clause.phraseDescriptor = clause;
       clause.descriptors = subject;
@@ -497,7 +503,7 @@ function _updateClauseMap( phraseDescriptor,words,phrase,replaceDescriptor )
  *
  */
 
-function subPhrase( phrase,subject )
+function subPhrase( phrase, subject )
 {
 
   if( _.arrayIs( phrase ) )
@@ -509,8 +515,8 @@ function subPhrase( phrase,subject )
   _.assert( _.strIs( phrase ) );
   _.assert( _.strIs( subject ) );
 
-  phrase = phrase.replace( subject,'' );
-  phrase = phrase.replace( '  ',' ' );
+  phrase = phrase.replace( subject, '' );
+  phrase = phrase.replace( '  ', ' ' );
   phrase = _.strStrip( phrase );
 
   return phrase;
@@ -555,7 +561,7 @@ function subjectDescriptorFor( o )
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( subjectDescriptorFor, o );
 
-  let parsed = self.phraseParse({ phrase : o.phrase, delimeter : o.delimeter });
+  let parsed = self.phraseParse( { phrase : o.phrase, delimeter : o.delimeter } );
 
   result = self.subjectMap[ parsed.phrase ] || [];
 
@@ -565,7 +571,7 @@ function subjectDescriptorFor( o )
     {
       if( e.phraseDescriptor.phrase === parsed.phrase )
       return e;
-    });
+    } );
     _.assert( result.length <= 1 );
     return result[ 0 ];
   }
@@ -630,11 +636,11 @@ function subjectDescriptorForWithClause( o )
 
   o.clausing = o.clausing === null ? self.clausing : o.clausing;
 
-  let parsed = self.phraseParse({ phrase : o.phrase, delimeter : o.delimeter });
+  let parsed = self.phraseParse( { phrase : o.phrase, delimeter : o.delimeter } );
 
   let subject = self.subjectMap[ parsed.phrase ] || [];
 
-/*
+  /*
   if( !subject.length && parsed.phrase === '' )
   {
     debugger;
@@ -759,7 +765,7 @@ function helpForSubject_body( o )
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
-  let help = _.strJoin([ o.decorating ? _.ct.format( '.', 'code' ) : '.', o.decorating ? _.ct.format( part1, 'code' ) : part1, ' - ', part2 ]);
+  let help = _.strJoin( [ o.decorating ? _.ct.format( '.', 'code' ) : '.', o.decorating ? _.ct.format( part1, 'code' ) : part1, ' - ', part2 ] );
 
   return help;
 }
@@ -819,7 +825,7 @@ function phraseParse( o )
 
   o.delimeter = o.delimeter === null ? self.lookingDelimeter : o.delimeter;
 
-  result.words = _.arrayIs( o.phrase ) ? o.phrase : _.strSplitNonPreserving({ src : o.phrase, delimeter : o.delimeter });
+  result.words = _.arrayIs( o.phrase ) ? o.phrase : _.strSplitNonPreserving( { src : o.phrase, delimeter : o.delimeter } );
   result.phrase = result.words.join( self.addingDelimeter );
 
   return result;
@@ -857,11 +863,11 @@ function subjectsFilter( subjects, selector )
   _.assertMapHasOnly( selector, subjectsFilter.defaults );
 
   if( selector.wholePhrase )
-  selector.wholePhrase = self.phraseParse({ phrase : selector.wholePhrase }).phrase;
+  selector.wholePhrase = self.phraseParse( { phrase : selector.wholePhrase } ).phrase;
   if( selector.slicePhrase )
-  selector.slicePhrase = self.phraseParse({ phrase : selector.slicePhrase }).phrase;
+  selector.slicePhrase = self.phraseParse( { phrase : selector.slicePhrase } ).phrase;
   if( selector.subPhrase )
-  selector.subPhrase = self.phraseParse({ phrase : selector.subPhrase }).phrase;
+  selector.subPhrase = self.phraseParse( { phrase : selector.subPhrase } ).phrase;
 
   let _onEach = _._filter_functor( selector, 1 );
   let result = _.entityFilter( subjects, _onEach );
@@ -887,8 +893,8 @@ function wordsComplySubject( words, subject )
   _.assert( _.arrayIs( subject ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
 
-  if( subject.length === 0 ) return true;
-  if( words.length === 0 ) return false;
+  if( subject.length === 0 )return true;
+  if( words.length === 0 )return false;
 
   let w = words.indexOf( subject[ 0 ] )
   if( words.length - w < subject.length )
@@ -917,7 +923,7 @@ function _onDescriptorSimplestMake( src )
 function _onPhraseDescriptorMake( src )
 {
 
-  _.assert(  _.strIs( src ) || _.arrayIs( src ) );
+  _.assert( _.strIs( src ) || _.arrayIs( src ) );
   _.assert( arguments.length === 1 );
 
   let self = this;
@@ -958,7 +964,7 @@ let Composes =
   onPhraseDescriptorMake : _onPhraseDescriptorMake,
 
   addingDelimeter : ' ',
-  lookingDelimeter : _.define.own([ ' ' ]),
+  lookingDelimeter : _.define.own( [ ' ' ] ),
   overriding : 0,
   clausing : 0,
   freezing : 1,
@@ -969,15 +975,15 @@ let Composes =
 let Aggregates =
 {
 
-  phraseArray : _.define.own([]),
-  descriptorArray : _.define.own([]),
+  phraseArray : _.define.own( [] ),
+  descriptorArray : _.define.own( [] ),
 
-  descriptorMap : _.define.own({}),
-  wordMap : _.define.own({}),
-  subjectMap : _.define.own({}),
+  descriptorMap : _.define.own( {} ),
+  wordMap : _.define.own( {} ),
+  subjectMap : _.define.own( {} ),
 
-  clauseForSubjectMap : _.define.own({}),
-  clauseMap : _.define.own({}),
+  clauseForSubjectMap : _.define.own( {} ),
+  clauseMap : _.define.own( {} ),
 
 }
 
@@ -1026,11 +1032,11 @@ let Proto =
 //
 
 _.classDeclare
-({
+( {
   cls : Self,
   parent : Parent,
   extend : Proto,
-});
+} );
 
 _.Copyable.mixin( Self );
 
@@ -1047,4 +1053,4 @@ _global_[ Self.name ] = _[ Self.shortName ] = Self;
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
-})();
+} )();

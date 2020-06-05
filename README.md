@@ -1,5 +1,5 @@
 
-# wVocabulary [![Build Status](https://travis-ci.org/Wandalen/wVocabulary.svg?branch=master)](https://travis-ci.org/Wandalen/wVocabulary)
+# wVocabulary [![Status](https://github.com/Wandalen/wVocabulary/workflows/Test/badge.svg)](https://github.com/Wandalen/wVocabulary/actions?query=workflow%3ATest)
 
 Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.
 
