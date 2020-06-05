@@ -287,6 +287,7 @@ function phraseAdd( src )
 
 //
 
+/* qqq : o-ficate routine */
 function _updateWordMap( phraseDescriptor, words, phrase, replaceDescriptor )
 {
   let self = this;
