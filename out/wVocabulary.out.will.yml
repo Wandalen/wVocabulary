@@ -158,6 +158,7 @@ module:
           export: 1
         path:
           - ../proto
+          - ../proto/Integration.test.s
           - ../proto/dwtools
           - ../proto/dwtools/Tools.s
           - ../proto/dwtools/abase
@@ -1569,6 +1570,4 @@ module:
       ../.im.will.yml:
         hash: 6df233932310d572d1aa9bd51563347e
         size: 5180
-      wVocabulary.out.will.yml:
-        hash: b3b44de13832725eeb179d85951badcc
-        size: 40513
+      wVocabulary.out.will.yml: *ref_0
