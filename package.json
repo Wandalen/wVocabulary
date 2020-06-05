@@ -1,28 +1,37 @@
 {
-  "name" : "wvocabulary",
-  "version" : "0.3.159",
-  "description" : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "license" : "MIT",
-  "main" : "proto/dwtools/amid/l1/vocabulary/Vocabulary.s",
-  "files" : [ "proto/dwtools/amid/l1/vocabulary", "proto/dwtools/Tools.s", "out" ],
-  "scripts" : { "test" : "wtest .run 'proto/**'", "docgen" : "wdocgen proto" },
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/Wandalen/wVocabulary.git"
+  "name": "wvocabulary",
+  "version": "0.3.159",
+  "description": "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "license": "MIT",
+  "main": "proto/dwtools/amid/l1/vocabulary/Vocabulary.s",
+  "files": [
+    "proto/dwtools/amid/l1/vocabulary",
+    "proto/dwtools/Tools.s",
+    "out"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**'",
+    "docgen": "wdocgen proto"
   },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wVocabulary/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wVocabulary.git"
   },
-  "dependencies" :
-  {
-    "wTools" : "alpha",
-    "wCopyable" : "alpha",
-    "wstringer" : "alpha",
-    "wstringsextra" : "alpha"
+  "bugs": {
+    "url": "https://github.com/Wandalen/wVocabulary/issues"
   },
-  "devDependencies" : { "wTesting" : "alpha" },
-  "keywords" : [ "wTools" ]
+  "dependencies": {
+    "wTools": "alpha",
+    "wCopyable": "alpha",
+    "wstringer": "alpha",
+    "wstringsextra": "alpha"
+  },
+  "devDependencies": {
+    "wTesting": "alpha",
+    "eslint": "=7.1.0"
+  },
+  "keywords": [
+    "wTools"
+  ]
 }
