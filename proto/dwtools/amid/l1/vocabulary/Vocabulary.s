@@ -214,6 +214,7 @@ function phraseAdd( src )
   let vocabulary = this;
   let replaceDescriptor = null;
   let phraseDescriptor = self.onPhraseDescriptorMake( src );
+  /* qqq : ! */
   let words = phraseDescriptor.words = _.strSplitNonPreserving(
     {
       src : phraseDescriptor.phrase, delimeter : self.addingDelimeter
