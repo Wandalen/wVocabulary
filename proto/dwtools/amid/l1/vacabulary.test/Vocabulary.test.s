@@ -614,7 +614,7 @@ function subPhrase( test )
   var expected = 'project';
   test.identical( got, expected );
 
-  var got = vocabulary.subPhrase( 'project', 'xxx' );
+  var got = vocabulary.subPhrase( 'project', 'x' );
   var expected = 'project';
   test.identical( got, expected );
 
@@ -640,7 +640,7 @@ function subPhrase( test )
   var expected = 'project';
   test.identical( got, expected );
 
-  var got = vocabulary.subPhrase( [ 'project', 'act2', 'abc' ], [ 'act2', 'xxx' ] );
+  var got = vocabulary.subPhrase( [ 'project', 'act2', 'abc' ], [ 'act2', 'x' ] );
   var expected = 'project act2 abc';
   test.identical( got, expected );
 
@@ -696,7 +696,7 @@ function subjectDescriptorForWithClause( test )
 
   /**/
 
-  var got = vocabulary.subjectDescriptorForWithClause( 'xxx' );
+  var got = vocabulary.subjectDescriptorForWithClause( 'x' );
   var expected = [];
   test.identical( got, expected );
 
