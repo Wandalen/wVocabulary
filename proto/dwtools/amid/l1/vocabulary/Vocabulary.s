@@ -680,7 +680,7 @@ _updateClauseMap.defaults =
  * @example
  * let vocabulary = new wVocabulary();
  * let phrase = [ '  deck', 'properties  ' ];
- * let subject = 'xxx';
+ * let subject = 'some';
  * let strippedPhrase = vocabulary.subPhrase( phrase, subject );
  * console.log( strippedPhrase );
  * //deck properties
