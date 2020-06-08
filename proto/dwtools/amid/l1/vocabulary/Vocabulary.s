@@ -316,6 +316,8 @@ function _updateWordMap( o )
 {
   let self = this;
 
+  _.routineOptions( _updateWordMap, o );
+
   for( let w = 0 ; w < o.words.length ; w++ )
   {
     let word = o.words[ w ];
@@ -393,6 +395,8 @@ _updateWordMap.defaults =
 function _updateSubjectMap( o )
 {
   let self = this;
+
+  _.routineOptions( _updateSubjectMap, o );
 
   function use( w, c )
   {
@@ -561,6 +565,8 @@ function _updateClauseMap( o )
 
   if( !self.clausing )
   return;
+
+  _.routineOptions( _updateSubjectMap, o );
 
   if( o.phraseDescriptor.clauseLimit === null )
   o.phraseDescriptor.clauseLimit = [ 1, +Infinity ];
