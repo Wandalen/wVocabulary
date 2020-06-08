@@ -571,9 +571,9 @@ function _updateClauseMap( o )
   if( o.phraseDescriptor.clauseLimit === null )
   o.phraseDescriptor.clauseLimit = [ 1, +Infinity ];
   else if( _.numberIs( o.phraseDescriptor.clauseLimit ) )
-    o.phraseDescriptor.clauseLimit = [ 1, o.phraseDescriptor.clauseLimit ];
+  o.phraseDescriptor.clauseLimit = [ 1, o.phraseDescriptor.clauseLimit ];
   else if( !_.arrayIs( o.phraseDescriptor.clauseLimit ) )
-    _.assert( 0, 'Expects clauseLimit as number or array' );
+  _.assert( 0, 'Expects clauseLimit as number or array' );
 
   _.assert( o.phraseDescriptor.clauseLimit[ 0 ] >= 1 );
 
