@@ -216,7 +216,8 @@ function phraseAdd( src )
   let phraseDescriptor = self.onPhraseDescriptorMake( src );
   let words = phraseDescriptor.words = _.strSplitNonPreserving(
     {
-      src : phraseDescriptor.phrase, delimeter : self.addingDelimeter
+      src : phraseDescriptor.phrase,
+      delimeter : self.addingDelimeter
     }
   );
   let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
@@ -273,9 +274,9 @@ function phraseAdd( src )
 
   /* */
 
-  self._updateWordMap( { phraseDescriptor, words, phrase, replaceDescriptor } );
-  self._updateSubjectMap( { phraseDescriptor, words, phrase, replaceDescriptor } );
-  self._updateClauseMap( { phraseDescriptor, words, phrase, replaceDescriptor } );
+  self._updateWordMap( { phraseDescriptor, words, replaceDescriptor } );
+  self._updateSubjectMap( { phraseDescriptor, words, replaceDescriptor } );
+  self._updateClauseMap( { phraseDescriptor, words, replaceDescriptor } );
 
   /* freeze */
 
@@ -338,7 +339,6 @@ _updateWordMap.defaults =
 {
   phraseDescriptor : null,
   words : null,
-  phrase : null,
   replaceDescriptor : null
 }
 
@@ -440,7 +440,6 @@ _updateSubjectMap.defaults =
 {
   phraseDescriptor : null,
   words : null,
-  phrase : null,
   replaceDescriptor : null
 }
 
@@ -648,7 +647,6 @@ _updateClauseMap.defaults =
 {
   phraseDescriptor : null,
   words : null,
-  phrase : null,
   replaceDescriptor : null
 }
 
