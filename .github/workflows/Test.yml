@@ -35,6 +35,8 @@ jobs :
       with :
         node-version : ${{ matrix.node-version }}
     - run : npm i
+    - run : git config --global user.email "testrunner@example.com"
+    - run : git config --global user.name "TestRunner"
     - run : npm test
 
   Full :
@@ -52,4 +54,6 @@ jobs :
       with :
         node-version : ${{ matrix.node-version }}
     - run : npm i
+    - run : git config --global user.email "testrunner@example.com"
+    - run : git config --global user.name "TestRunner"
     - run : npm test
