@@ -29,23 +29,23 @@ function samples( test )
   let sampleDir = path.join( __dirname, '../sample' );
 
   let appStartNonThrowing = _.process.starter
-  ( {
+  ({
     currentPath : sampleDir,
     outputCollecting : 1,
     outputGraying : 1,
     throwingExitCode : 0,
     ready,
     mode : 'fork'
-  } )
+  })
 
   let found = fileProvider.filesFind
-  ( {
+  ({
     filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
     withStem : 0,
     withDirs : 0,
     mode : 'distinct',
     mandatory : 0,
-  } );
+  });
 
   /* */
 
@@ -62,22 +62,22 @@ function samples( test )
       test.case = found[ i ].relative;
       startTime = _.time.now();
       return null;
-    } )
+    })
 
     if( _.longHas( found[ i ].exts, 'throwing' ) )
     {
-      appStartNonThrowing( { execPath : found[ i ].relative } )
+      appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( op ) =>
       {
         console.log( _.time.spent( startTime ) );
         test.description = 'nonzero exit code';
         test.notIdentical( op.exitCode, 0 );
         return null;
-      } )
+      })
     }
     else
     {
-      appStartNonThrowing( { execPath : found[ i ].relative } )
+      appStartNonThrowing({ execPath : found[ i ].relative })
       .then( ( op ) =>
       {
         console.log( _.time.spent( startTime ) );
@@ -92,7 +92,7 @@ function samples( test )
         test.ge( op.output.split( '\n' ).length, 1 );
         test.ge( op.output.length, 3 );
         return null;
-      } )
+      })
     }
   }
 
@@ -114,14 +114,14 @@ function eslint( test )
   let ready = new _.Consequence().take( null );
 
   let start = _.process.starter
-  ( {
+  ({
     execPath : eslint,
     mode : 'fork',
     currentPath : rootPath,
-    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png' ],
+    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json' ],
     throwingExitCode : 0,
     outputCollecting : 1,
-  } )
+  })
 
   /**/
 
@@ -129,14 +129,14 @@ function eslint( test )
   {
     test.case = 'eslint proto';
     return start( 'proto/**' );
-  } )
+  })
   .then( ( op ) =>
   {
     test.identical( op.exitCode, 0 ); debugger;
     if( op.output.length < 1000 )
     logger.log( op.output );
     return null;
-  } )
+  })
 
   /**/
 
@@ -151,13 +151,15 @@ function eslint( test )
       if( op.output.length < 1000 )
       logger.log( op.output );
       return null;
-    } )
-  } )
+    })
+  })
 
   /**/
 
   return ready;
 }
+
+eslint.rapidity = -1;
 
 // --
 // declare
@@ -184,4 +186,4 @@ Self = wTestSuite( Self );
 if( typeof module !== 'undefined' && !module.parent )
 _global_.wTester.test( Self.name );
 
-} )();
+})();

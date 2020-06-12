@@ -1,3 +1,4 @@
+
 name : Test
 
 on :
@@ -26,17 +27,17 @@ jobs :
     strategy :
       fail-fast  : false
       matrix :
-        os : [ windows-latest, ubuntu-latest, macos-latest ]
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
         node-version : [ 14.x ]
     steps :
     - uses : actions/checkout@v2
+    - run : git config --global user.email "testrunner@example.com"
+    - run : git config --global user.name "TestRunner"
     - name : ${{ matrix.node-version }}
       uses : actions/setup-node@v1
       with :
         node-version : ${{ matrix.node-version }}
     - run : npm i
-    - run : git config --global user.email "testrunner@example.com"
-    - run : git config --global user.name "TestRunner"
     - run : npm test
 
   Full :
@@ -45,15 +46,15 @@ jobs :
     strategy :
       fail-fast  : false
       matrix :
-        os : [ windows-latest, ubuntu-latest, macos-latest ]
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
         node-version : [ 10.x, 12.x, 13.x, 14.x ]
     steps :
     - uses : actions/checkout@v2
+    - run : git config --global user.email "testrunner@example.com"
+    - run : git config --global user.name "TestRunner"
     - name : ${{ matrix.node-version }}
       uses : actions/setup-node@v1
       with :
         node-version : ${{ matrix.node-version }}
     - run : npm i
-    - run : git config --global user.email "testrunner@example.com"
-    - run : git config --global user.name "TestRunner"
     - run : npm test
