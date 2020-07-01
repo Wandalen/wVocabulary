@@ -120,7 +120,7 @@ function eslint( test )
     execPath : eslint,
     mode : 'fork',
     currentPath : rootPath,
-    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json' ],
+    args : [ '-c', '.eslintrc.yml', '--ext', '.js,.s,.ss', '--ignore-pattern', '*.html', '--ignore-pattern', '*.txt', '--ignore-pattern', '*.png', '--ignore-pattern', '*.json', '--quiet' ],
     throwingExitCode : 0,
     outputCollecting : 1,
   })
