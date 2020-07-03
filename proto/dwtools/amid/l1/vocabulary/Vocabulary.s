@@ -165,12 +165,12 @@ function phrasesAdd( src )
   _.each( src, ( e, k ) =>
   {
     self.phraseAdd( e );
-  } );
+  });
   else if( _.objectIs( src ) )
-    _.each( src, ( e, k ) =>
-    {
-      self.phraseAdd( [ k, e ] );
-    } );
+  _.each( src, ( e, k ) =>
+  {
+    self.phraseAdd( [ k, e ] );
+  });
   else
   {
     self.phraseAdd( src );
@@ -214,12 +214,11 @@ function phraseAdd( src )
   let vocabulary = this;
   let replaceDescriptor = null;
   let phraseDescriptor = self.onPhraseDescriptorMake( src );
-  let words = phraseDescriptor.words = _.strSplitNonPreserving(
-    {
-      src : phraseDescriptor.phrase,
-      delimeter : self.addingDelimeter
-    }
-  );
+  let words = phraseDescriptor.words = _.strSplitNonPreserving
+  ({
+    src : phraseDescriptor.phrase,
+    delimeter : self.addingDelimeter
+  });
   let phrase = phraseDescriptor.phrase = phraseDescriptor.words.join( ' ' );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
@@ -274,9 +273,9 @@ function phraseAdd( src )
 
   /* */
 
-  self._updateWordMap( { phraseDescriptor, words, replaceDescriptor } );
-  self._updateSubjectMap( { phraseDescriptor, words, replaceDescriptor } );
-  self._updateClauseMap( { phraseDescriptor, words, replaceDescriptor } );
+  self._updateWordMap({ phraseDescriptor, words, replaceDescriptor });
+  self._updateSubjectMap({ phraseDescriptor, words, replaceDescriptor });
+  self._updateClauseMap({ phraseDescriptor, words, replaceDescriptor });
 
   /* freeze */
 
@@ -1242,11 +1241,6 @@ _.Copyable.mixin( Self );
 // --
 
 _global_[ Self.name ] = _[ Self.shortName ] = Self;
-
-// if( typeof module !== 'undefined' )
-// if( _global_.WTOOLS_PRIVATE )
-// { /* delete require.cache[ module.id ]; */ }
-
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
