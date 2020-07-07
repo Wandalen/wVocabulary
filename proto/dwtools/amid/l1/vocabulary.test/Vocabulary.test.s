@@ -11,7 +11,7 @@ if( typeof module !== 'undefined' )
 }
 
 var _ = _global_.wTools;
-var vocabulary = new wVocabulary();
+var vocabulary = new _.Vocabulary();
 
 // --
 // context
@@ -396,10 +396,10 @@ function phrasesAdd( test )
   var c = make();
   var voc = new _.Vocabulary();
   voc.phrasesAdd
-  ( {
+  ({
     'phrase1 act' : 'executable1',
     'phrase2 act' : 'executable2'
-  } ); /* xxx */
+  });
   test.identical( voc.phraseArray, [ 'phrase1.act', 'phrase2.act' ] )
   test.identical( voc.descriptorArray.length, 2 )
   test.identical( _.mapOwnKeys( voc.descriptorMap ), [ 'phrase1.act', 'phrase2.act' ] )
@@ -642,7 +642,7 @@ function phraseParse( test )
 function subPhrase( test )
 {
   test.case = 'remove part of a phrase';
-  var vocabulary = new wVocabulary();
+  var vocabulary = new _.Vocabulary();
 
   /* strings */
 
@@ -717,7 +717,7 @@ function subjectDescriptorForWithClause( test )
 {
 
   test.case = 'subject as string';
-  var vocabulary = new wVocabulary();
+  var vocabulary = new _.Vocabulary();
   var phrase = 'project act2'
   vocabulary.phrasesAdd( phrase );
 
@@ -823,7 +823,7 @@ function subjectDescriptorForWithClause( test )
 
   test.case = 'clausing';
   let onPdMake = ( src ) => src;
-  var vocabulary = new wVocabulary( { clausing : 1, onPhraseDescriptorMake : onPdMake } );
+  var vocabulary = new _.Vocabulary( { clausing : 1, onPhraseDescriptorMake : onPdMake } );
   var pd =
   {
     phrase : 'project.act.act2',
@@ -888,6 +888,107 @@ function subjectDescriptorForWithClause( test )
 
   test.shouldThrowErrorOfAnyKind( () => vocabulary.subjectDescriptorForWithClause() );
   test.shouldThrowErrorOfAnyKind( () => vocabulary.subjectDescriptorForWithClause( 1 ) );
+}
+
+//
+
+function subjectDescriptorFor( test )
+{
+
+  /* */
+
+  test.case = '.command.one';
+  var vocabulary = new _.Vocabulary();
+  vocabulary.phraseAdd( '.command.one' );
+  vocabulary.phraseAdd( '.command.two' );
+  var exp =
+  [
+    {
+      'words' : [ 'command', 'one' ],
+      'slicePhrase' : 'command.one',
+      'wholePhrase' : 'command.one',
+      'subPhrase' : '',
+      'phraseDescriptor' :
+      {
+        'phrase' : 'command.one',
+        'hint' : ' command one',
+        'executable' : null,
+        'words' : [ 'command', 'one' ],
+      },
+      'kind' : 'subject'
+    }
+  ]
+  var got = vocabulary.subjectDescriptorFor( '.command.one' );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'command one';
+  var vocabulary = new _.Vocabulary();
+  vocabulary.phraseAdd( '.command.one' );
+  vocabulary.phraseAdd( '.command.two' );
+  var exp =
+  [
+    {
+      'words' : [ 'command', 'one' ],
+      'slicePhrase' : 'command.one',
+      'wholePhrase' : 'command.one',
+      'subPhrase' : '',
+      'phraseDescriptor' :
+      {
+        'phrase' : 'command.one',
+        'hint' : ' command one',
+        'executable' : null,
+        'words' : [ 'command', 'one' ],
+      },
+      'kind' : 'subject'
+    }
+  ]
+  var got = vocabulary.subjectDescriptorFor( 'command one' );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = '.command';
+  var vocabulary = new _.Vocabulary();
+  vocabulary.phraseAdd( '.command.one' );
+  vocabulary.phraseAdd( '.command.two' );
+  var exp =
+  [
+    {
+      'words' : [ 'command' ],
+      'slicePhrase' : 'command',
+      'wholePhrase' : 'command.one',
+      'subPhrase' : 'one',
+      'phraseDescriptor' :
+      {
+        'phrase' : 'command.one',
+        'hint' : ' command one',
+        'executable' : null,
+        'words' : [ 'command', 'one' ],
+      },
+      'kind' : 'subject'
+    },
+    {
+      'words' : [ 'command' ],
+      'slicePhrase' : 'command',
+      'wholePhrase' : 'command.two',
+      'subPhrase' : 'two',
+      'phraseDescriptor' :
+      {
+        'phrase' : 'command.two',
+        'hint' : ' command two',
+        'executable' : null,
+        'words' : [ 'command', 'two' ],
+      },
+      'kind' : 'subject'
+    }
+  ]
+  var got = vocabulary.subjectDescriptorFor( '.command' );
+  test.identical( got, exp );
+
+  /* */
+
 }
 
 //
@@ -1036,7 +1137,7 @@ function subjectsFilter( test )
 
 function helpForSubject( test )
 {
-  var vocabulary = new wVocabulary();
+  var vocabulary = new _.Vocabulary();
   var phrases =
   [
     'project act1',
@@ -1107,7 +1208,7 @@ function helpForSubject( test )
 
 function wordsComplySubject( test )
 {
-  var vocabulary = new wVocabulary();
+  var vocabulary = new _.Vocabulary();
   var wordsComplySubject = vocabulary.wordsComplySubject;
 
   /**/
@@ -1159,6 +1260,7 @@ var Self =
     phraseParse,
     subPhrase,
     subjectDescriptorForWithClause,
+    subjectDescriptorFor,
     subjectsFilter,
     helpForSubject,
     wordsComplySubject

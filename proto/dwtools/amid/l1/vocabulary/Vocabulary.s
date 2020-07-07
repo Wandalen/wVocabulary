@@ -300,30 +300,6 @@ function phraseAdd( src )
 
 //
 
-/* qqq : o-ficate routine */
-// function _updateWordMap( phraseDescriptor, words, phrase, replaceDescriptor )
-// {
-//   let self = this;
-
-//   for( let w = 0 ; w < words.length ; w++ )
-//   {
-//     let word = words[ w ];
-//     self.wordMap[ word ] = _.arrayAs( self.wordMap[ word ] || [] );
-
-//     if( replaceDescriptor )
-//     {
-//       _.arrayReplaceOnceStrictly( self.wordMap[ word ], replaceDescriptor, phraseDescriptor );
-//     }
-//     else
-//     {
-//       self.wordMap[ word ].push( phraseDescriptor );
-//     }
-
-//   }
-
-//   return self;
-// }
-
 function _updateWordMap( o )
 {
   let self = this;
@@ -630,6 +606,8 @@ function subjectDescriptorFor( o )
   let result = [];
   let added = [];
 
+  debugger;
+
   if( !_.objectIs( o ) )
   o = { phrase : arguments[ 0 ] };
 
@@ -637,7 +615,7 @@ function subjectDescriptorFor( o )
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routineOptions( subjectDescriptorFor, o );
 
-  let parsed = self.phraseParse( { phrase : o.phrase, delimeter : o.delimeter } );
+  let parsed = self.phraseParse({ phrase : o.phrase, delimeter : o.delimeter });
 
   result = self.subjectMap[ parsed.phrase ] || [];
 
@@ -1030,7 +1008,7 @@ let Composes =
 
   addingDelimeterDefault : '.',
   addingDelimeter : _.define.own([ '.', ' ' ]),
-  lookingDelimeter : _.define.own([ ' ' ]),
+  lookingDelimeter : _.define.own([ '.', ' ' ]),
   overriding : 0,
   clausing : 0,
   freezing : 1,
