@@ -606,8 +606,6 @@ function subjectDescriptorFor( o )
   let result = [];
   let added = [];
 
-  debugger;
-
   if( !_.objectIs( o ) )
   o = { phrase : arguments[ 0 ] };
 
