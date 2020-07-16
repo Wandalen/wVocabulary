@@ -1,7 +1,7 @@
 
 if( typeof module !== 'undefined' )
 require( 'wvocabulary' );
-var _ = wTools;
+let _ = wTools;
 
 /**/
 

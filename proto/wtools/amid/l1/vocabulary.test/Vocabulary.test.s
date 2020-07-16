@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );
 }
 
-var _ = _global_.wTools;
+let _ = _global_.wTools;
 var vocabulary = new _.Vocabulary();
 
 // --
@@ -1239,7 +1239,7 @@ function wordsComplySubject( test )
 
 //
 
-var Self =
+let Self =
 {
 
   name : 'Tools.mid.Vocabulary',
