@@ -9,8 +9,7 @@
 */
 
 /**
- * @file Vocabulary.s.
- */
+ *  */
 
 if( typeof module !== 'undefined' )
 {
