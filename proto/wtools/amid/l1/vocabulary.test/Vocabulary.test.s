@@ -491,7 +491,7 @@ function phrasesAdd( test )
          kind : 'subject'
        }
      ],
-      'project' :
+     'project' :
      [
        {
          words : [ 'project' ],
