@@ -255,36 +255,36 @@ function phraseAdd( test )
      ],
       'project' :
       [
-       {
-         words : [ 'project' ],
-         slicePhrase : 'project',
-         wholePhrase : 'project.act',
-         subPhrase : 'act',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
+        {
+          words : [ 'project' ],
+          slicePhrase : 'project',
+          wholePhrase : 'project.act',
+          subPhrase : 'act',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
       ],
       'act' :
       [
-       {
-         words : [ 'act' ],
-         slicePhrase : 'act',
-         wholePhrase : 'project.act',
-         subPhrase : 'project',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
+        {
+          words : [ 'act' ],
+          slicePhrase : 'act',
+          wholePhrase : 'project.act',
+          subPhrase : 'project',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
       ],
       'project.act' :
       [
-       {
-         words : [ 'project', 'act' ],
-         slicePhrase : 'project.act',
-         wholePhrase : 'project.act',
-         subPhrase : '',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
+        {
+          words : [ 'project', 'act' ],
+          slicePhrase : 'project.act',
+          wholePhrase : 'project.act',
+          subPhrase : '',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
       ]
     }
     return c;
