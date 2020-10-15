@@ -718,7 +718,7 @@ subjectDescriptorForWithClause.defaults =
 
 //
 
-function helpForSubject_pre( routine, args )
+function helpForSubject_head( routine, args )
 {
   let self = this;
 
@@ -802,7 +802,7 @@ function helpForSubject_body( o )
 var defaults = helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
 defaults.decorating = 1;
 
-let helpForSubject = _.routineFromPreAndBody( helpForSubject_pre, helpForSubject_body );
+let helpForSubject = _.routineUnite( helpForSubject_head, helpForSubject_body );
 
 //
 
@@ -814,7 +814,7 @@ function helpForSubjectAsString_body( o )
 
 helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
 
-let helpForSubjectAsString = _.routineFromPreAndBody( helpForSubject_pre, helpForSubjectAsString_body );
+let helpForSubjectAsString = _.routineUnite( helpForSubject_head, helpForSubjectAsString_body );
 
 //
 
