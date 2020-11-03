@@ -1,13 +1,13 @@
 
-./.
-./_
+/_*
+/.warchive*
+/build
+/builder
+
 -*
 *.log
 *.db
 *.tmp
-*.special
-*.out
-build
-builder
+*.build
 node_modules
 package-lock.json
