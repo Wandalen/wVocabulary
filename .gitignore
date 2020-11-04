@@ -1,9 +1,9 @@
 
 /_*
-/.warchive*
 /build
 /builder
 
+.warchive*
 -*
 *.log
 *.db
