@@ -792,15 +792,32 @@ function helpForSubject_body( o )
   if( !actions.length )
   return '';
 
+  let filter = o.longHintFirst ? filterLongHintFirst : filterLongHintSecond;
+
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
-  let part2 = actions.map( ( e ) => e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' ) );
+  let part2 = actions.map( filter );
   let help = _.strJoin( [ o.decorating ? _.ct.format( '.', 'code' ) : '.', o.decorating ? _.ct.format( part1, 'code' ) : part1, ' - ', part2 ] );
 
   return help;
+
+  /* */
+
+  function filterLongHintSecond( e )
+  {
+    return e.phraseDescriptor.hint || e.phraseDescriptor.longHint || _.strCapitalize( e.phraseDescriptor.phrase + '.' );
+  }
+
+  /* */
+
+  function filterLongHintFirst( e )
+  {
+    return e.phraseDescriptor.longHint || e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' );
+  }
 }
 
 var defaults = helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
 defaults.decorating = 1;
+defaults.longHintFirst = 0;
 
 let helpForSubject = _.routineUnite( helpForSubject_head, helpForSubject_body );
 
@@ -1091,3 +1108,4 @@ if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
 } )();
+
