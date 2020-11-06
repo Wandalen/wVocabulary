@@ -481,49 +481,49 @@ function phrasesAdd( test )
     c.subjectMap =
     {
       '' :
-     [
-       {
-         words : [],
-         slicePhrase : '',
-         wholePhrase : 'project.act',
-         subPhrase : 'project.act',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ],
-     'project' :
-     [
-       {
-         words : [ 'project' ],
-         slicePhrase : 'project',
-         wholePhrase : 'project.act',
-         subPhrase : 'act',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ],
+      [
+        {
+          words : [],
+          slicePhrase : '',
+          wholePhrase : 'project.act',
+          subPhrase : 'project.act',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ],
+      'project' :
+      [
+        {
+          words : [ 'project' ],
+          slicePhrase : 'project',
+          wholePhrase : 'project.act',
+          subPhrase : 'act',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ],
       'act' :
-     [
-       {
-         words : [ 'act' ],
-         slicePhrase : 'act',
-         wholePhrase : 'project.act',
-         subPhrase : 'project',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ],
+      [
+        {
+          words : [ 'act' ],
+          slicePhrase : 'act',
+          wholePhrase : 'project.act',
+          subPhrase : 'project',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ],
       'project.act' :
-     [ /* qqq : Yevgen review the file and do formatting accurately */
-       {
-         words : [ 'project', 'act' ],
-         slicePhrase : 'project.act',
-         wholePhrase : 'project.act',
-         subPhrase : '',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ]
+      [ /* qqq : Yevgen review the file and do formatting accurately */
+        {
+          words : [ 'project', 'act' ],
+          slicePhrase : 'project.act',
+          wholePhrase : 'project.act',
+          subPhrase : '',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ]
     }
     return c;
   }
