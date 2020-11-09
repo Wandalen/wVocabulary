@@ -5,7 +5,7 @@
 
 /**
  * Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.
-  @module Tools/mid/Vocabulary
+ * @module Tools/mid/Vocabulary
 */
 
 /**
@@ -792,7 +792,7 @@ function helpForSubject_body( o )
   if( !actions.length )
   return '';
 
-  let filter = o.longHintFirst ? filterLongHintFirst : filterLongHintSecond;
+  let filter = o.filter ? o.filter : filterDefault;
 
   let part1 = actions.map( ( e ) => e.phraseDescriptor.words.join( '.' ) );
   let part2 = actions.map( filter );
@@ -802,22 +802,15 @@ function helpForSubject_body( o )
 
   /* */
 
-  function filterLongHintSecond( e )
+  function filterDefault( e )
   {
     return e.phraseDescriptor.hint || e.phraseDescriptor.longHint || _.strCapitalize( e.phraseDescriptor.phrase + '.' );
-  }
-
-  /* */
-
-  function filterLongHintFirst( e )
-  {
-    return e.phraseDescriptor.longHint || e.phraseDescriptor.hint || _.strCapitalize( e.phraseDescriptor.phrase + '.' );
   }
 }
 
 var defaults = helpForSubject_body.defaults = Object.create( subjectDescriptorForWithClause.defaults );
 defaults.decorating = 1;
-defaults.longHintFirst = 0;
+defaults.filter = null;
 
 let helpForSubject = _.routineUnite( helpForSubject_head, helpForSubject_body );
 
