@@ -481,49 +481,49 @@ function phrasesAdd( test )
     c.subjectMap =
     {
       '' :
-     [
-       {
-         words : [],
-         slicePhrase : '',
-         wholePhrase : 'project.act',
-         subPhrase : 'project.act',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ],
-     'project' :
-     [
-       {
-         words : [ 'project' ],
-         slicePhrase : 'project',
-         wholePhrase : 'project.act',
-         subPhrase : 'act',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ],
+      [
+        {
+          words : [],
+          slicePhrase : '',
+          wholePhrase : 'project.act',
+          subPhrase : 'project.act',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ],
+      'project' :
+      [
+        {
+          words : [ 'project' ],
+          slicePhrase : 'project',
+          wholePhrase : 'project.act',
+          subPhrase : 'act',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ],
       'act' :
-     [
-       {
-         words : [ 'act' ],
-         slicePhrase : 'act',
-         wholePhrase : 'project.act',
-         subPhrase : 'project',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ],
+      [
+        {
+          words : [ 'act' ],
+          slicePhrase : 'act',
+          wholePhrase : 'project.act',
+          subPhrase : 'project',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ],
       'project.act' :
-     [ /* qqq : Yevgen review the file and do formatting accurately */
-       {
-         words : [ 'project', 'act' ],
-         slicePhrase : 'project.act',
-         wholePhrase : 'project.act',
-         subPhrase : '',
-         phraseDescriptor : c.pd,
-         kind : 'subject'
-       }
-     ]
+      [ /* qqq : Yevgen review the file and do formatting accurately */
+        {
+          words : [ 'project', 'act' ],
+          slicePhrase : 'project.act',
+          wholePhrase : 'project.act',
+          subPhrase : '',
+          phraseDescriptor : c.pd,
+          kind : 'subject'
+        }
+      ]
     }
     return c;
   }
@@ -1206,6 +1206,115 @@ function helpForSubject( test )
 
 //
 
+function helpForSubjectAsString( test )
+{
+  var vocabulary = new _.Vocabulary();
+  var phrases =
+  [
+    'project act1',
+    'project act2',
+    'project act3',
+  ];
+  vocabulary.phrasesAdd( phrases );
+
+  /* */
+
+  test.open( 'without filter' );
+
+  test.case = 'subject - empty string';
+  var got = vocabulary.helpForSubjectAsString( '' );
+  var expected =
+`  .project.act1 - project act1
+  .project.act2 - project act2
+  .project.act3 - project act3`;
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'unknown subject';
+  var got = vocabulary.helpForSubjectAsString( 'some subject' );
+  var expected = '';
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'subject - common part of each phrase';
+  var got = vocabulary.helpForSubjectAsString( 'project' );
+  var expected =
+`  .project.act1 - project act1
+  .project.act2 - project act2
+  .project.act3 - project act3`;
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'subject - part of single phrase';
+  var got = vocabulary.helpForSubjectAsString( 'act1' );
+  var expected = '  .project.act1 - project act1';
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'subject - array with words';
+  var got = vocabulary.helpForSubjectAsString( [ 'project', 'act3' ] );
+  var expected = '  .project.act3 - project act3';
+  test.identical( _.ct.strip( got ), expected );
+
+  test.close( 'without filter' );
+
+  /* */
+
+  test.open( 'with filter' );
+
+  test.case = 'subject - empty string';
+  var filter = ( e ) => _.strQuote( e.words.join( '.' ) );
+  var got = vocabulary.helpForSubjectAsString({ phrase : '', filter });
+  var expected =
+`  .project.act1 - ""
+  .project.act2 - ""
+  .project.act3 - ""`;
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'unknown subject';
+  var filter = ( e ) => _.strQuote( e.words.join( '.' ) );
+  var got = vocabulary.helpForSubjectAsString({ phrase : 'some subject', filter });
+  var expected = '';
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'subject - common part of each phrase';
+  var filter = ( e ) => _.strQuote( e.words.join( '.' ) );
+  var got = vocabulary.helpForSubjectAsString({ phrase : 'project', filter });
+  var expected =
+`  .project.act1 - "project"
+  .project.act2 - "project"
+  .project.act3 - "project"`;
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'subject - part of single phrase';
+  var filter = ( e ) => _.strQuote( e.words.join( '.' ) );
+  var got = vocabulary.helpForSubjectAsString({ phrase : 'act1', filter });
+  var expected = '  .project.act1 - "act1"';
+  test.equivalent( _.ct.strip( got ), expected );
+
+  /* */
+
+  test.case = 'subject - array with words';
+  var filter = ( e ) => _.strQuote( e.words.join( '.' ) );
+  var got = vocabulary.helpForSubjectAsString({ phrase : [ 'project', 'act3' ], filter });
+  var expected = '  .project.act3 - "project.act3"';
+  test.identical( _.ct.strip( got ), expected );
+
+  test.close( 'with filter' );
+}
+
+//
+
 function wordsComplySubject( test )
 {
   var vocabulary = new _.Vocabulary();
@@ -1263,6 +1372,7 @@ let Self =
     subjectDescriptorFor,
     subjectsFilter,
     helpForSubject,
+    helpForSubjectAsString,
     wordsComplySubject
   }
 
