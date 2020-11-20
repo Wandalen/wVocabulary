@@ -1322,19 +1322,19 @@ function wordsComplySubject( test )
 
   /**/
 
-  test.is( !wordsComplySubject( [], [ 'a' ] ) );
-  test.is( wordsComplySubject( [ 'a' ], [] ) );
-  test.is( wordsComplySubject( [], [] ) );
-  test.is( wordsComplySubject( [], [] ) );
-  test.is( wordsComplySubject( [ 'a', 'b' ], [ 'a', 'b' ] ) );
-  test.is( wordsComplySubject( [ 'a', 'b' ], [] ) );
-  test.is( wordsComplySubject( [ 'a', 'b' ], [ '' ] ) );
-  test.is( !wordsComplySubject( [ 'a', 'b' ], [ 'b', 'c' ] ) );
-  test.is( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c' ] ) );
-  test.is( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b' ] ) );
-  test.is( wordsComplySubject( [ 'a', 'b', 'c', 'x' ], [ 'b', 'c' ] ) );
-  test.is( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x' ] ) );
-  test.is( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x', 'y' ] ) );
+  test.true( !wordsComplySubject( [], [ 'a' ] ) );
+  test.true( wordsComplySubject( [ 'a' ], [] ) );
+  test.true( wordsComplySubject( [], [] ) );
+  test.true( wordsComplySubject( [], [] ) );
+  test.true( wordsComplySubject( [ 'a', 'b' ], [ 'a', 'b' ] ) );
+  test.true( wordsComplySubject( [ 'a', 'b' ], [] ) );
+  test.true( wordsComplySubject( [ 'a', 'b' ], [ '' ] ) );
+  test.true( !wordsComplySubject( [ 'a', 'b' ], [ 'b', 'c' ] ) );
+  test.true( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c' ] ) );
+  test.true( wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b' ] ) );
+  test.true( wordsComplySubject( [ 'a', 'b', 'c', 'x' ], [ 'b', 'c' ] ) );
+  test.true( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x' ] ) );
+  test.true( !wordsComplySubject( [ 'a', 'b', 'c' ], [ 'b', 'c', 'x', 'y' ] ) );
 
   /**/
 
