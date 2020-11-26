@@ -514,7 +514,7 @@ function phrasesAdd( test )
         }
       ],
       'project.act' :
-      [ /* qqq : Yevgen review the file and do formatting accurately */
+      [ /* qqq : Yevhen review the file and do formatting accurately */
         {
           words : [ 'project', 'act' ],
           slicePhrase : 'project.act',
