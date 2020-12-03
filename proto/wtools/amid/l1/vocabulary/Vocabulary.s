@@ -438,7 +438,7 @@ function _updateClauseMap( o )
       let clause = self.clauseMap[ clausePhrase ];
 
       let subject = self.subjectMap[ clausePhrase ];
-      subject = _.entityFilter( subject, function( e )
+      subject = _.filter_( null, subject, function( e )
       {
         if( e.phraseDescriptor.words.length === clauseLength )
         return;
@@ -911,7 +911,7 @@ function subjectsFilter( subjects, selector )
   selector.subPhrase = self.phraseParse( { phrase : selector.subPhrase } ).phrase;
 
   let _onEach = _._filter_functor( selector, 1 );
-  let result = _.entityFilter( subjects, _onEach );
+  let result = _.filter_( null, subjects, _onEach );
 
   return result;
 }
