@@ -385,9 +385,9 @@ function phrasesAdd( test )
   ] );
   test.identical( voc.phraseArray, [ 'phrase1.act', 'phrase2.act' ] )
   test.identical( voc.descriptorArray.length, 2 )
-  test.identical( _.mapOwnKeys( voc.descriptorMap ), [ 'phrase1.act', 'phrase2.act' ] )
-  test.identical( _.mapOwnKeys( voc.wordMap ), [ 'phrase1', 'act', 'phrase2' ] )
-  test.identical( _.mapOwnKeys( voc.subjectMap ), [ '', 'phrase1', 'act', 'phrase1.act', 'phrase2', 'phrase2.act' ] )
+  test.identical( _.mapOnlyOwnKeys( voc.descriptorMap ), [ 'phrase1.act', 'phrase2.act' ] )
+  test.identical( _.mapOnlyOwnKeys( voc.wordMap ), [ 'phrase1', 'act', 'phrase2' ] )
+  test.identical( _.mapOnlyOwnKeys( voc.subjectMap ), [ '', 'phrase1', 'act', 'phrase1.act', 'phrase2', 'phrase2.act' ] )
   test.identical( voc.clausing, 0 );
   test.identical( voc.clauseMap, {} );
   test.identical( voc.clauseForSubjectMap, {} );
@@ -402,9 +402,9 @@ function phrasesAdd( test )
   });
   test.identical( voc.phraseArray, [ 'phrase1.act', 'phrase2.act' ] )
   test.identical( voc.descriptorArray.length, 2 )
-  test.identical( _.mapOwnKeys( voc.descriptorMap ), [ 'phrase1.act', 'phrase2.act' ] )
-  test.identical( _.mapOwnKeys( voc.wordMap ), [ 'phrase1', 'act', 'phrase2' ] )
-  test.identical( _.mapOwnKeys( voc.subjectMap ), [ '', 'phrase1', 'act', 'phrase1.act', 'phrase2', 'phrase2.act' ] )
+  test.identical( _.mapOnlyOwnKeys( voc.descriptorMap ), [ 'phrase1.act', 'phrase2.act' ] )
+  test.identical( _.mapOnlyOwnKeys( voc.wordMap ), [ 'phrase1', 'act', 'phrase2' ] )
+  test.identical( _.mapOnlyOwnKeys( voc.subjectMap ), [ '', 'phrase1', 'act', 'phrase1.act', 'phrase2', 'phrase2.act' ] )
   test.identical( voc.clausing, 0 );
   test.identical( voc.clauseMap, {} );
   test.identical( voc.clauseForSubjectMap, {} );
