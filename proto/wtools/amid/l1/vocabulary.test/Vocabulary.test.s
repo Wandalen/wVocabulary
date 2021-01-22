@@ -20,9 +20,10 @@ var vocabulary = new _.Vocabulary();
 function makeWordMap( phrases, descriptorArray, descriptorMap )
 {
   var wordMap = Object.create( null );
-  descriptorArray.forEach( ( d ) =>
+
+  for( let i = 0; i < descriptorArray.length; i++ )
   {
-    var words = d.words;
+    var words = descriptorArray[ i ].words;
 
     words.forEach( ( w ) =>
     {
@@ -37,9 +38,30 @@ function makeWordMap( phrases, descriptorArray, descriptorMap )
           if( wordMap[ w ].indexOf( phraseDescriptor ) === -1 )
           wordMap[ w ].push( phraseDescriptor );
         }
-      } )
-    } )
-  } )
+      })
+    })
+  }
+
+  // descriptorArray.forEach( ( d ) =>
+  // {
+  //   var words = d.words;
+
+  //   words.forEach( ( w ) =>
+  //   {
+  //     if( wordMap[ w ] === undefined )
+  //     wordMap[ w ] = [];
+
+  //     phrases.forEach( ( p ) =>
+  //     {
+  //       if( _.strHas( p, w ) )
+  //       {
+  //         var phraseDescriptor = descriptorMap[ p ];
+  //         if( wordMap[ w ].indexOf( phraseDescriptor ) === -1 )
+  //         wordMap[ w ].push( phraseDescriptor );
+  //       }
+  //     })
+  //   })
+  // })
 
   return wordMap;
 }
