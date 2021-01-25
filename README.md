@@ -8,7 +8,7 @@ Class to operate phrases. A phrase consists of words. Vocabulary enables the des
 git clone https://github.com/Wandalen/wVocabulary
 cd wVocabulary
 npm install
-node sample/Sample.s
+node sample/trivial/Sample.s
 ```
 
 ## To add to your project
