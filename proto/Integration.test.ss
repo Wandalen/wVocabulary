@@ -49,17 +49,17 @@ function production( test )
   let a = test.assetFor( 'production' );
   let runList = [];
 
-  if( _.process.insideTestContainer() )
-  _.time.sleep( 60000 );
-
   if( process.env.GITHUB_EVENT_NAME === 'pull_request' )
   {
     test.true( true );
     return;
   }
 
+  if( process.env.GITHUB_WORKFLOW === 'publish' )
+  a.ready.delay( 60000 );
+
   console.log( `Event : ${process.env.GITHUB_EVENT_NAME}` );
-  console.log( `Env :\n${_.toStr( process.env )}` );
+  console.log( `Env :\n${_.toStr( _.mapBut( process.env, { WTOOLS_BOT_TOKEN : null } ) )}` );
 
   /* */
 
@@ -89,7 +89,7 @@ function production( test )
     mdlRepoParsed = _.git.path.parse( mdl.repository.url );
     remotePathParsed = _.git.path.parse( remotePath );
 
-    /* qqq : should be no 2 parse */
+    /* aaa : should be no 2 parse */ /* Dmytro : 1 parse for each path */
   }
 
   let isFork = mdlRepoParsed.user !== remotePathParsed.user || mdlRepoParsed.repo !== remotePathParsed.repo;
@@ -110,7 +110,7 @@ function production( test )
 
   /* */
 
-  a.ready.Try( () => a.shell( `npm i --production` ) )
+  a.shell( `npm i --production` )
   .catch( handleDownloadingError )
   .then( ( op ) =>
   {
@@ -301,7 +301,7 @@ function eslint( test )
     outputCollecting : 1,
   })
 
-  /**/
+  /* */
 
   ready.then( () =>
   {
@@ -316,7 +316,7 @@ function eslint( test )
     return null;
   })
 
-  /**/
+  /* */
 
   if( fileProvider.fileExists( sampleDir ) )
   ready.then( () =>
