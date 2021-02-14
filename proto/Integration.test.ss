@@ -48,19 +48,19 @@ function production( test )
   let context = this;
   let a = test.assetFor( 'production' );
   let runList = [];
+  let trigger = _.test.workflowTriggerGet();
 
-  if( process.env.GITHUB_EVENT_NAME === 'pull_request' )
+  if( trigger === 'pull_request' )
   {
     test.true( true );
     return;
   }
 
   /* delay to let npm get updated */
-  if( publishIs() )
+  if( trigger === 'publish' )
   a.ready.delay( 60000 );
 
-  let eventName = process.env.GITHUB_EVENT_NAME ? process.env.GITHUB_EVENT_NAME : 'push';
-  console.log( `Event : ${eventName}` );
+  console.log( `Event : ${trigger}` );
   console.log( `Env :\n${_.toStr( _.mapBut( process.env, { WTOOLS_BOT_TOKEN : null } ) )}` );
 
   /* */
@@ -90,8 +90,6 @@ function production( test )
   {
     mdlRepoParsed = _.git.path.parse( mdl.repository.url );
     remotePathParsed = _.git.path.parse( remotePath );
-
-    /* aaa : should be no 2 parse */ /* Dmytro : 1 parse for each path */
   }
 
   let isFork = mdlRepoParsed.user !== remotePathParsed.user || mdlRepoParsed.repo !== remotePathParsed.repo;
@@ -100,7 +98,17 @@ function production( test )
   if( isFork )
   version = _.git.path.nativize( remotePath );
   else
-  version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha';
+  version = _.npm.versionRemoteRetrive( `npm:///${ mdl.name }!alpha` ) === '' ? 'latest' : 'alpha'; /* aaa for Dmytro : ? */
+  /*
+    Dmytro : it is correct code, the first branch nativizes Git repository path ( forks should use Git path )
+    The second branch checks if the npmjs has some defined version of package ( origin should use version on npmjs )
+
+    The routine versionRemoteRetrive returns version of module if it exists, otherwise, the routine returns empty string
+    _.npm.versionRemoteRetrive({ remotePath : 'npm:///wTools!alpha' })
+    // returns : '0.8.858'
+    _.npm.versionRemoteRetrive({ remotePath : 'npm:///wTools!delta' })
+    // returns : ''
+  */
 
   if( !version )
   throw _.err( 'Cannot obtain version to install' );
@@ -128,27 +136,27 @@ function production( test )
 
   return a.ready;
 
-  /* */
-
-  function publishIs()
-  {
-    if( process.env.GITHUB_WORKFLOW === 'publish' )
-    return true;
-
-    if( process.env.CIRCLECI )
-    {
-      let lastCommitLog = a.shell
-      ({
-        currentPath : a.abs( __dirname, '..' ),
-        execPath : 'git log --format=%B -n 1',
-        sync : 1
-      });
-      let commitMsg = lastCommitLog.output;
-      return _.strBegins( commitMsg, 'version' );
-    }
-
-    return false;
-  }
+  // /* */
+  //
+  // function publishIs() /* aaa for Dmytro : lets discuss */ /* Dmytro : the manual checking of triggers is replaced by routine `workflowTriggerGet` */
+  // {
+  //   if( process.env.GITHUB_WORKFLOW === 'publish' )
+  //   return true;
+  //
+  //   if( process.env.CIRCLECI )
+  //   {
+  //     let lastCommitLog = a.shell
+  //     ({
+  //       currentPath : a.abs( __dirname, '..' ),
+  //       execPath : 'git log --format=%B -n 1',
+  //       sync : 1
+  //     });
+  //     let commitMsg = lastCommitLog.output;
+  //     return _.strBegins( commitMsg, 'version' );
+  //   }
+  //
+  //   return false;
+  // }
 
   /* */
 
@@ -158,13 +166,31 @@ function production( test )
     if( !a.fileProvider.fileExists( a.abs( filePath ) ) )
     return null;
     runList.push( filePath );
-    a.shell( `node ${ filePath }` )
+    a.shell
+    ({
+      execPath : `node ${ filePath }`,
+      throwingExitCode : 0
+    })
     .then( ( op ) =>
     {
       test.case = `running of sample ${filePath}`;
       test.identical( op.exitCode, 0 );
       test.ge( op.output.length, 3 );
+
+      if( op.exitCode === 0 || !isFork )
       return null;
+
+      test.case = 'fork is up to date with origin'
+      return _.git.isUpToDate
+      ({
+        localPath : a.abs( __dirname, '..' ),
+        remotePath : _.git.path.normalize( mdl.repository.url )
+      })
+      .then( ( isUpToDate ) =>
+      {
+        test.identical( isUpToDate, true );
+        return null;
+      })
     });
 
   }
@@ -205,7 +231,6 @@ function samples( test )
 
   let found = fileProvider.filesFind
   ({
-    // filePath : path.join( sampleDir, '**/*.(s|js|ss)' ),
     filePath : path.join( sampleDir, '**/*.(s|ss)' ),
     withStem : 0,
     withDirs : 0,
@@ -284,11 +309,16 @@ function eslint( test )
   let sampleDir = path.join( rootPath, 'sample' );
   let ready = _.take( null );
 
-  // if( _.process.insideTestContainer() && process.platform !== 'linux' )
-  // return test.true( true );
-
-  if( process.platform !== 'linux' )
-  return test.true( true );
+  if( _.process.insideTestContainer() )
+  {
+    let validPlatform = process.platform === 'linux';
+    let validVersion = process.versions.node.split( '.' )[ 0 ] === '14';
+    if( !validPlatform || !validVersion )
+    {
+      test.true( true );
+      return;
+    }
+  }
 
   let start = _.process.starter
   ({
