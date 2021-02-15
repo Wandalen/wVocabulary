@@ -28,6 +28,7 @@ jobs :
       with :
         node-version : ${{ matrix.node-version }}
     - run : npm i
+    - run : npm list
     - name : npm test
       run : npm test
       env :
