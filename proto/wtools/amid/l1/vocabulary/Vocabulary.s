@@ -140,7 +140,7 @@ function form()
  * let vocabulary = new wVocabulary();
  * let phrase = 'deck properties';
  * vocabulary.phrasesAdd( phrases );
- * console.log( _.toStr( vocabulary, { levels : 99 } ) )
+ * console.log( _.entity.exportString( vocabulary, { levels : 99 } ) )
  *
  * @example
  * let vocabulary = new wVocabulary();
@@ -150,7 +150,7 @@ function form()
  *  'deck about'
  * ];
  * vocabulary.phrasesAdd( phrases );
- * console.log( _.toStr( vocabulary, { levels : 99 } ) )
+ * console.log( _.entity.exportString( vocabulary, { levels : 99 } ) )
  *
  * @method phrasesAdd
  * @throws { Exception } Throw an exception if more than one argument is provided.
@@ -206,7 +206,7 @@ function phrasesAdd( src )
  * let vocabulary = new wVocabulary();
  * let phrase = 'deck properties';
  * vocabulary.phraseAdd( phrase );
- * console.log( _.toStr( vocabulary, { levels : 99 } ) )
+ * console.log( _.entity.exportString( vocabulary, { levels : 99 } ) )
  *
  * @method phraseAdd
  * @throws { Exception } Throw an exception if more than one argument is provided.
@@ -659,7 +659,7 @@ subjectDescriptorFor.defaults =
  * vocabulary.phrasesAdd( phrases );
  * let subject = 'deck';
  * let result = vocabulary.subjectDescriptorForWithClause( subject );
- * console.log( _.toStr( result, { levels : 3 } ) );
+ * console.log( _.entity.exportString( result, { levels : 3 } ) );
  *
  * @method subjectDescriptorForWithClause
  * @throws { Exception } Throw an exception if no arguments provided.
@@ -819,7 +819,7 @@ let helpForSubject = _.routineUnite( helpForSubject_head, helpForSubject_body );
 function helpForSubjectAsString_body( o )
 {
   let self = this;
-  return _.toStr( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } );
+  return _.entity.exportString( self.helpForSubject( o ), { levels : 2, wrap : 0, stringWrapper : '', multiline : 1 } );
 }
 
 helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
@@ -858,7 +858,7 @@ function phraseParse( o )
   o = { phrase : arguments[ 0 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
-  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'Expects string or array of words, but got ' + _.strType( o.phrase ) );
+  _.assert( _.strIs( o.phrase ) || _.arrayIs( o.phrase ), () => 'Expects string or array of words, but got ' + _.entity.strType( o.phrase ) );
   _.assert( arguments.length === 1 );
   _.routineOptions( phraseParse, o );
 

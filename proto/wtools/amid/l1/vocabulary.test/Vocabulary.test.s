@@ -878,7 +878,7 @@ function subjectDescriptorForWithClause( test )
   /**/
 
   var got = vocabulary.subjectDescriptorForWithClause( '' );
-  logger.log( _.toStr( got, { levels : 3 } ) )
+  logger.log( _.entity.exportString( got, { levels : 3 } ) )
   var expected =
   [
     {
