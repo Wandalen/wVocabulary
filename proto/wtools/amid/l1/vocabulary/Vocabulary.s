@@ -812,7 +812,7 @@ var defaults = helpForSubject_body.defaults = Object.create( subjectDescriptorFo
 defaults.decorating = 1;
 defaults.filter = null;
 
-let helpForSubject = _.routineUnite( helpForSubject_head, helpForSubject_body );
+let helpForSubject = _.routine.uniteCloning_( helpForSubject_head, helpForSubject_body );
 
 //
 
@@ -824,7 +824,7 @@ function helpForSubjectAsString_body( o )
 
 helpForSubjectAsString_body.defaults = Object.create( helpForSubject.defaults );
 
-let helpForSubjectAsString = _.routineUnite( helpForSubject_head, helpForSubjectAsString_body );
+let helpForSubjectAsString = _.routine.uniteCloning_( helpForSubject_head, helpForSubjectAsString_body );
 
 //
 
