@@ -1122,9 +1122,7 @@ function subjectsFilter( test )
 
   var src = 'project.act1';
   var selector = { wholePhrase : src }
-  debugger;
   var got = voc.subjectsFilter( subjects, selector )
-  debugger;
   var expected = subjects;
   test.identical( got, expected );
 

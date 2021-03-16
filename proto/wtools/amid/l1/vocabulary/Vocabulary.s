@@ -480,7 +480,6 @@ function _updateClauseMap( o )
 
       _.assert( !self.clauseMap[ clausePhrase ] );
 
-      debugger;
       self.clauseForSubjectMap[ subjectPhrase ] = _.arrayAs( self.clauseForSubjectMap[ subjectPhrase ] || [] );
       self.clauseForSubjectMap[ subjectPhrase ].push( clause )
       self.clauseMap[ clausePhrase ] = clause;
@@ -929,7 +928,6 @@ function wordsComplySubject( words, subject )
 {
   let result = [];
 
-  debugger
   _.assert( _.arrayIs( words ) );
   _.assert( _.arrayIs( subject ) );
   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
