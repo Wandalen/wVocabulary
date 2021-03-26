@@ -19,7 +19,7 @@ if( typeof module !== 'undefined' )
 
 //
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 
 /**
 * Definitions :
@@ -76,8 +76,8 @@ let _ = _global_.wTools;
 * @module Tools/mid/Vocabulary
 */
 
-let Parent = null;
-let Self = wVocabulary;
+const Parent = null;
+const Self = wVocabulary;
 function wVocabulary( o )
 {
   return _.workpiece.construct( Self, this, arguments );
@@ -776,13 +776,13 @@ function helpForSubject_body( o )
 
   _.assert( arguments.length === 1 );
 
-  let o2 = _.mapOnly( o, self.subjectDescriptorFor.defaults );
+  let o2 = _.mapOnly_( null, o, self.subjectDescriptorFor.defaults );
   o2.exact = 1;
   let actions = self.subjectDescriptorFor( o2 );
 
   if( !actions )
   {
-    let o2 = _.mapOnly( o, self.subjectDescriptorForWithClause.defaults );
+    let o2 = _.mapOnly_( null, o, self.subjectDescriptorForWithClause.defaults );
     actions = self.subjectDescriptorForWithClause( o2 );
   }
 
@@ -900,7 +900,7 @@ function subjectsFilter( subjects, selector )
 
   _.assert( arguments.length === 2 );
   _.assert( _.arrayIs( subjects ) );
-  _.assertMapHasOnly( selector, subjectsFilter.defaults );
+  _.map.assertHasOnly( selector, subjectsFilter.defaults );
 
   if( selector.wholePhrase )
   selector.wholePhrase = self.phraseParse( { phrase : selector.wholePhrase } ).phrase;
@@ -981,7 +981,7 @@ function _onPhraseDescriptorMake( src )
 
   if( _.objectIs( executable ) )
   {
-    _.assertMapHasOnly( executable, { e : null, h : null } );
+    _.map.assertHasOnly( executable, { e : null, h : null } );
     hint = executable.h;
     executable = executable.e;
   }

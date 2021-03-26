@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );
 }
 
-let _ = _global_.wTools;
+const _ = _global_.wTools;
 var vocabulary = new _.Vocabulary();
 
 // --
@@ -1368,7 +1368,7 @@ function wordsComplySubject( test )
 
 //
 
-let Self =
+const Proto =
 {
 
   name : 'Tools.mid.Vocabulary',
@@ -1400,7 +1400,7 @@ let Self =
 
 //
 
-Self = wTestSuite( Self );
+const Self = wTestSuite( Proto );
 if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 
