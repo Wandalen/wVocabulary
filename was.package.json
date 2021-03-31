@@ -5,7 +5,7 @@
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
   "main" : "proto/wtools/amid/l1/vocabulary/Vocabulary.s",
-  "files" : [ "proto/wtools/amid/l1/vocabulary", "proto/wtools/Tools.s", "out" ],
+  "files" : [ "proto/wtools/amid/l1/vocabulary", "proto/wtools/Tools.s", "out", "proto/node_modules" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :
   {
