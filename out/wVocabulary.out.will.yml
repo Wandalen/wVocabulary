@@ -2,15 +2,12 @@ format: outwillfile-2.0
 root:
   - wVocabulary.out
 consistency:
-  wVocabulary.out.will.yml: &ref_0
-    hash: 0b14b289d23b8a598c3082dd2741dde8
-    size: 38974
-  ../.ex.will.yml: &ref_1
+  ../.ex.will.yml: &ref_0
     hash: 955f0bbe525bb082b7c964bd8353f309
     size: 1918
-  ../.im.will.yml: &ref_2
-    hash: 31691acad89d69a5f5bd002af79865a7
-    size: 5177
+  ../.im.will.yml: &ref_1
+    hash: 1d4a44a4464dff8837aecf6560725e65
+    size: 5144
 module:
   wVocabulary.out:
     about:
@@ -23,18 +20,18 @@ module:
         it to make your CLI more user-friendly.
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wvocabulary
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -65,7 +62,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ../
+        path: ..
       repository:
         path: 'git+https:///github.com/Wandalen/wVocabulary.git'
       origins:
@@ -146,6 +143,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - ../proto/wtools/amid/l1/vocabulary/Vocabulary.s
+          - ../proto/node_modules/wvocabulary
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -708,24 +709,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -814,9 +797,8 @@ module:
           content: proto
           export: 1
     consistency:
-      wVocabulary.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wVocabulary
@@ -828,20 +810,13 @@ module:
         it to make your CLI more user-friendly.
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wvocabulary
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -870,7 +845,7 @@ module:
       download:
         criterion:
           predefined: 1
-        path: ./
+        path: .
       repository:
         path: 'git+https:///github.com/Wandalen/wVocabulary.git'
       origins:
@@ -951,6 +926,10 @@ module:
           raw: compiled
           content: prime
         path: '{path::out.*=}/source/Index.s'
+      npm.proto.entry:
+        path:
+          - proto/wtools/amid/l1/vocabulary/Vocabulary.s
+          - proto/node_modules/wvocabulary
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1515,6 +1494,5 @@ module:
         hash: 955f0bbe525bb082b7c964bd8353f309
         size: 1918
       ../.im.will.yml:
-        hash: 31691acad89d69a5f5bd002af79865a7
-        size: 5177
-      wVocabulary.out.will.yml: *ref_0
+        hash: 1d4a44a4464dff8837aecf6560725e65
+        size: 5144
