@@ -81,8 +81,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - /pro/module/wVocabulary/proto/wtools/amid/l1/vocabulary/Vocabulary.s
-    - /pro/module/wVocabulary/proto/node_modules/wvocabulary
+    - proto/wtools/amid/l1/vocabulary/Vocabulary.s
+    - proto/node_modules/wvocabulary
 reflector:
   reflect.proto:
     inherit: predefined.*
