@@ -4,12 +4,10 @@ name : pr
 on :
   pull_request :
     branches : [ master ]
-  pull_request_review :
-    branches : [ master ]
 
 jobs :
 
-  Cancel:
+  Cancel :
     name : 'Cancel Previous Runs'
     runs-on : ubuntu-latest
     timeout-minutes : 1
@@ -17,20 +15,20 @@ jobs :
       - uses : styfle/cancel-workflow-action@0.4.0
         with :
           access_token : ${{ github.token }}
-          # workflow_id : ${{ github.workflow }}
 
   Fast :
-    runs-on : ${{ matrix.os }}
-    strategy :
-      fail-fast : false
-      matrix :
-        os : [ ubuntu-latest, windows-latest, macos-latest ]
-        node-version : [ 14.x ]
     env :
       PRIVATE_WTOOLS_BOT_TOKEN : ${{ secrets.PRIVATE_WTOOLS_BOT_TOKEN }}
       PRIVATE_WTOOLS_BOT_SSH_KEY : ${{ secrets.PRIVATE_WTOOLS_BOT_SSH_KEY }}
       PRIVATE_WTOOLS_BOT_NPM_PASS : ${{ secrets.PRIVATE_WTOOLS_BOT_NPM_PASS }}
       PRIVATE_WTOOLS_BOT_EMAIL : ${{ secrets.PRIVATE_WTOOLS_BOT_EMAIL }}
+      NODE_PRE_GYP_GITHUB_TOKEN : ${{ secrets.NODE_PRE_GYP_GITHUB_TOKEN }}
+    strategy :
+      fail-fast : false
+      matrix :
+        os : [ ubuntu-latest, windows-latest, macos-latest ]
+        node-version : [ 14.x ]
+    runs-on : ${{ matrix.os }}
     steps :
     - name : git config
       run : |
@@ -52,9 +50,10 @@ jobs :
       if : "startsWith( steps.getnpmver.outputs.npmver, '6.' )"
       run : npm install -g npm@latest-6
     - run : npm -g i willbe@delta
-    - run : npm i
-    - name : environment
+    - run : will .npm.install
+    - name : Environment
       run : env
     - run : npm list
+      continue-on-error : true
     - name : npm test
       run : npm test
