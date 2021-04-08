@@ -22,7 +22,7 @@ jobs :
     if : "startsWith( github.event.head_commit.message, 'version' )"
     runs-on : ${{ matrix.os }}
     steps :
-    - name : git config
+    - name : Setup git
       run : |
         git config --global core.autocrlf input
         git config --global user.email "testing@testing.com"
@@ -47,8 +47,7 @@ jobs :
       run : env
     - run : npm list
       continue-on-error : true
-    - name : npm test
-      run : npm test
+    - run : npm test
 
   Fast :
     env :
@@ -64,7 +63,7 @@ jobs :
     if : "!startsWith( github.event.head_commit.message, 'version' )"
     runs-on : ${{ matrix.os }}
     steps :
-    - name : git config
+    - name : Setup git
       run : |
         git config --global core.autocrlf input
         git config --global user.email "testing@testing.com"
@@ -89,5 +88,4 @@ jobs :
       run : env
     - run : npm list
       continue-on-error : true
-    - name : npm test
-      run : npm test
+    - run : npm test
