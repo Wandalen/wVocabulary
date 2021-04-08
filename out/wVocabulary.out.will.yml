@@ -1525,6 +1525,4 @@ module:
       ../.im.will.yml:
         hash: 4613db73e8c01d6e6f4ceecd3cd4e483
         size: 5096
-      wVocabulary.out.will.yml:
-        hash: e5ce7bf288be2ec15a0cf14d85828556
-        size: 39368
+      wVocabulary.out.will.yml: *ref_0
