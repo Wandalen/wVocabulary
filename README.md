@@ -1,7 +1,6 @@
-
 # module::Vocabulary  [![status](https://github.com/Wandalen/wVocabulary/workflows/publish/badge.svg)](https://github.com/Wandalen/wVocabulary/actions?query=workflow%3Apublish) [![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/emersion/stability-badges#stable)
 
-Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. Also, Vocabulary makes it possible to group phrases by similarity, powering partial match search.
+Vocabulary of phrases, primarily for CLI. Implements class to operate phrases. Vocabulary enables the design of CLI based on phrases instead of words. Also, Vocabulary makes it possible to group phrases by similarity, powering partial match search.
 
 [Module::CommandsAggregator](https://github.com/Wandalen/wCommandsAggregator) uses the module to expose CLI for many utilities. Use it to make your CLI more user-friendly.
 

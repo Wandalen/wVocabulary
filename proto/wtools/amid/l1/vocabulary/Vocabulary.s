@@ -588,6 +588,7 @@ function withSubphrase( o )
 
   _.assert( !!self.subphraseMap );
   result = self.subphraseMap[ parsed.phrase ] || [];
+  // xxx : performance test
   // result = [ ... _.trie.valEachAbove( self.subphraseMap, parsed.words ).vals ];
   // let child = _.trie.withPath( self.subphraseMap, parsed.words ).child;
   // result = [ ... ( child ? child.vals : [] ) ];
@@ -607,7 +608,7 @@ withSubphrase.defaults =
 {
   phrase : null,
   delimeter : null,
-  minimal : 0, /* xxx : qqq : cover */
+  minimal : 0,
 }
 
 //
