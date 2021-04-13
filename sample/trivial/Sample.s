@@ -5,18 +5,15 @@ let _ = wTools;
 
 /**/
 
-var vocabulary = new _.Vocabulary();
-vocabulary.phrasesAdd([ 'do this', 'do that', 'this is' ]);
+var voc = new _.Vocabulary();
+voc.phrasesAdd([ 'do this', 'do that', 'that is' ]);
 
-console.log( vocabulary.helpForSubject( 'do' ) );
-[ '.do.this - Do this.', '.do.that - Do that.' ]
+var found = voc.withPhrase( 'do this' );
+console.log( found.phrase );
+console.log( found.words );
 
-/*
-[ '.do.this - Do this.', '.this.is - This is.' ]
+/* optput:
+do this
+[ 'do', 'this' ]
 */
 
-console.log( vocabulary.helpForSubject( 'this' ) );
-
-/*
-[ '.do.this - Do this.', '.this.is - This is.' ]
-*/

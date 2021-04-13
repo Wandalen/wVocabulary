@@ -133,37 +133,6 @@ function preform()
 //
 // --
 
-function withPhrase( o )
-{
-  let self = this;
-  let result = [];
-  let added = [];
-
-  if( !self.formed )
-  self.preform();
-
-  if( !_.objectIs( o ) )
-  o = { phrase : arguments[ 0 ] };
-
-  _.assert( _.mapIs( self.wordMap ) );
-  _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( withPhrase, o );
-
-  let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
-
-  result = self.phraseMap[ parsed.phrase ];
-
-  return result;
-}
-
-withPhrase.defaults =
-{
-  phrase : null,
-  delimeter : null,
-}
-
-//
-
 /**
  * Shrort-cut for {@link module:Tools/mid/Vocabulary.wVocabulary#phraseAdd wVocabulary.phraseAdd} method.
  * @description
@@ -283,13 +252,18 @@ function _phraseAdd( src, phrase )
   let self = this;
   let vocabulary = this;
   let oldDescriptor = null;
-  let phraseDescriptor = self.onPhraseDescriptorFrom( src, phrase );
 
-  _.assert( self.onPhraseDescriptorIs( phraseDescriptor ) );
+  /* */
+
   _.assert( self.formed === 1, 'Vocabulary is not preformed' );
   _.assert( arguments.length === 2 );
   _.assert( _.strsAreAll( self.delimeter ) );
-  _.assert( _.objectIs( phraseDescriptor ), '{- phraseDescriptor -} should be object' );
+
+  if( phrase !== null )
+  phrase = self.phraseNormalize( phrase );
+  let phraseDescriptor = self.onPhraseDescriptorFrom( src, phrase );
+  _.assert( self.onPhraseDescriptorIs( phraseDescriptor ) );
+  _.assert( _.strDefined( phraseDescriptor.phrase ) );
 
   self.phraseAnalyzeTolerant({ dst : phraseDescriptor, phrase : phraseDescriptor.phrase });
   _.assert( _.strDefined( phraseDescriptor.phrase ) );
@@ -299,26 +273,11 @@ function _phraseAdd( src, phrase )
 
   if( self.phraseMap[ phraseDescriptor.phrase ] )
   {
-    _.assert( phraseDescriptor.override || self.overriding, 'phrase overriding :', phraseDescriptor.phrase );
+    _.sure( phraseDescriptor.override || self.overriding, 'Phrase overriding :', phraseDescriptor.phrase );
     oldDescriptor = self.phraseMap[ phraseDescriptor.phrase ];
   }
 
-  /* */
-
-  self.phraseMap[ phraseDescriptor.phrase ] = phraseDescriptor;
-
-  if( oldDescriptor )
-  {
-    self.descriptorSet.delete( oldDescriptor );
-    self.descriptorSet.add( phraseDescriptor );
-  }
-  else
-  {
-    self.descriptorSet.add( phraseDescriptor );
-  }
-
-  /* */
-
+  self._updateDescriptorSet({ phraseDescriptor, words : phraseDescriptor.words, oldDescriptor });
   self._updateWordMap({ phraseDescriptor, words : phraseDescriptor.words, oldDescriptor });
   if( self.subphraseMap )
   self._updateSubphraseMap({ phraseDescriptor, words : phraseDescriptor.words, oldDescriptor });
@@ -332,11 +291,30 @@ function _phraseAdd( src, phrase )
 
 //
 
-function _updateWordMap( o )
+function _updateDescriptorSet( o )
 {
   let self = this;
 
-  _.routineOptions( _updateWordMap, o );
+  self.phraseMap[ o.phraseDescriptor.phrase ] = o.phraseDescriptor;
+
+  if( o.oldDescriptor )
+  self.descriptorSet.delete( o.oldDescriptor );
+  self.descriptorSet.add( o.phraseDescriptor );
+
+  return self;
+}
+
+_updateDescriptorSet.defaults =
+{
+  phraseDescriptor : null,
+  oldDescriptor : null
+}
+
+//
+
+function _updateWordMap( o )
+{
+  let self = this;
 
   for( let w = 0 ; w < o.words.length ; w++ )
   {
@@ -367,6 +345,37 @@ _updateWordMap.defaults =
 
 //
 
+function withPhrase( o )
+{
+  let self = this;
+  let result = [];
+  let added = [];
+
+  if( !self.formed )
+  self.preform();
+
+  if( !_.objectIs( o ) )
+  o = { phrase : arguments[ 0 ] };
+
+  _.assert( _.mapIs( self.wordMap ) );
+  _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.routineOptions( withPhrase, o );
+
+  let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
+
+  result = self.phraseMap[ parsed.phrase ];
+
+  return result;
+}
+
+withPhrase.defaults =
+{
+  phrase : null,
+  delimeter : null,
+}
+
+//
+
 function phraseParse_head( routine, args )
 {
   let self = this;
@@ -385,6 +394,8 @@ function phraseParse_head( routine, args )
 
   return o;
 }
+
+//
 
 function phraseParseNormal_body( o )
 {
@@ -507,26 +518,11 @@ function _onPhraseDescriptorFromSimplest( src, phrase )
 {
   let self = this;
 
-  if( phrase !== null )
-  phrase = self.phraseNormalize( phrase );
-
-  if( _.mapIs( src ) )
-  {
-    _.map.assertHasOnly( src, [ 'phrase' ] );
-    src = src.phrase;
-  }
-  else if( _.arrayIs( src ) )
-  {
-    _.assert( src.length === 2 );
-    src = src[ 0 ];
-  }
-
   _.assert( _.strIs( src ) );
+  _.assert( arguments.length === 2 );
 
   src = self.phraseNormalize( src );
-
   _.assert( phrase === null || phrase === src );
-  _.assert( arguments.length === 2 );
 
   let result = Object.create( null );
   result.phrase = src;
@@ -636,8 +632,6 @@ function subphrasesForm()
 function _updateSubphraseMap( o )
 {
   let self = this;
-
-  _.routineOptions( _updateSubphraseMap, o );
 
   use( 0, 0 );
 
@@ -788,7 +782,7 @@ function subphraseRest( phrase, subphrase )
   if( subphrase )
   phrase = phrase.replace( subphrase, '' );
 
-  let delimeter = _.arrayAs( self.delimeter ); /* xxx : optimize */
+  let delimeter = _.arrayAs( self.delimeter ); /* xxx : optimize. use set */
   delimeter.forEach( ( del ) =>
   {
     phrase = _.strReplace( phrase, del + del, del );
@@ -802,49 +796,49 @@ function subphraseRest( phrase, subphrase )
   return phrase;
 }
 
+// //
 //
-
-/**
- * @summary Filters array of `subphraseDescriptorArray` using selector `selector`.
- * @param {Array} subphraseDescriptorArray Array of subphraseDescriptorArray.
- * @param {Object} selector Selector for filter.
- * @param {Object} selector.selectedSubphrase Part of targer phrase.
- * @param {Object} selector.phrase Target phrase.
- * @param {Object} selector.restSubphrase Subject of target phrase.
- * @method subphraseDescriptorArrayFilter
- * @throws { Exception } Throw an exception if arguments length is not equal 2.
- * @returns {Array} Returns found subphraseDescriptorArray.
- * @class wVocabulary
- * @namespace wTools
- * @module Tools/mid/Vocabulary
- */
-
-function subphraseDescriptorArrayFilter( subphraseDescriptorArray, selector )
-{
-  let self = this;
-
-  _.assert( arguments.length === 2 );
-  _.assert( _.arrayIs( subphraseDescriptorArray ) );
-  _.map.assertHasOnly( selector, subphraseDescriptorArrayFilter.defaults );
-
-  if( selector.phrase )
-  selector.phrase = self.phraseAnalyzeTolerant({ phrase : selector.phrase }).phrase;
-  if( selector.selectedSubphrase )
-  selector.selectedSubphrase = self.phraseAnalyzeTolerant({ phrase : selector.selectedSubphrase }).phrase;
-  if( selector.restSubphrase )
-  selector.restSubphrase = self.phraseAnalyzeTolerant({ phrase : selector.restSubphrase }).phrase;
-
-  let _onEach = _._filter_functor( selector, 1 );
-  let result = _.filter_( null, subphraseDescriptorArray, _onEach );
-  return result;
-}
-
-subphraseDescriptorArrayFilter.defaults =
-{
-  selectedSubphrase : null,
-  phrase : null,
-  restSubphrase : null,
-}
+// /**
+//  * @summary Filters array of `subphraseDescriptorArray` using selector `selector`.
+//  * @param {Array} subphraseDescriptorArray Array of subphraseDescriptorArray.
+//  * @param {Object} selector Selector for filter.
+//  * @param {Object} selector.selectedSubphrase Part of targer phrase.
+//  * @param {Object} selector.phrase Target phrase.
+//  * @param {Object} selector.restSubphrase Subject of target phrase.
+//  * @method subphraseDescriptorArrayFilter
+//  * @throws { Exception } Throw an exception if arguments length is not equal 2.
+//  * @returns {Array} Returns found subphraseDescriptorArray.
+//  * @class wVocabulary
+//  * @namespace wTools
+//  * @module Tools/mid/Vocabulary
+//  */
+//
+// function subphraseDescriptorArrayFilter( subphraseDescriptorArray, selector )
+// {
+//   let self = this;
+//
+//   _.assert( arguments.length === 2 );
+//   _.assert( _.arrayIs( subphraseDescriptorArray ) );
+//   _.map.assertHasOnly( selector, subphraseDescriptorArrayFilter.defaults );
+//
+//   if( selector.phrase )
+//   selector.phrase = self.phraseAnalyzeTolerant({ phrase : selector.phrase }).phrase;
+//   if( selector.selectedSubphrase )
+//   selector.selectedSubphrase = self.phraseAnalyzeTolerant({ phrase : selector.selectedSubphrase }).phrase;
+//   if( selector.restSubphrase )
+//   selector.restSubphrase = self.phraseAnalyzeTolerant({ phrase : selector.restSubphrase }).phrase;
+//
+//   let _onEach = _._filter_functor( selector, 1 );
+//   let result = _.filter_( null, subphraseDescriptorArray, _onEach );
+//   return result;
+// }
+//
+// subphraseDescriptorArrayFilter.defaults =
+// {
+//   selectedSubphrase : null,
+//   phrase : null,
+//   restSubphrase : null,
+// }
 
 // //
 //
@@ -933,17 +927,18 @@ let Proto =
 
   // phrase
 
-  withPhrase,
-
   phrasesAdd,
   phraseAdd,
   _phraseAdd,
+  _updateDescriptorSet,
   _updateWordMap,
 
+  withPhrase,
   phraseParseNormal,
   phraseParseTolerant,
   phraseAnalyzeNormal,
   phraseAnalyzeTolerant,
+  phraseAnalyze : phraseAnalyzeTolerant,
   phraseNormalize,
 
   _onPhraseDescriptorFromSimplest,
@@ -956,8 +951,8 @@ let Proto =
   _updateSubphraseMap,
 
   subphraseRest,
-  subphraseDescriptorArrayFilter,
-  // SubphraseInsidePhrase, /* xxx : remove? */
+  // subphraseDescriptorArrayFilter,
+  // SubphraseInsidePhrase,
 
   // relations
 
