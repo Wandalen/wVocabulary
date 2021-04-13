@@ -2,13 +2,10 @@ format: outwillfile-2.0
 root:
   - wVocabulary.out
 consistency:
-  wVocabulary.out.will.yml: &ref_0
-    hash: e5ce7bf288be2ec15a0cf14d85828556
-    size: 39368
-  ../.ex.will.yml: &ref_1
-    hash: 955f0bbe525bb082b7c964bd8353f309
-    size: 1918
-  ../.im.will.yml: &ref_2
+  ../.ex.will.yml: &ref_0
+    hash: ec31a92ce9ec5f404a1b3070db912a78
+    size: 1705
+  ../.im.will.yml: &ref_1
     hash: 4613db73e8c01d6e6f4ceecd3cd4e483
     size: 5096
 module:
@@ -16,25 +13,21 @@ module:
     about:
       name: wVocabulary
       org: noorg
-      description: >-
-        Class to operate phrases. A phrase consists of words. Vocabulary enables
-        the design of CLI based on phrases instead of words. It makes possible
-        to group several similar phrases and help a user learn CLI faster. Use
-        it to make your CLI more user-friendly.
+      description: 'Vocabulary of phrases, primarily for CLI.'
       enabled: 1
       version: 0.4.0
-      interpreters:
+      interpreters: &ref_2
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords:
+      keywords: &ref_3
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
+      contributors: &ref_4
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wvocabulary
-      npm.scripts:
+      npm.scripts: &ref_5
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -712,24 +705,6 @@ module:
           content: prime
         inherit:
           - files.transpile
-      exported.proto.export:
-        opts:
-          filePath: 'reflector::exported.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
-      exported.files.proto.export:
-        opts:
-          filePath: 'reflector::exported.files.proto.export'
-        criterion:
-          generated: 1
-          content: proto
-          export: 1
-        inherit:
-          - files.reflect
     build:
       proto.export:
         steps:
@@ -818,34 +793,22 @@ module:
           content: proto
           export: 1
     consistency:
-      wVocabulary.out.will.yml: *ref_0
-      ../.ex.will.yml: *ref_1
-      ../.im.will.yml: *ref_2
+      ../.ex.will.yml: *ref_0
+      ../.im.will.yml: *ref_1
   ../:
     about:
       name: wVocabulary
       org: noorg
-      description: >-
-        Class to operate phrases. A phrase consists of words. Vocabulary enables
-        the design of CLI based on phrases instead of words. It makes possible
-        to group several similar phrases and help a user learn CLI faster. Use
-        it to make your CLI more user-friendly.
+      description: 'Vocabulary of phrases, primarily for CLI.'
       enabled: 1
       version: 0.4.0
-      interpreters:
-        - njs >= 10.0.0
-        - chrome >= 60.0.0
-        - firefox >= 60.0.0
-      keywords:
-        - wTools
+      interpreters: *ref_2
+      keywords: *ref_3
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors:
-        - Kostiantyn Wandalen <wanalen@01.school>
+      contributors: *ref_4
       npm.name: wvocabulary
-      npm.scripts:
-        test: wtest .run proto/**
-        docgen: wdocgen .build proto
+      npm.scripts: *ref_5
     path:
       module.willfiles:
         criterion:
@@ -1520,9 +1483,8 @@ module:
           - 'build::npm'
     consistency:
       ../.ex.will.yml:
-        hash: 955f0bbe525bb082b7c964bd8353f309
-        size: 1918
+        hash: ec31a92ce9ec5f404a1b3070db912a78
+        size: 1705
       ../.im.will.yml:
         hash: 4613db73e8c01d6e6f4ceecd3cd4e483
         size: 5096
-      wVocabulary.out.will.yml: *ref_0

@@ -1,7 +1,7 @@
 {
   "name" : "wvocabulary",
-  "version" : "0.3.247",
-  "description" : "Class to operate phrases. A phrase consists of words. Vocabulary enables the design of CLI based on phrases instead of words. It makes possible to group several similar phrases and help a user learn CLI faster. Use it to make your CLI more user-friendly.",
+  "version" : "0.3.248",
+  "description" : "Vocabulary of phrases, primarily for CLI.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
   "main" : "proto/node_modules/wvocabulary",
