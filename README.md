@@ -14,22 +14,22 @@ will .npm.install
 node sample/trivial/Sample.s
 ```
 
-Make sure you have utility `willbe` installed. Willbe is required for the build of the module.
+Make sure you have utility `willbe` installed. To install willbe: `npm i -g willbe@delta`. Willbe is required to build of the module.
 
 ### To add to your project
 ```
 npm add 'wvocabulary@delta'
 ```
 
-`Willbe` is not needed to use the module in your project.
+`Willbe` is not required to use the module in your project as submodule.
 
 ### Concepts
 
-[Phrase](./doc/concept/All.md#phrase) - sequence of words.
-[Word](./doc/concept/All.md#word) - string which does not contain delimeter.
-[Delimeter](./doc/concept/All.md#delimeter) - by default, both dot `.` and space ` ` represents delimeter.
-[Subphrase](./doc/concept/All.md#subphrase) - phrase without sequence of words removed from it.
-[Vocabulary](./doc/concept/All.md#vocabulary) - collection of phrases and related data.
+[Phrase](./doc/concept/All.md#phrase) - sequence of words. \
+[Word](./doc/concept/All.md#word) - string which does not contain delimeter. \
+[Delimeter](./doc/concept/All.md#delimeter) - by default, both dot `.` and space ` ` represents delimeter. \
+[Subphrase](./doc/concept/All.md#subphrase) - phrase without sequence of words removed from it. \
+[Vocabulary](./doc/concept/All.md#vocabulary) - collection of phrases and related data. 
 
 <!-- xxx : qqq : duplicate in doc/* and make links working -->
 
