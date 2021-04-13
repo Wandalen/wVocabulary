@@ -277,100 +277,100 @@ function phraseAddCustomFrom( test )
   voc.subphrasesForm();
   var exp =
   {
-    "" :
+    '' :
     [
       {
-        "phrase" : `do.this`,
-        "selectedSubphrase" : ``,
-        "restSubphrase" : `do.this`,
-        "words" : []
+        'phrase' : `do.this`,
+        'selectedSubphrase' : ``,
+        'restSubphrase' : `do.this`,
+        'words' : []
       },
       {
-        "phrase" : `do.that`,
-        "selectedSubphrase" : ``,
-        "restSubphrase" : `do.that`,
-        "words" : []
+        'phrase' : `do.that`,
+        'selectedSubphrase' : ``,
+        'restSubphrase' : `do.that`,
+        'words' : []
       },
       {
-        "phrase" : `that.is`,
-        "selectedSubphrase" : ``,
-        "restSubphrase" : `that.is`,
-        "words" : []
+        'phrase' : `that.is`,
+        'selectedSubphrase' : ``,
+        'restSubphrase' : `that.is`,
+        'words' : []
       }
     ],
-    "do" :
+    'do' :
     [
       {
-        "phrase" : `do.this`,
-        "selectedSubphrase" : `do`,
-        "restSubphrase" : `this`,
-        "words" : [ `do` ]
+        'phrase' : `do.this`,
+        'selectedSubphrase' : `do`,
+        'restSubphrase' : `this`,
+        'words' : [ `do` ]
       },
       {
-        "phrase" : `do.that`,
-        "selectedSubphrase" : `do`,
-        "restSubphrase" : `that`,
-        "words" : [ `do` ]
+        'phrase' : `do.that`,
+        'selectedSubphrase' : `do`,
+        'restSubphrase' : `that`,
+        'words' : [ `do` ]
       }
     ],
-    "this" :
+    'this' :
     [
       {
-        "phrase" : `do.this`,
-        "selectedSubphrase" : `this`,
-        "restSubphrase" : `do`,
-        "words" : [ `this` ]
+        'phrase' : `do.this`,
+        'selectedSubphrase' : `this`,
+        'restSubphrase' : `do`,
+        'words' : [ `this` ]
       }
     ],
-    "do.this" :
+    'do.this' :
     [
       {
-        "phrase" : `do.this`,
-        "selectedSubphrase" : `do.this`,
-        "restSubphrase" : ``,
-        "words" : [ `do`, `this` ]
+        'phrase' : `do.this`,
+        'selectedSubphrase' : `do.this`,
+        'restSubphrase' : ``,
+        'words' : [ `do`, `this` ]
       }
     ],
-    "that" :
+    'that' :
     [
       {
-        "phrase" : `do.that`,
-        "selectedSubphrase" : `that`,
-        "restSubphrase" : `do`,
-        "words" : [ `that` ]
+        'phrase' : `do.that`,
+        'selectedSubphrase' : `that`,
+        'restSubphrase' : `do`,
+        'words' : [ `that` ]
       },
       {
-        "phrase" : `that.is`,
-        "selectedSubphrase" : `that`,
-        "restSubphrase" : `is`,
-        "words" : [ `that` ]
+        'phrase' : `that.is`,
+        'selectedSubphrase' : `that`,
+        'restSubphrase' : `is`,
+        'words' : [ `that` ]
       }
     ],
-    "do.that" :
+    'do.that' :
     [
       {
-        "phrase" : `do.that`,
-        "selectedSubphrase" : `do.that`,
-        "restSubphrase" : ``,
-        "words" : [ `do`, `that` ]
+        'phrase' : `do.that`,
+        'selectedSubphrase' : `do.that`,
+        'restSubphrase' : ``,
+        'words' : [ `do`, `that` ]
       }
     ],
-    "is" :
+    'is' :
     [
       {
-        "phrase" : `that.is`,
-        "selectedSubphrase" : `is`,
-        "restSubphrase" : `that`,
-        "words" : [ `is` ]
+        'phrase' : `that.is`,
+        'selectedSubphrase' : `is`,
+        'restSubphrase' : `that`,
+        'words' : [ `is` ]
       }
     ],
-    "that.is" :
+    'that.is' :
     [
       {
-        "phrase" : `that.is`,
-        "selectedSubphrase" : `that.is`,
-        "restSubphrase" : ``,
-        "words" : [ `that`, `is` ]
+        'phrase' : `that.is`,
+        'selectedSubphrase' : `that.is`,
+        'restSubphrase' : ``,
+        'words' : [ `that`, `is` ]
       }
     ]
   }

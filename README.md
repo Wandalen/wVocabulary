@@ -29,7 +29,7 @@ npm add 'wvocabulary@delta'
 [Word](./doc/concept/All.md#word) - string which does not contain delimeter. \
 [Delimeter](./doc/concept/All.md#delimeter) - by default, both dot `.` and space ` ` represents delimeter. \
 [Subphrase](./doc/concept/All.md#subphrase) - phrase without sequence of words removed from it. \
-[Vocabulary](./doc/concept/All.md#vocabulary) - collection of phrases and related data. 
+[Vocabulary](./doc/concept/All.md#vocabulary) - collection of phrases and related data.
 
 <!-- xxx : qqq : duplicate in doc/* and make links working -->
 
