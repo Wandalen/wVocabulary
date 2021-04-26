@@ -2,10 +2,13 @@ format: outwillfile-2.0
 root:
   - wVocabulary.out
 consistency:
-  ../.ex.will.yml: &ref_0
+  wVocabulary.out.will.yml: &ref_0
+    hash: f7e4deb640dbaba68a13d9c95e3ad468
+    size: 38880
+  ../.ex.will.yml: &ref_1
     hash: ec31a92ce9ec5f404a1b3070db912a78
     size: 1705
-  ../.im.will.yml: &ref_1
+  ../.im.will.yml: &ref_2
     hash: 4613db73e8c01d6e6f4ceecd3cd4e483
     size: 5096
 module:
@@ -16,18 +19,18 @@ module:
       description: 'Vocabulary of phrases, primarily for CLI.'
       enabled: 1
       version: 0.4.0
-      interpreters: &ref_2
+      interpreters:
         - njs >= 10.0.0
         - chrome >= 60.0.0
         - firefox >= 60.0.0
-      keywords: &ref_3
+      keywords:
         - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: &ref_4
+      contributors:
         - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wvocabulary
-      npm.scripts: &ref_5
+      npm.scripts:
         test: wtest .run proto/**
         docgen: wdocgen .build proto
     path:
@@ -705,6 +708,24 @@ module:
           content: prime
         inherit:
           - files.transpile
+      exported.proto.export:
+        opts:
+          filePath: 'reflector::exported.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
+      exported.files.proto.export:
+        opts:
+          filePath: 'reflector::exported.files.proto.export'
+        criterion:
+          generated: 1
+          content: proto
+          export: 1
+        inherit:
+          - files.reflect
     build:
       proto.export:
         steps:
@@ -793,8 +814,9 @@ module:
           content: proto
           export: 1
     consistency:
-      ../.ex.will.yml: *ref_0
-      ../.im.will.yml: *ref_1
+      wVocabulary.out.will.yml: *ref_0
+      ../.ex.will.yml: *ref_1
+      ../.im.will.yml: *ref_2
   ../:
     about:
       name: wVocabulary
@@ -802,13 +824,20 @@ module:
       description: 'Vocabulary of phrases, primarily for CLI.'
       enabled: 1
       version: 0.4.0
-      interpreters: *ref_2
-      keywords: *ref_3
+      interpreters:
+        - njs >= 10.0.0
+        - chrome >= 60.0.0
+        - firefox >= 60.0.0
+      keywords:
+        - wTools
       license: MIT
       author: Kostiantyn Wandalen <wanalen@01.school>
-      contributors: *ref_4
+      contributors:
+        - Kostiantyn Wandalen <wanalen@01.school>
       npm.name: wvocabulary
-      npm.scripts: *ref_5
+      npm.scripts:
+        test: wtest .run proto/**
+        docgen: wdocgen .build proto
     path:
       module.willfiles:
         criterion:
@@ -1488,3 +1517,6 @@ module:
       ../.im.will.yml:
         hash: 4613db73e8c01d6e6f4ceecd3cd4e483
         size: 5096
+      wVocabulary.out.will.yml:
+        hash: f7e4deb640dbaba68a13d9c95e3ad468
+        size: 38880
