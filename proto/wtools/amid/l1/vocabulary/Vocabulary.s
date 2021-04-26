@@ -359,12 +359,10 @@ function withPhrase( o )
 
   _.assert( _.mapIs( self.wordMap ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( withPhrase, o );
+  _.routine.options_( withPhrase, o );
 
   let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
-
   result = self.phraseMap[ parsed.phrase ];
-
   return result;
 }
 
@@ -372,6 +370,50 @@ withPhrase.defaults =
 {
   phrase : null,
   delimeter : null,
+}
+
+//
+
+function PhraseParseTolerant( phrase, delimeter )
+{
+  let self = this;
+  delimeter = ( delimeter === null || delimeter === undefined ) ? [ '.', ' ' ] : delimeter;
+  if( _.arrayIs( phrase ) )
+  return phrase;
+  else
+  return _.strSplitNonPreserving({ src : phrase, delimeter : delimeter });
+}
+
+//
+
+function phraseParseNormal( phrase, delimeter )
+{
+  let self = this;
+  if( _.arrayIs( phrase ) )
+  {
+    return phrase;
+  }
+  else
+  {
+    delimeter = ( delimeter === null || delimeter === undefined ) ? self.defaultDelimeter : delimeter;
+    _.assert( _.strDefined( delimeter ) );
+    if( phrase === '' )
+    return [];
+    return phrase.split( delimeter );
+  }
+}
+
+//
+
+function phraseParseTolerant( phrase, delimeter )
+{
+  let self = this;
+  delimeter = ( delimeter === null || delimeter === undefined ) ? self.delimeter : delimeter;
+  return self.PhraseParseTolerant( phrase, delimeter );
+  // if( _.arrayIs( o.phrase ) )
+  // return o.phrase;
+  // else
+  // return _.strSplitNonPreserving({ src : o.phrase, delimeter : o.delimeter });
 }
 
 //
@@ -390,54 +432,10 @@ function phraseParse_head( routine, args )
   );
   _.assert( arguments.length === 2 );
   _.assert( args.length === 1 );
-  _.routineOptions( routine, o );
+  _.routine.options_( routine, o );
 
   return o;
 }
-
-//
-
-function phraseParseNormal_body( o )
-{
-  let self = this;
-  o.delimeter = o.delimeter === null ? self.defaultDelimeter : o.delimeter;
-  if( _.arrayIs( o.phrase ) )
-  {
-    return o.phrase;
-  }
-  else
-  {
-    if( o.phrase === '' )
-    return [];
-    return o.phrase.split( o.delimeter );
-  }
-}
-
-phraseParseNormal_body.defaults =
-{
-  phrase : null,
-  delimeter : null,
-}
-
-let phraseParseNormal = _.routine.unite( phraseParse_head, phraseParseNormal_body );
-
-function phraseParseTolerant_body( o )
-{
-  let self = this;
-  o.delimeter = o.delimeter === null ? self.delimeter : o.delimeter;
-  if( _.arrayIs( o.phrase ) )
-  return o.phrase;
-  else
-  return _.strSplitNonPreserving({ src : o.phrase, delimeter : o.delimeter });
-}
-
-phraseParseTolerant_body.defaults =
-{
-  phrase : null,
-  delimeter : null,
-}
-
-let phraseParseTolerant = _.routine.unite( phraseParse_head, phraseParseTolerant_body );
 
 //
 
@@ -469,7 +467,7 @@ function phraseAnalyzeNormal_body( o )
   if( _.arrayIs( o.phrase ) )
   result.words = o.phrase;
   else
-  result.words = self.phraseParseNormal.body.call( self, o );
+  result.words = self.phraseParseNormal( o.phrase, o.delimeter );
   result.phrase = result.words.join( self.defaultDelimeter );
   return result;
 }
@@ -483,6 +481,8 @@ phraseAnalyzeNormal_body.defaults =
 
 let phraseAnalyzeNormal = _.routine.unite( phraseParse_head, phraseAnalyzeNormal_body );
 
+//
+
 function phraseAnalyzeTolerant_body( o )
 {
   let self = this;
@@ -490,7 +490,7 @@ function phraseAnalyzeTolerant_body( o )
   if( _.arrayIs( o.phrase ) )
   result.words = o.phrase;
   else
-  result.words = self.phraseParseTolerant.body.call( self, o );
+  result.words = self.phraseParseTolerant( o.phrase, o.delimeter );
   result.phrase = result.words.join( self.defaultDelimeter );
   return result;
 }
@@ -579,7 +579,7 @@ function withSubphrase( o )
 
   _.assert( _.mapIs( self.wordMap ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
-  _.routineOptions( withSubphrase, o );
+  _.routine.options_( withSubphrase, o );
 
   let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
 
@@ -587,17 +587,33 @@ function withSubphrase( o )
   self.subphrasesForm();
 
   _.assert( !!self.subphraseMap );
-  result = self.subphraseMap[ parsed.phrase ] || [];
+  result = self.subphraseMap[ parsed.phrase ] || new Set();
+
+  let result2 = new Set();
+  for( let e of result )
+  result2.add( self._subphraseDescriptorFor({ selectedSubphrase : parsed.phrase, words : null, phrase : e }) );
+  result = result2;
+  // _.entity.map_( result, result, ( e ) => self._subphraseDescriptorFrom({ phrase : parsed.phrase, words : parsed.words }) );
+  // xxx : use map later
+
   // xxx : performance test
   // result = [ ... _.trie.valEachAbove( self.subphraseMap, parsed.words ).vals ];
   // let child = _.trie.withPath( self.subphraseMap, parsed.words ).child;
   // result = [ ... ( child ? child.vals : [] ) ];
 
-  if( result.length > 1 && o.minimal )
+  if( result.size > 1 && o.minimal )
   if( self.phraseMap[ parsed.phrase ] )
   {
-    let minimal = result.filter( ( descriptor ) => descriptor.phrase === parsed.phrase );
-    if( minimal.length )
+
+    let minimal = new Set();
+    for( let e of result )
+    if( e.phrase === parsed.phrase )
+    minimal.add( e );
+
+    // xxx : use filter later
+    // let minimal = result.filter( ( descriptor ) => descriptor.phrase === parsed.phrase );
+
+    if( minimal.size > 0 )
     return minimal;
   }
 
@@ -630,6 +646,75 @@ function subphrasesForm()
 
 //
 
+function _subphraseDescriptorFor( o )
+{
+  let self = this;
+  // let selectedSubphrase = o.words.join( self.defaultDelimeter );
+
+  _.routine.assertOptions( _subphraseDescriptorFor, o );
+
+  if( !o.words )
+  o.words = self.phraseParseTolerant( o.selectedSubphrase );
+
+  if( !o.phraseDescriptor )
+  {
+    // if( !o.phrase )
+    // o.phrase = o.words.join( self.defaultDelimeter );
+    o.phraseDescriptor = self.phraseMap[ o.phrase ];
+  }
+
+  _.assert( self.onPhraseDescriptorIs( o.phraseDescriptor ) );
+
+  if( !o.phrase )
+  o.phrase = o.phraseDescriptor.phrase;
+  // o.selectedSubphrase = selectedSubphrase;
+  o.restSubphrase = self.subphraseRest( o.phraseDescriptor.phrase, o.selectedSubphrase );
+
+  // delete o.phraseDescriptor;
+
+  return o;
+}
+
+_subphraseDescriptorFor.defaults =
+{
+  // phraseDescriptor : null,
+  selectedSubphrase : null,
+  phrase : null,
+  words : null,
+}
+
+//
+
+function _subphraseDescriptorFrom( o )
+{
+  let self = this;
+  let selectedSubphrase = o.words.join( self.defaultDelimeter );
+
+  if( !o.phraseDescriptor )
+  {
+    if( !o.phrase )
+    o.phrase = o.words.join( self.defaultDelimeter );
+    o.phraseDescriptor = self.phraseMap[ o.phrase ];
+  }
+
+  _.assert( self.onPhraseDescriptorIs( o.phraseDescriptor ) );
+
+  if( !o.phrase )
+  o.phrase = o.phraseDescriptor.phrase;
+  o.selectedSubphrase = selectedSubphrase;
+  o.restSubphrase = self.subphraseRest( o.phraseDescriptor.phrase, selectedSubphrase );
+
+  return o;
+}
+
+_subphraseDescriptorFrom.defaults =
+{
+  phraseDescriptor : null,
+  words : null,
+}
+
+//
+
 function _updateSubphraseMap( o )
 {
   let self = this;
@@ -649,24 +734,26 @@ function _updateSubphraseMap( o )
   function use( w, c )
   {
     let selectedWords = o.words.slice( w, w+c );
-    let selectedSubphrase = selectedWords.join( self.defaultDelimeter );
 
     if( o.oldDescriptor )
     {
-      let i = _.longRightIndex( self.subphraseMap[ selectedSubphrase ], o.oldDescriptor, ( e ) => e.phrase, ( e ) => e.phrase ); /* xxx : use set */
-      _.assert( i >= 0 );
+      // let i = _.longRightIndex( self.subphraseMap[ selectedSubphrase ], o.oldDescriptor, ( e ) => e.phrase, ( e ) => e.phrase ); /* xxx : use set */
+      // _.assert( i >= 0 );
+      if( Config.debug )
+      _.assert( self.subphraseMap[ selectedSubphrase ].has( o.oldDescriptor.phrase ) );
+      // _.assert( () => self.subphraseMap[ selectedSubphrase ].has( o.oldDescriptor.phrase ) ); /* xxx : uncomment */
+      _.assert( 0, 'not tested' );/* xxx : cover */
       return;
     }
 
-    let subphraseDescriptor = Object.create( null );
+    // let subphraseDescriptor = self._subphraseDescriptorFrom({ words : selectedWords, phraseDescriptor : o.phraseDescriptor });
+    // let selectedSubphrase = subphraseDescriptor.selectedSubphrase;
+    let selectedSubphrase = selectedWords.join( self.defaultDelimeter );
 
-    subphraseDescriptor.phrase = o.phraseDescriptor.phrase;
-    subphraseDescriptor.selectedSubphrase = selectedSubphrase;
-    subphraseDescriptor.restSubphrase = self.subphraseRest( o.phraseDescriptor.phrase, selectedSubphrase );
-    subphraseDescriptor.words = selectedWords;
-
-    self.subphraseMap[ selectedSubphrase ] = _.arrayAs( self.subphraseMap[ selectedSubphrase ] || [] );
-    self.subphraseMap[ selectedSubphrase ].push( subphraseDescriptor );
+    if( !self.subphraseMap[ selectedSubphrase ] )
+    self.subphraseMap[ selectedSubphrase ] = new Set();
+    self.subphraseMap[ selectedSubphrase ].add( o.phraseDescriptor.phrase );
+    // self.subphraseMap[ selectedSubphrase ].add( subphraseDescriptor );
   }
 
 }
@@ -685,7 +772,7 @@ _updateSubphraseMap.defaults =
 //   let self = this;
 //   let l = o.words.length;
 //
-//   _.routineOptions( _updateSubphraseMap, o );
+//   _.routine.options_( _updateSubphraseMap, o );
 //
 //   if( self.subphraseMap === null )
 //   self.subphraseMap = _.trie.make();
@@ -701,15 +788,16 @@ _updateSubphraseMap.defaults =
 //   function onVal( phraseDescriptor, op )
 //   {
 //     let selectedWords = o.words.slice( l - op.trace.length + 1, l );
-//     let selectedSubphrase = selectedWords.join( self.defaultDelimeter );
 //
-//     let subphraseDescriptor = Object.create( null );
-//     subphraseDescriptor.phrase = o.phraseDescriptor.phrase;
-//     subphraseDescriptor.selectedSubphrase = selectedSubphrase;
-//     subphraseDescriptor.restSubphrase = self.subphraseRest( o.phraseDescriptor.phrase, selectedSubphrase );
-//     subphraseDescriptor.words = selectedWords;
+//     let subphraseDescriptor = self._subphraseDescriptorFrom({ words : selectedWords, phraseDescriptor : o.phraseDescriptor });
 //
-//     console.log( `phrase : ${o.phraseDescriptor.phrase} selectedSubphrase : ${selectedSubphrase}. restSubphrase : ${subphraseDescriptor.restSubphrase}` ); debugger;
+//     // let selectedSubphrase = selectedWords.join( self.defaultDelimeter );
+//     // let subphraseDescriptor = Object.create( null );
+//     // subphraseDescriptor.phrase = o.phraseDescriptor.phrase;
+//     // subphraseDescriptor.selectedSubphrase = selectedSubphrase;
+//     // subphraseDescriptor.restSubphrase = self.subphraseRest( o.phraseDescriptor.phrase, selectedSubphrase );
+//     // subphraseDescriptor.words = selectedWords;
+//     // console.log( `phrase : ${o.phraseDescriptor.phrase} selectedSubphrase : ${selectedSubphrase}. restSubphrase : ${subphraseDescriptor.restSubphrase}` ); debugger;
 //
 //     return subphraseDescriptor;
 //   }
@@ -898,6 +986,7 @@ let Restricts =
 
 let Statics =
 {
+  PhraseParseTolerant,
   // SubphraseInsidePhrase,
 }
 
@@ -935,6 +1024,7 @@ let Proto =
   _updateWordMap,
 
   withPhrase,
+  PhraseParseTolerant,
   phraseParseNormal,
   phraseParseTolerant,
   phraseAnalyzeNormal,
@@ -949,6 +1039,8 @@ let Proto =
 
   withSubphrase,
   subphrasesForm,
+  _subphraseDescriptorFor,
+  _subphraseDescriptorFrom,
   _updateSubphraseMap,
 
   subphraseRest,
