@@ -354,7 +354,7 @@ function withPhrase( o )
   if( !self.formed )
   self.preform();
 
-  if( !_.objectIs( o ) )
+  if( !_.object.isBasic( o ) )
   o = { phrase : arguments[ 0 ] };
 
   _.assert( _.mapIs( self.wordMap ) );
@@ -422,7 +422,7 @@ function phraseParse_head( routine, args )
 {
   let self = this;
   let o = args[ 0 ];
-  if( !_.objectIs( o ) )
+  if( !_.object.isBasic( o ) )
   o = { phrase : args[ 0 ] };
 
   _.assert
@@ -571,7 +571,7 @@ function withSubphrase( o )
   let result = [];
   let added = [];
 
-  if( !_.objectIs( o ) )
+  if( !_.object.isBasic( o ) )
   o = { phrase : arguments[ 0 ] };
 
   if( !self.formed )

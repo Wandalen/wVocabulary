@@ -590,7 +590,7 @@ function phraseAddWithCustomDescriptorMaker( test )
       hint = hintFrom( phrase );
     }
 
-    if( _.objectIs( executable ) )
+    if( _.object.isBasic( executable ) )
     {
       _.map.assertHasOnly( executable, { e : null, h : null });
       hint = executable.h;
@@ -1032,7 +1032,7 @@ function phrasesAddWithCustomDescirptorMaker( test )
       hint = hintFrom( phrase );
     }
 
-    if( _.objectIs( executable ) )
+    if( _.object.isBasic( executable ) )
     {
       _.map.assertHasOnly( executable, { e : null, h : null });
       hint = executable.h;
