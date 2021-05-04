@@ -593,7 +593,7 @@ function withSubphrase( o )
   for( let e of result )
   result2.add( self._subphraseDescriptorFor({ selectedSubphrase : parsed.phrase, words : null, phrase : e }) );
   result = result2;
-  // _.entity.map_( result, result, ( e ) => self._subphraseDescriptorFrom({ phrase : parsed.phrase, words : parsed.words }) );
+  // _.container.map_( result, result, ( e ) => self._subphraseDescriptorFrom({ phrase : parsed.phrase, words : parsed.words }) );
   // xxx : use map later
 
   // xxx : performance test
