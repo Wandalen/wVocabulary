@@ -1806,34 +1806,32 @@ function withSubphraseOptionMinimal( test )
   var phrase = 'prefix';
   test.description = `${phrase} minimal:0`;
   var got = voc.withSubphrase({ phrase, minimal : 0 });
-  debugger;
-  test.identical( _.select( got, '*/phrase' ), [ 'prefix', 'prefix.postfix' ] );
-  debugger;
+  test.identical( _.select( got, '*/phrase' ), new Set([ 'prefix', 'prefix.postfix' ]) );
 
   var phrase = 'prefix';
   test.description = `${phrase} minimal:1`;
   var got = voc.withSubphrase({ phrase, minimal : 1 });
-  test.identical( _.select( got, '*/phrase' ), [ 'prefix' ] );
+  test.identical( _.select( got, '*/phrase' ), new Set([ 'prefix' ]) );
 
   var phrase = 'prefix.postfix';
   test.description = `${phrase} minimal:0`;
   var got = voc.withSubphrase({ phrase, minimal : 0 });
-  test.identical( _.select( got, '*/phrase' ), [ 'prefix.postfix' ] );
+  test.identical( _.select( got, '*/phrase' ), new Set([ 'prefix.postfix' ]) );
 
   var phrase = 'prefix.postfix';
   test.description = `${phrase} minimal:1`;
   var got = voc.withSubphrase({ phrase, minimal : 1 });
-  test.identical( _.select( got, '*/phrase' ), [ 'prefix.postfix' ] );
+  test.identical( _.select( got, '*/phrase' ), new Set([ 'prefix.postfix' ]) );
 
   var phrase = 'postfix';
   test.description = `${phrase} minimal:0`;
   var got = voc.withSubphrase({ phrase, minimal : 0 });
-  test.identical( _.select( got, '*/phrase' ), [ 'prefix.postfix', 'postfix' ] );
+  test.identical( _.select( got, '*/phrase' ), new Set([ 'prefix.postfix', 'postfix' ]) );
 
   var phrase = 'postfix';
   test.description = `${phrase} minimal:1`;
   var got = voc.withSubphrase({ phrase, minimal : 1 });
-  test.identical( _.select( got, '*/phrase' ), [ 'postfix' ] );
+  test.identical( _.select( got, '*/phrase' ), new Set([ 'postfix' ]) );
 
   /* */
 
@@ -2174,26 +2172,26 @@ function withSubphrasePerformance( test ) /* xxx : write similar test for other 
 
   /* */
 
-  // test.case = 'inner';
-  //
-  // var counter = 0;
-  // var nruns = 10;
-  // var data = dataGenerate( 1 << 7 );
-  // var time = _.time.now();
-  //
-  // debugger; /* eslint-disable-line no-debugger */
-  // for( let i = 0 ; i < nruns ; i++ )
-  // run( data );
-  // console.log( `Inner : ${_.time.spent( time )}` );
-  // debugger; /* eslint-disable-line no-debugger */
+  test.case = 'inner';
+
+  var counter = 0;
+  var nruns = 10;
+  var data = dataGenerate( 1 << 7 );
+  var time = _.time.now();
+
+  debugger; /* eslint-disable-line no-debugger */
+  for( let i = 0 ; i < nruns ; i++ )
+  run( data );
+  console.log( `Inner : ${_.time.spent( time )}` );
+  debugger; /* eslint-disable-line no-debugger */
 
   /*
   = before
   nruns:10 size:1<<7 debug:1 time:130.035s
-  nruns:10 size:1<<7 debug:0 time:113.933
+  nruns:10 size:1<<7 debug:0 time:113.933s
   = after
-  nruns:10 size:1<<7 debug:1 time:?
-  nruns:10 size:1<<7 debug:0 time:?
+  nruns:10 size:1<<7 debug:1 time:3.564s
+  nruns:10 size:1<<7 debug:0 time:2.911s
  */
 
   test.case = 'outer';
@@ -2214,8 +2212,8 @@ function withSubphrasePerformance( test ) /* xxx : write similar test for other 
   nruns:1000 size:1<<3 debug:1 time:7.752s
   nruns:1000 size:1<<3 debug:0 time:5.967s
   = after
-  nruns:1000 size:1<<3 debug:1 time:?
-  nruns:1000 size:1<<3 debug:0 time:?
+  nruns:1000 size:1<<3 debug:1 time:8.214s
+  nruns:1000 size:1<<3 debug:0 time:4.001s
   */
 
   /* */
