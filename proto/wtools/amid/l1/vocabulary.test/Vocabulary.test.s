@@ -1582,10 +1582,10 @@ function withSubphrase( test )
   var exp = new Set
   ([
     {
-      words : [],
-      selectedSubphrase : '',
-      phrase : 'prefix.act2',
-      restSubphrase : 'prefix.act2',
+      'words' : [],
+      'selectedSubphrase' : '',
+      'phrase' : 'prefix.act2',
+      'restSubphrase' : 'prefix.act2',
       'phraseDescriptor' :
       {
         'phrase' : 'prefix.act2',
@@ -1616,10 +1616,10 @@ function withSubphrase( test )
   var exp = new Set
   ([
     {
-      words : [ 'act2' ],
-      selectedSubphrase : 'act2',
-      phrase : 'prefix.act2',
-      restSubphrase : 'prefix',
+      'words' : [ 'act2' ],
+      'selectedSubphrase' : 'act2',
+      'phrase' : 'prefix.act2',
+      'restSubphrase' : 'prefix',
       'phraseDescriptor' :
       {
         'phrase' : 'prefix.act2',
@@ -1640,10 +1640,10 @@ function withSubphrase( test )
   var exp = new Set
   ([
     {
-      words : [ 'prefix', 'act2' ],
-      selectedSubphrase : 'prefix.act2',
-      phrase : 'prefix.act2',
-      restSubphrase : '',
+      'words' : [ 'prefix', 'act2' ],
+      'selectedSubphrase' : 'prefix.act2',
+      'phrase' : 'prefix.act2',
+      'restSubphrase' : '',
       'phraseDescriptor' :
       {
         'phrase' : 'prefix.act2',
@@ -2221,7 +2221,6 @@ function withSubphrasePerformance( test ) /* xxx : write similar test for other 
   function run( data )
   {
     var voc = new _.Vocabulary({});
-    debugger;
     voc.phrasesAdd( data.phrases );
     let descriptor = voc.withPhrase( data.phrase );
     let subphrases = voc.withSubphrase( data.subphrase );
@@ -2235,7 +2234,11 @@ function withSubphrasePerformance( test ) /* xxx : write similar test for other 
     result.phrases = phrasesGenerate( n );
     result.phrase = result.phrases[ Math.floor( result.phrases.length / 2 ) ];
     result.subphrase = _.Vocabulary.PhraseParseTolerant( result.phrase );
-    result.subphrase = result.subphrase.slice( _.intRandom( result.subphrase.length - 1 ), _.intRandom( result.subphrase.length - 1 ) );
+    result.subphrase = result.subphrase.slice
+    (
+      _.intRandom( result.subphrase.length - 1 ),
+      _.intRandom( result.subphrase.length - 1 )
+    );
     result.subphrase = result.subphrase.join( '.' );
     return result;
   }
@@ -2268,7 +2271,10 @@ function withSubphrasePerformance( test ) /* xxx : write similar test for other 
   function nameGenerate()
   {
     let idWithGuid = _.idWithGuid();
-    let name = idWithGuid.split( '-' ).join( '' ).slice( 0, 5 + _.intRandom( idWithGuid.length-5 ) );
+    let name = idWithGuid
+    .split( '-' )
+    .join( '' )
+    .slice( 0, 5 + _.intRandom( idWithGuid.length-5 ) );
     return name;
   }
 

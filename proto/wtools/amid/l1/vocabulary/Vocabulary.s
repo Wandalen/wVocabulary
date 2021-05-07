@@ -381,7 +381,7 @@ function PhraseParseTolerant( phrase, delimeter )
   if( _.arrayIs( phrase ) )
   return phrase;
   else
-  return _.strSplitNonPreserving({ src : phrase, delimeter : delimeter });
+  return _.strSplitNonPreserving({ src : phrase, delimeter });
 }
 
 //

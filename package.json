@@ -1,31 +1,37 @@
 {
-  "name" : "wvocabulary",
-  "version" : "0.3.253",
-  "description" : "Vocabulary of phrases, primarily for CLI.",
-  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
-  "license" : "MIT",
-  "main" : "proto/node_modules/wvocabulary",
-  "files" : [ "proto/wtools/amid/l1/vocabulary", "out", "proto/node_modules" ],
-  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
-  "repository" :
-  {
-    "type" : "git",
-    "url" : "https://github.com/Wandalen/wVocabulary.git"
+  "name": "wvocabulary",
+  "version": "0.3.253",
+  "description": "Vocabulary of phrases, primarily for CLI.",
+  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "license": "MIT",
+  "main": "proto/node_modules/wvocabulary",
+  "files": [
+    "proto/wtools/amid/l1/vocabulary",
+    "out",
+    "proto/node_modules"
+  ],
+  "scripts": {
+    "test": "wtest .run 'proto/**' rapidity:-3",
+    "docgen": "wdocgen proto"
   },
-  "bugs" :
-  {
-    "url" : "https://github.com/Wandalen/wVocabulary/issues"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Wandalen/wVocabulary.git"
   },
-  "dependencies" :
-  {
-    "wTools" : "gamma",
-    "wCopyable" : "gamma",
-    "wstringer" : "gamma",
-    "wstringsextra" : "gamma"
+  "bugs": {
+    "url": "https://github.com/Wandalen/wVocabulary/issues"
   },
-  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "gamma" },
-  "keywords" :
-  [
+  "dependencies": {
+    "wTools": "gamma",
+    "wCopyable": "gamma",
+    "wstringer": "gamma",
+    "wstringsextra": "gamma"
+  },
+  "devDependencies": {
+    "eslint": "7.1.0",
+    "wTesting": "gamma"
+  },
+  "keywords": [
     "wTools",
     "vocabulary",
     "partial match",

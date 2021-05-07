@@ -8,26 +8,38 @@ let _ = wTools;
 var voc = new _.Vocabulary();
 voc.phrasesAdd([ 'do.this', 'do.that', 'that.is' ]);
 
+console.log( 'do :' );
 var found = voc.withSubphrase( 'do' );
-console.log( found.map( ( e ) => e.phrase ) );
+found.forEach( ( e ) => console.log( e.phrase ) );
 /* optput:
-[ 'do.this', 'do.that' ]
+do :
+do.this
+do.that
 */
 
+console.log( 'that :' );
 var found = voc.withSubphrase( 'that' );
-console.log( found.map( ( e ) => e.phrase ) );
+found.forEach( ( e ) => console.log( e.phrase ) );
 /* optput:
-[ 'do.that', 'that.is' ]
+that :
+do.that
+that.is
 */
 
+console.log( '"" :' );
 var found = voc.withSubphrase( '' );
-console.log( found.map( ( e ) => e.phrase ) );
+found.forEach( ( e ) => console.log( e.phrase ) );
 /* optput:
-[ 'do.this', 'do.that', 'that.is' ]
+"" :
+do.this
+do.that
+that.is
 */
 
+console.log( 'do.this :' );
 var found = voc.withSubphrase( 'do.this' );
-console.log( found.map( ( e ) => e.phrase ) );
+found.forEach( ( e ) => console.log( e.phrase ) );
 /* optput:
-[ 'do.this' ]
+do.this :
+do.this
 */
