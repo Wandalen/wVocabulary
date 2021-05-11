@@ -1,4 +1,4 @@
-# module::Vocabulary  [![status](https://github.com/Wandalen/wVocabulary/workflows/publish/badge.svg)](https://github.com/Wandalen/wVocabulary/actions?query=workflow%3Apublish) [![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/emersion/stability-badges#stable)
+# module::Vocabulary  [![status](https://github.com/Wandalen/wVocabulary/actions/workflows/StandardPublish.yml/badge.svg)](https://github.com/Wandalen/wVocabulary/actions/workflows/StandardPublish.yml) [![stable](https://img.shields.io/badge/stability-stable-brightgreen.svg)](https://github.com/emersion/stability-badges#stable)
 
 Vocabulary of phrases, primarily for CLI. Implements class to operate phrases. Vocabulary enables the design of CLI based on phrases instead of words. Also, Vocabulary makes it possible to group phrases by similarity, powering partial match search.
 
