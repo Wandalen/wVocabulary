@@ -1,6 +1,6 @@
 {
   "name" : "wvocabulary",
-  "version" : "0.3.255",
+  "version" : "0.3.256",
   "description" : "Vocabulary of phrases, primarily for CLI.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
@@ -18,12 +18,12 @@
   },
   "dependencies" :
   {
-    "wTools" : "delta",
-    "wCopyable" : "delta",
-    "wstringer" : "delta",
-    "wstringsextra" : "delta"
+    "wTools" : "stable",
+    "wCopyable" : "stable",
+    "wstringer" : "stable",
+    "wstringsextra" : "stable"
   },
-  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "delta" },
+  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "stable" },
   "keywords" :
   [
     "wTools",
