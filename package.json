@@ -1,37 +1,31 @@
 {
-  "name": "wvocabulary",
-  "version": "0.3.256",
-  "description": "Vocabulary of phrases, primarily for CLI.",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
-  "license": "MIT",
-  "main": "proto/node_modules/wvocabulary",
-  "files": [
-    "proto/wtools/amid/l1/vocabulary",
-    "out",
-    "proto/node_modules"
-  ],
-  "scripts": {
-    "test": "wtest .run 'proto/**' rapidity:-3",
-    "docgen": "wdocgen proto"
+  "name" : "wvocabulary",
+  "version" : "0.3.257",
+  "description" : "Vocabulary of phrases, primarily for CLI.",
+  "author" : "Kostiantyn Wandalen <wanalen@01.school>",
+  "license" : "MIT",
+  "main" : "proto/node_modules/wvocabulary",
+  "files" : [ "proto/wtools/amid/l1/vocabulary", "out", "proto/node_modules" ],
+  "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "https://github.com/Wandalen/wVocabulary.git"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Wandalen/wVocabulary.git"
+  "bugs" :
+  {
+    "url" : "https://github.com/Wandalen/wVocabulary/issues"
   },
-  "bugs": {
-    "url": "https://github.com/Wandalen/wVocabulary/issues"
+  "dependencies" :
+  {
+    "wTools" : "stable",
+    "wCopyable" : "stable",
+    "wstringer" : "stable",
+    "wstringsextra" : "stable"
   },
-  "dependencies": {
-    "wTools": "stable",
-    "wCopyable": "stable",
-    "wstringer": "stable",
-    "wstringsextra": "stable"
-  },
-  "devDependencies": {
-    "eslint": "7.1.0",
-    "wTesting": "stable"
-  },
-  "keywords": [
+  "devDependencies" : { "eslint" : "7.1.0", "wTesting" : "stable" },
+  "keywords" :
+  [
     "wTools",
     "vocabulary",
     "partial match",
