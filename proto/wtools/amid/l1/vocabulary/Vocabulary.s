@@ -117,7 +117,7 @@ function preform()
   self.formed = 1;
 
   if( self.defaultDelimeter === null )
-  self.defaultDelimeter = _.arrayAs( self.delimeter )[ 0 ]
+  self.defaultDelimeter = _.array.as( self.delimeter )[ 0 ]
 
   // if( self.freezing )
   // {
@@ -320,7 +320,7 @@ function _updateWordMap( o )
   {
     let word = o.words[ w ];
 
-    self.wordMap[ word ] = _.arrayAs( self.wordMap[ word ] || [] );
+    self.wordMap[ word ] = _.array.as( self.wordMap[ word ] || [] );
 
     if( o.oldDescriptor )
     {
@@ -871,7 +871,7 @@ function subphraseRest( phrase, subphrase )
   if( subphrase )
   phrase = phrase.replace( subphrase, '' );
 
-  let delimeter = _.arrayAs( self.delimeter ); /* xxx : optimize. use set */
+  let delimeter = _.array.as( self.delimeter ); /* xxx : optimize. use set */
   delimeter.forEach( ( del ) =>
   {
     phrase = _.strReplace( phrase, del + del, del );

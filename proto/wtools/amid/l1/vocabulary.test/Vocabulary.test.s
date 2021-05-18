@@ -1887,13 +1887,13 @@ function withSubphraseOptionMinimal( test )
 //   var selector = { selectedSubphrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = subphrases[ 1 ];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = 'act1';
 //   var selector = { selectedSubphrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = subphrases[ 2 ];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = 'proj';
 //   var selector = { selectedSubphrase : src }
@@ -1909,13 +1909,13 @@ function withSubphraseOptionMinimal( test )
 //   var selector = { phrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = [];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = 'act1';
 //   var selector = { phrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = [];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = 'prefix.act1';
 //   var selector = { phrase : src }
@@ -1929,25 +1929,25 @@ function withSubphraseOptionMinimal( test )
 //   var selector = { restSubphrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = [];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = '';
 //   var selector = { restSubphrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = subphrases[ 3 ];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = 'prefix';
 //   var selector = { restSubphrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = subphrases[ 2 ];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 //
 //   var src = 'act1';
 //   var selector = { restSubphrase : src }
 //   var got = voc.subphraseDescriptorArrayFilter( subphrases, selector )
 //   var exp = subphrases[ 1 ];
-//   test.identical( got, _.arrayAs( exp ) );
+//   test.identical( got, _.array.as( exp ) );
 // }
 
 //
