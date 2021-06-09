@@ -1,11 +1,11 @@
 {
   "name" : "wvocabulary",
-  "version" : "0.3.263",
+  "version" : "0.3.264",
   "description" : "Vocabulary of phrases, primarily for CLI.",
   "author" : "Kostiantyn Wandalen <wanalen@01.school>",
   "license" : "MIT",
   "main" : "proto/node_modules/wvocabulary",
-  "files" : [ "proto/wtools/amid/l1/vocabulary", "out", "proto/node_modules" ],
+  "files" : [ "proto/wtools/amid/l1/vocabulary", "out", "proto/node_modules", "proto/node_modules/Tools", "proto/node_modules/wvocabulary" ],
   "scripts" : { "test" : "wtest .run 'proto/**' rapidity:-3", "docgen" : "wdocgen proto" },
   "repository" :
   {
