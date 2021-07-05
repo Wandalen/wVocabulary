@@ -2099,7 +2099,319 @@ function withSubphrase( test )
 
 //
 
-function withSubphraseOptionMinimal( test )
+function withSubphraseWithOptionNormalize( test )
+{
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ 'do.this', 'do.that', 'that.is' ]);
+
+  /* - */
+
+  test.case = 'call with empty string, should get all commands';
+  var got = voc.withSubphrase({ phrase : '', normalize : 1 });
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.this',
+      'selectedSubphrase' : '',
+      'restSubphrase' : 'do.this',
+      'words' : [],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.this',
+        'words' : [ 'do', 'this' ],
+      },
+    },
+    {
+      'phrase' : 'do.that',
+      'selectedSubphrase' : '',
+      'restSubphrase' : 'do.that',
+      'words' : [],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.that',
+        'words' : [ 'do', 'that' ],
+      },
+    },
+    {
+      'phrase' : 'that.is',
+      'selectedSubphrase' : '',
+      'restSubphrase' : 'that.is',
+      'words' : [],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'that.is',
+        'words' : [ 'that', 'is' ],
+      },
+    }
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'nothing found';
+  var got = voc.withSubphrase({ phrase : 'x', normalize : 1 });
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matches first word';
+  var got = voc.withSubphrase({ phrase : 'do', normalize : 1 });
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.this',
+      'selectedSubphrase' : 'do',
+      'restSubphrase' : 'this',
+      'words' : [ 'do' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.this',
+        'words' : [ 'do', 'this' ],
+      },
+    },
+    {
+      'phrase' : 'do.that',
+      'selectedSubphrase' : 'do',
+      'restSubphrase' : 'that',
+      'words' : [ 'do' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.that',
+        'words' : [ 'do', 'that' ],
+      },
+    }
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matches words in different positions';
+  var got = voc.withSubphrase({ phrase : 'that', normalize : 1 });
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.that',
+      'selectedSubphrase' : 'that',
+      'restSubphrase' : 'do',
+      'words' : [ 'that' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.that',
+        'words' : [ 'do', 'that' ],
+      },
+    },
+    {
+      'phrase' : 'that.is',
+      'selectedSubphrase' : 'that',
+      'restSubphrase' : 'is',
+      'words' : [ 'that' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'that.is',
+        'words' : [ 'that', 'is' ],
+      },
+    },
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matched all command';
+  var got = voc.withSubphrase({ phrase : 'do.this', normalize : 1 });
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.this',
+      'selectedSubphrase' : 'do.this',
+      'restSubphrase' : '',
+      'words' : [ 'do', 'this' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.this',
+        'words' : [ 'do', 'this' ],
+      },
+    },
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matched all command, dot at the begin';
+  var got = voc.withSubphrase({ phrase : '.do.this', normalize : 1 });
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matched all command, dot at the end';
+  var got = voc.withSubphrase({ phrase : 'do.this.', normalize : 1 });
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matched all command, dot at the begin and at the end';
+  var got = voc.withSubphrase({ phrase : '.do.this.', normalize : 1 });
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'matched all command, with space';
+  var got = voc.withSubphrase({ phrase : 'do this', normalize : 1 });
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* - */
+
+  test.case = 'subject as array, empty string';
+  var got = voc.withSubphrase([ '' ]);
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.this',
+      'selectedSubphrase' : '',
+      'restSubphrase' : 'do.this',
+      'words' : [],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.this',
+        'words' : [ 'do', 'this' ],
+      },
+    },
+    {
+      'phrase' : 'do.that',
+      'selectedSubphrase' : '',
+      'restSubphrase' : 'do.that',
+      'words' : [],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.that',
+        'words' : [ 'do', 'that' ],
+      },
+    },
+    {
+      'phrase' : 'that.is',
+      'selectedSubphrase' : '',
+      'restSubphrase' : 'that.is',
+      'words' : [],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'that.is',
+        'words' : [ 'that', 'is' ],
+      },
+    }
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'subject as array, nothing matched';
+  var got = voc.withSubphrase([ 'x' ]);
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'subject as array, first word of commands';
+  var got = voc.withSubphrase([ 'do' ]);
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.this',
+      'selectedSubphrase' : 'do',
+      'restSubphrase' : 'this',
+      'words' : [ 'do' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.this',
+        'words' : [ 'do', 'this' ],
+      },
+    },
+    {
+      'phrase' : 'do.that',
+      'selectedSubphrase' : 'do',
+      'restSubphrase' : 'that',
+      'words' : [ 'do' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.that',
+        'words' : [ 'do', 'that' ],
+      },
+    },
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'subject as array, different words in commands';
+  var got = voc.withSubphrase([ 'that' ]);
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.that',
+      'selectedSubphrase' : 'that',
+      'restSubphrase' : 'do',
+      'words' : [ 'that' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.that',
+        'words' : [ 'do', 'that' ],
+      },
+    },
+    {
+      'phrase' : 'that.is',
+      'selectedSubphrase' : 'that',
+      'restSubphrase' : 'is',
+      'words' : [ 'that' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'that.is',
+        'words' : [ 'that', 'is' ],
+      },
+    }
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'subject as array, full phrase';
+  var got = voc.withSubphrase([ 'do', 'this' ]);
+  var exp = new Set
+  ([
+    {
+      'phrase' : 'do.this',
+      'selectedSubphrase' : 'do.this',
+      'restSubphrase' : '',
+      'words' : [ 'do', 'this' ],
+      'phraseDescriptor' :
+      {
+        'phrase' : 'do.this',
+        'words' : [ 'do', 'this' ],
+      },
+    }
+  ]);
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'subject as array, full phrase, empty at the begin';
+  var got = voc.withSubphrase([ '', 'do', 'this' ]);
+  var exp = new Set( [] );
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'subject as array, full phrase, empty at the end';
+  var got = voc.withSubphrase([ 'do', 'this', '' ]);
+  var exp = new Set( [] );
+  test.identical( got, exp );
+}
+
+//
+
+function withSubphraseWithOptionMinimal( test )
 {
 
   /* */
@@ -2674,7 +2986,8 @@ const Proto =
 
     subphraseRest,
     withSubphrase,
-    withSubphraseOptionMinimal,
+    withSubphraseWithOptionNormalize,
+    withSubphraseWithOptionMinimal,
     // subphraseDescriptorArrayFilter,
     // withSubphraseExportToStructure,
     // withSubphraseExportToString,
