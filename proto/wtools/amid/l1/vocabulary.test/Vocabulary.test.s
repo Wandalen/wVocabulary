@@ -1061,6 +1061,139 @@ function phrasesAddWithCustomDescirptorMaker( test )
 
 //
 
+function withPhrase( test )
+{
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ 'do.this', 'do.that', 'that.is' ]);
+
+  /* - */
+
+  test.case = 'call with empty string';
+  var got = voc.withPhrase( '' );
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'nothing matched';
+  var got = voc.withPhrase( 'x' );
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'two commands matched by first word, not full command';
+  var got = voc.withPhrase( 'do' );
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'two commands matched by word in different position, not full command';
+  var got = voc.withPhrase( 'that' );
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'full command without dot at begin';
+  var got = voc.withPhrase( 'do.this' );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'full command with dot at begin';
+  var got = voc.withPhrase( '.do.this' );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'full command with dot at end';
+  var got = voc.withPhrase( 'do.this.' );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'full command with dot at begin and end';
+  var got = voc.withPhrase( '.do.this.' );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'full command with space';
+  var got = voc.withPhrase( 'do this' );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'phrase as array, empty string';
+  var got = voc.withPhrase([ '' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, wrong string';
+  var got = voc.withPhrase([ 'x' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, not full phrase';
+  var got = voc.withPhrase([ 'do' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, full phrase';
+  var got = voc.withPhrase([ 'do', 'this' ]);
+  var exp =
+  {
+    'phrase' : 'do.this',
+    'words' : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, extra symbols';
+  var got = voc.withPhrase([ '', 'do', 'this' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  var got = voc.withPhrase([ 'do', 'this', '' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  /* - */
+
+  if( !Config.debug )
+  return;
+
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ 'do.this', 'do.that', 'that.is' ]);
+
+  test.case = 'without arguments';
+  test.shouldThrowErrorOfAnyKind( () => voc.withPhrase() );
+
+  test.case = 'extra arguments';
+  test.shouldThrowErrorOfAnyKind( () => voc.withPhrase( '.do.this', '.', 'extra' ) );
+
+  test.case = 'wrong type of options map';
+  test.shouldThrowErrorOfAnyKind( () => voc.withPhrase( 1 ) );
+
+  test.case = 'unknown options in options map';
+  test.shouldThrowErrorOfAnyKind( () => voc.withPhrase({ phrase : 'do', unknown : 1 }) );
+
+  test.case = 'wrong type of phrase';
+  test.shouldThrowErrorOfAnyKind( () => voc.withPhrase({ phrase : undefined }) );
+}
+
+//
+
 function phraseAnalyzeNormal( test )
 {
   let voc = new _.Vocabulary().preform();
@@ -2309,6 +2442,7 @@ const Proto =
     // phrasesAdd, /* xxx : fix */
     // phrasesAddWithCustomDescirptorMaker, /* xxx : fix */
 
+    withPhrase,
     phraseAnalyzeNormal,
     phraseAnalyzeTolerant,
     phraseAnalyzeTolerantFieldDelimeter,
