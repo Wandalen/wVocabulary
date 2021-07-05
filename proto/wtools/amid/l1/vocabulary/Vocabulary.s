@@ -571,13 +571,13 @@ function withSubphrase( o )
   const self = this;
 
   if( !_.object.isBasic( o ) )
-  o = { phrase : arguments[ 0 ] };
+  o = { phrase : arguments[ 0 ], delimeter : arguments[ 1 ] };
 
   if( !self.formed )
   self.preform();
 
-  _.assert( _.mapIs( self.wordMap ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.assert( _.mapIs( self.wordMap ) );
   _.routine.options_( withSubphrase, o );
 
   const parseRoutine = o.normalize ? self.phraseAnalyzeNormal : self.phraseAnalyzeTolerant;
