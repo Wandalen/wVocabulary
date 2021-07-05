@@ -1194,6 +1194,100 @@ function withPhrase( test )
 
 //
 
+function withPhraseWithOptionNormalize( test )
+{
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ 'do.this', 'do.that', 'that.is' ]);
+
+  /* - */
+
+  test.case = 'call with empty string';
+  var got = voc.withPhrase({ phrase : '', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'nothing matched';
+  var got = voc.withPhrase({ phrase : 'x', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'two commands matched by first word, not full command';
+  var got = voc.withPhrase({ phrase : 'do', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'two commands matched by word in different position, not full command';
+  var got = voc.withPhrase({ phrase : 'that', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'full command without dot at begin';
+  var got = voc.withPhrase({ phrase : 'do.this', normalize : 1 });
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'full command with dot at begin';
+  var got = voc.withPhrase({ phrase : '.do.this', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'full command with dot at end';
+  var got = voc.withPhrase({ phrase : 'do.this.', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'full command with dot at begin and end';
+  var got = voc.withPhrase({ phrase : '.do.this.', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'full command with space';
+  var got = voc.withPhrase({ phrase : 'do this', normalize : 1 });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'phrase as array, empty string';
+  var got = voc.withPhrase([ '' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, wrong string';
+  var got = voc.withPhrase([ 'x' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, not full phrase';
+  var got = voc.withPhrase([ 'do' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, full phrase';
+  var got = voc.withPhrase([ 'do', 'this' ]);
+  var exp =
+  {
+    'phrase' : 'do.this',
+    'words' : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'phrase as array, extra symbols';
+  var got = voc.withPhrase([ '', 'do', 'this' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+
+  var got = voc.withPhrase([ 'do', 'this', '' ]);
+  var exp = undefined;
+  test.identical( got, exp );
+}
+
+//
+
 function phraseAnalyzeNormal( test )
 {
   let voc = new _.Vocabulary().preform();
@@ -2443,6 +2537,7 @@ const Proto =
     // phrasesAddWithCustomDescirptorMaker, /* xxx : fix */
 
     withPhrase,
+    withPhraseWithOptionNormalize,
     phraseAnalyzeNormal,
     phraseAnalyzeTolerant,
     phraseAnalyzeTolerantFieldDelimeter,
