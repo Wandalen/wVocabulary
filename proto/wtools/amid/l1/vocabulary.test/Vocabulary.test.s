@@ -1288,6 +1288,64 @@ function withPhraseWithOptionNormalize( test )
 
 //
 
+function withPhraseWithOptionDelimeter( test )
+{
+  var voc = new _.Vocabulary();
+  voc.phrasesAdd([ 'do.this' ]);
+
+  /* - */
+
+  test.case = 'delimeter - dot';
+  var got = voc.withPhrase( 'do=this', '.' );
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'delimeter - equal symbols';
+  var got = voc.withPhrase( 'do=this', '=' );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'delimeter - array with dot and equal symbol';
+  var got = voc.withPhrase( 'do=this', [ '.', '=' ] );
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'delimeter - dot';
+  var got = voc.withPhrase({ phrase : 'do=this', delimeter : '.' });
+  var exp = undefined;
+  test.identical( got, exp );
+
+  test.case = 'delimeter - equal symbol';
+  var got = voc.withPhrase({ phrase : 'do=this', delimeter : '=' });
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+
+  test.case = 'delimeter - array with dot and equal symbol';
+  var got = voc.withPhrase({ phrase : 'do=this', delimeter : [ '.', '=' ] });
+  var exp =
+  {
+    phrase : 'do.this',
+    words : [ 'do', 'this' ]
+  };
+  test.identical( got, exp );
+}
+
+//
+
 function phraseAnalyzeNormal( test )
 {
   let voc = new _.Vocabulary().preform();
@@ -2538,6 +2596,7 @@ const Proto =
 
     withPhrase,
     withPhraseWithOptionNormalize,
+    withPhraseWithOptionDelimeter,
     phraseAnalyzeNormal,
     phraseAnalyzeTolerant,
     phraseAnalyzeTolerantFieldDelimeter,
