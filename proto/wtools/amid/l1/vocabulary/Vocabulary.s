@@ -347,22 +347,22 @@ _updateWordMap.defaults =
 
 function withPhrase( o )
 {
-  let self = this;
-  let result = [];
-  let added = [];
+  const self = this;
 
   if( !self.formed )
   self.preform();
 
   if( !_.object.isBasic( o ) )
-  o = { phrase : arguments[ 0 ] };
+  o = { phrase : arguments[ 0 ], delimeter : arguments[ 1 ] };
 
-  _.assert( _.mapIs( self.wordMap ) );
   _.assert( arguments.length === 1 || arguments.length === 2 );
+  _.assert( _.mapIs( self.wordMap ) );
   _.routine.options_( withPhrase, o );
 
-  let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
-  result = self.phraseMap[ parsed.phrase ];
+  const parseRoutine = o.normalize ? self.phraseAnalyzeNormal : self.phraseAnalyzeTolerant;
+  const parsed = parseRoutine.call( self, { phrase : o.phrase, delimeter : o.delimeter } );
+
+  const result = self.phraseMap[ parsed.phrase ];
   return result;
 }
 
@@ -370,7 +370,8 @@ withPhrase.defaults =
 {
   phrase : null,
   delimeter : null,
-}
+  normalize : 0,
+};
 
 //
 
@@ -567,9 +568,7 @@ function _onPhraseDescriptorIs( phraseDescriptor )
 
 function withSubphrase( o )
 {
-  let self = this;
-  let result = [];
-  let added = [];
+  const self = this;
 
   if( !_.object.isBasic( o ) )
   o = { phrase : arguments[ 0 ] };
@@ -581,15 +580,17 @@ function withSubphrase( o )
   _.assert( arguments.length === 1 || arguments.length === 2 );
   _.routine.options_( withSubphrase, o );
 
-  let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
+  const parseRoutine = o.normalize ? self.phraseAnalyzeNormal : self.phraseAnalyzeTolerant;
+  const parsed = parseRoutine.call( self, { phrase : o.phrase, delimeter : o.delimeter } );
+  // let parsed = self.phraseAnalyzeTolerant({ phrase : o.phrase, delimeter : o.delimeter });
 
   if( self.subphraseMap === null )
   self.subphrasesForm();
 
   _.assert( !!self.subphraseMap );
-  result = self.subphraseMap[ parsed.phrase ] || new Set();
+  let result = self.subphraseMap[ parsed.phrase ] || new Set();
 
-  let result2 = new Set();
+  const result2 = new Set();
   for( let e of result )
   result2.add( self._subphraseDescriptorFor({ selectedSubphrase : parsed.phrase, words : null, phrase : e }) );
   result = result2;
@@ -605,7 +606,7 @@ function withSubphrase( o )
   if( self.phraseMap[ parsed.phrase ] )
   {
 
-    let minimal = new Set();
+    const minimal = new Set();
     for( let e of result )
     if( e.phrase === parsed.phrase )
     minimal.add( e );
@@ -625,7 +626,8 @@ withSubphrase.defaults =
   phrase : null,
   delimeter : null,
   minimal : 0,
-}
+  normalize : 0,
+};
 
 //
 
