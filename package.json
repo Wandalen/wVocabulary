@@ -1,6 +1,6 @@
 {
   "name": "wvocabulary",
-  "version": "0.3.271",
+  "version": "0.3.272",
   "description": "Vocabulary of phrases, primarily for CLI.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "license": "MIT",
@@ -24,13 +24,13 @@
     "url": "https://github.com/Wandalen/wVocabulary/issues"
   },
   "dependencies": {
-    "wTools": "stable",
-    "wstringsextra": "stable",
-    "wstringer": "stable",
-    "wCopyable": "stable"
+    "wTools": "latest",
+    "wstringsextra": "latest",
+    "wstringer": "latest",
+    "wCopyable": "latest"
   },
   "devDependencies": {
-    "wTesting": "stable",
+    "wTesting": "latest",
     "eslint": "7.1.0"
   },
   "keywords": [
