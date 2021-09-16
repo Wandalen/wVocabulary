@@ -651,7 +651,6 @@ function subphrasesForm()
 function _subphraseDescriptorFor( o )
 {
   let self = this;
-  // let selectedSubphrase = o.words.join( self.defaultDelimeter );
 
   _.routine.assertOptions( _subphraseDescriptorFor, o );
 
@@ -660,8 +659,6 @@ function _subphraseDescriptorFor( o )
 
   if( !o.phraseDescriptor )
   {
-    // if( !o.phrase )
-    // o.phrase = o.words.join( self.defaultDelimeter );
     o.phraseDescriptor = self.phraseMap[ o.phrase ];
   }
 
@@ -669,17 +666,13 @@ function _subphraseDescriptorFor( o )
 
   if( !o.phrase )
   o.phrase = o.phraseDescriptor.phrase;
-  // o.selectedSubphrase = selectedSubphrase;
   o.restSubphrase = self.subphraseRest( o.phraseDescriptor.phrase, o.selectedSubphrase );
-
-  // delete o.phraseDescriptor;
 
   return o;
 }
 
 _subphraseDescriptorFor.defaults =
 {
-  // phraseDescriptor : null,
   selectedSubphrase : null,
   phrase : null,
   words : null,
@@ -887,75 +880,6 @@ function subphraseRest( phrase, subphrase )
   return phrase;
 }
 
-// //
-//
-// /**
-//  * @summary Filters array of `subphraseDescriptorArray` using selector `selector`.
-//  * @param {Array} subphraseDescriptorArray Array of subphraseDescriptorArray.
-//  * @param {Object} selector Selector for filter.
-//  * @param {Object} selector.selectedSubphrase Part of targer phrase.
-//  * @param {Object} selector.phrase Target phrase.
-//  * @param {Object} selector.restSubphrase Subject of target phrase.
-//  * @method subphraseDescriptorArrayFilter
-//  * @throws { Exception } Throw an exception if arguments length is not equal 2.
-//  * @returns {Array} Returns found subphraseDescriptorArray.
-//  * @class wVocabulary
-//  * @namespace wTools
-//  * @module Tools/mid/Vocabulary
-//  */
-//
-// function subphraseDescriptorArrayFilter( subphraseDescriptorArray, selector )
-// {
-//   let self = this;
-//
-//   _.assert( arguments.length === 2 );
-//   _.assert( _.arrayIs( subphraseDescriptorArray ) );
-//   _.map.assertHasOnly( selector, subphraseDescriptorArrayFilter.defaults );
-//
-//   if( selector.phrase )
-//   selector.phrase = self.phraseAnalyzeTolerant({ phrase : selector.phrase }).phrase;
-//   if( selector.selectedSubphrase )
-//   selector.selectedSubphrase = self.phraseAnalyzeTolerant({ phrase : selector.selectedSubphrase }).phrase;
-//   if( selector.restSubphrase )
-//   selector.restSubphrase = self.phraseAnalyzeTolerant({ phrase : selector.restSubphrase }).phrase;
-//
-//   let _onEach = _._filter_functor( selector, 1 );
-//   let result = _.filter_( null, subphraseDescriptorArray, _onEach );
-//   return result;
-// }
-//
-// subphraseDescriptorArrayFilter.defaults =
-// {
-//   selectedSubphrase : null,
-//   phrase : null,
-//   restSubphrase : null,
-// }
-
-// //
-//
-// function SubphraseInsidePhrase( subphrase, phrase )
-// {
-//
-//   _.assert( _.arrayIs( phrase ) );
-//   _.assert( _.arrayIs( subphrase ) );
-//   _.assert( arguments.length === 2, 'Expects exactly two arguments' );
-//
-//   if( subphrase.length === 0 )
-//   return true;
-//   if( phrase.length === 0 )
-//   return false;
-//
-//   let w = phrase.indexOf( subphrase[ 0 ] )
-//   if( phrase.length - w < subphrase.length )
-//   return false;
-//
-//   for( let i = w+1 ; i < w+subphrase.length ; i++ )
-//   if( subphrase[ i-w ] !== phrase[ i ] )
-//   return false;
-//
-//   return true;
-// }
-
 // --
 // relations
 // --
@@ -989,7 +913,6 @@ let Restricts =
 let Statics =
 {
   PhraseParseTolerant,
-  // SubphraseInsidePhrase,
 }
 
 let Accessors =
@@ -1046,8 +969,6 @@ let Proto =
   _updateSubphraseMap,
 
   subphraseRest,
-  // subphraseDescriptorArrayFilter,
-  // SubphraseInsidePhrase,
 
   // relations
 
