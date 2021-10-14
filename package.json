@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "wTesting": "gamma",
-    "eslint": "7.1.0"
+    "eslint": "7.32.0"
   },
   "keywords": [
     "wTools",
