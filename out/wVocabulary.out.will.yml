@@ -3,8 +3,8 @@ root:
   - wVocabulary.out
 consistency:
   ../will.yml: &ref_0
-    hash: eefeeadee3f0d7f092eaddd73f195393
-    size: 6556
+    hash: 750b7873f057de2b5c3a17522a33b6a4
+    size: 6415
 module:
   wVocabulary.out:
     about:
@@ -372,9 +372,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -710,12 +707,6 @@ module:
           - 'step::doc.export'
         criterion:
           content: doc
-          export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
           export: 1
       export:
         steps:
@@ -1069,9 +1060,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -1408,12 +1396,6 @@ module:
         criterion:
           content: doc
           export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
-          export: 1
       export:
         steps:
           - 'build::proto.export'
@@ -1471,5 +1453,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: eefeeadee3f0d7f092eaddd73f195393
-        size: 6556
+        hash: 750b7873f057de2b5c3a17522a33b6a4
+        size: 6415
