@@ -2,7 +2,7 @@
   "name": "wvocabulary",
   "version": "0.3.292",
   "description": "Vocabulary of phrases, primarily for CLI.",
-  "author": "Kostiantyn Wandalen <wanalen@01.school>",
+  "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
   "license": "MIT",
   "main": "proto/node_modules/wvocabulary",
   "files": [
