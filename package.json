@@ -1,6 +1,6 @@
 {
   "name": "wvocabulary",
-  "version": "0.3.299",
+  "version": "0.3.300",
   "description": "Vocabulary of phrases, primarily for CLI.",
   "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
   "license": "MIT",
